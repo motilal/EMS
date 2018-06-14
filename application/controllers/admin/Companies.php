@@ -36,7 +36,7 @@ class Companies extends CI_Controller {
         if (empty($data)) {
             show_404();
         }
-        $this->viewData['company_services'] = $this->company->get_company_services($id); 
+        $this->viewData['company_services'] = $this->company->get_company_services($id);
         $this->viewData['company_cities'] = $this->company->get_company_cities($id);
         $this->viewData['title'] = "Company Detail";
         $this->viewData['pageModule'] = 'Company Detail';

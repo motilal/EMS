@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
+-- version 4.7.0
+-- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 13, 2018 at 07:21 PM
--- Server version: 10.1.9-MariaDB
--- PHP Version: 5.6.15
+-- Generation Time: Jun 14, 2018 at 06:53 AM
+-- Server version: 10.1.25-MariaDB
+-- PHP Version: 5.6.31
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -65,29 +67,9 @@ CREATE TABLE `ci_sessions` (
 --
 
 INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
-('24fssnf3tg5p0df3b0vdfbhsp2pjbm35', '::1', 1528881634, '__ci_last_regenerate|i:1528881360;identity|s:15:"admin@admin.com";email|s:15:"admin@admin.com";user_id|s:1:"1";old_last_login|s:10:"1528850684";last_check|i:1528871126;'),
-('b6avocerlut82lefgklnjs9vlerk6klh', '::1', 1528880984, '__ci_last_regenerate|i:1528880961;identity|s:15:"admin@admin.com";email|s:15:"admin@admin.com";user_id|s:1:"1";old_last_login|s:10:"1528850684";last_check|i:1528871126;'),
-('2r9ojr2igu8ktgjc9juh97ohnn8omlru', '::1', 1528879922, '__ci_last_regenerate|i:1528879705;identity|s:15:"admin@admin.com";email|s:15:"admin@admin.com";user_id|s:1:"1";old_last_login|s:10:"1528850684";last_check|i:1528871126;success|s:18:"ComapanyAddSuccess";__ci_vars|a:1:{s:7:"success";s:3:"old";}'),
-('in3tcp6aphld0fqjmhvbi78f1ik8s29p', '::1', 1528879507, '__ci_last_regenerate|i:1528879251;identity|s:15:"admin@admin.com";email|s:15:"admin@admin.com";user_id|s:1:"1";old_last_login|s:10:"1528850684";last_check|i:1528871126;'),
-('k4bqvi5s511fa9slerk3oqvnkmgpnubq', '::1', 1528766361, '__ci_last_regenerate|i:1528766080;'),
-('e5nr4htgt84h8jmsurst02t8al80t9eb', '::1', 1528766676, '__ci_last_regenerate|i:1528766385;'),
-('593dtf08a5nqvlj04amg9m2i04pohhlj', '::1', 1528766911, '__ci_last_regenerate|i:1528766741;'),
-('aavarr9sf54ni8hhi335bio79ruhcsi7', '::1', 1528878435, '__ci_last_regenerate|i:1528878232;identity|s:15:"admin@admin.com";email|s:15:"admin@admin.com";user_id|s:1:"1";old_last_login|s:10:"1528850684";last_check|i:1528871126;'),
-('rqqblcuneq12ojjhssspjbhbat1nkha0', '::1', 1528766010, '__ci_last_regenerate|i:1528765758;'),
-('0to1nngvtp8q49se8areb3nqbai6hvmt', '::1', 1528877772, '__ci_last_regenerate|i:1528877572;identity|s:15:"admin@admin.com";email|s:15:"admin@admin.com";user_id|s:1:"1";old_last_login|s:10:"1528850684";last_check|i:1528871126;'),
-('hebeu8fbmgnajfl4qbkp4htd06vuhaec', '::1', 1528877437, '__ci_last_regenerate|i:1528877231;identity|s:15:"admin@admin.com";email|s:15:"admin@admin.com";user_id|s:1:"1";old_last_login|s:10:"1528850684";last_check|i:1528871126;'),
-('ijnembldnu28rfncb31rv64ms8bsorfd', '::1', 1528873584, '__ci_last_regenerate|i:1528873520;identity|s:15:"admin@admin.com";email|s:15:"admin@admin.com";user_id|s:1:"1";old_last_login|s:10:"1528850684";last_check|i:1528871126;'),
-('43prlf7ivs53rad7fa4p0chamontc24u', '::1', 1528873496, '__ci_last_regenerate|i:1528872743;identity|s:15:"admin@admin.com";email|s:15:"admin@admin.com";user_id|s:1:"1";old_last_login|s:10:"1528850684";last_check|i:1528871126;'),
-('h8ghfr3u1g2vgac23ucscd5qc29ftq0o', '::1', 1528872656, '__ci_last_regenerate|i:1528872431;identity|s:15:"admin@admin.com";email|s:15:"admin@admin.com";user_id|s:1:"1";old_last_login|s:10:"1528850684";last_check|i:1528871126;'),
-('cajvgtevj9mo5g20gn2k4v9g8pe7eqb9', '::1', 1528871556, '__ci_last_regenerate|i:1528871365;identity|s:15:"admin@admin.com";email|s:15:"admin@admin.com";user_id|s:1:"1";old_last_login|s:10:"1528850684";last_check|i:1528871126;'),
-('4js155vgdh158nq4jq7u8bvl35857pm6', '::1', 1528871282, '__ci_last_regenerate|i:1528871060;identity|s:15:"admin@admin.com";email|s:15:"admin@admin.com";user_id|s:1:"1";old_last_login|s:10:"1528850684";last_check|i:1528871126;'),
-('5l1qj4e8g82go31te3dgqq1vq8plub5t', '::1', 1528881873, '__ci_last_regenerate|i:1528881763;identity|s:15:"admin@admin.com";email|s:15:"admin@admin.com";user_id|s:1:"1";old_last_login|s:10:"1528850684";last_check|i:1528871126;'),
-('t1rbptu8q6mv6c8isk8gpcmh5idbq9n6', '::1', 1528882622, '__ci_last_regenerate|i:1528882622;identity|s:15:"admin@admin.com";email|s:15:"admin@admin.com";user_id|s:1:"1";old_last_login|s:10:"1528850684";last_check|i:1528871126;'),
-('vnm72d2pu86qukt882k6fo7ihhj42h0c', '::1', 1528883330, '__ci_last_regenerate|i:1528883095;identity|s:15:"admin@admin.com";email|s:15:"admin@admin.com";user_id|s:1:"1";old_last_login|s:10:"1528850684";last_check|i:1528871126;'),
-('cbdkf5oi6vfte48o99viqc53131me5dv', '::1', 1528883583, '__ci_last_regenerate|i:1528883420;identity|s:15:"admin@admin.com";email|s:15:"admin@admin.com";user_id|s:1:"1";old_last_login|s:10:"1528850684";last_check|i:1528871126;'),
-('7ghgvvpmbsi8l1mbd9riji2dbn4rnd8s', '::1', 1528884027, '__ci_last_regenerate|i:1528883753;identity|s:15:"admin@admin.com";email|s:15:"admin@admin.com";user_id|s:1:"1";old_last_login|s:10:"1528850684";last_check|i:1528871126;'),
-('3fmms3vc3pm1ver32gspu9p620127p41', '::1', 1528884300, '__ci_last_regenerate|i:1528884065;identity|s:15:"admin@admin.com";email|s:15:"admin@admin.com";user_id|s:1:"1";old_last_login|s:10:"1528850684";last_check|i:1528871126;'),
-('kvoi1hiq594b3f83i8l18aepnclfop81', '::1', 1528884883, '__ci_last_regenerate|i:1528884624;identity|s:15:"admin@admin.com";email|s:15:"admin@admin.com";user_id|s:1:"1";old_last_login|s:10:"1528850684";last_check|i:1528871126;');
+('s90pl6hlq3869drgrblm1r03oigsm3f1', '127.0.0.1', 1528938766, '__ci_last_regenerate|i:1528938476;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528938223\";last_check|i:1528938480;'),
+('4il963js9hspjclg33qnkt1l58kbf0he', '127.0.0.1', 1528939080, '__ci_last_regenerate|i:1528938807;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528938223\";last_check|i:1528938480;'),
+('qv68n60tdu7g8deon9j785up0hfkg0l8', '127.0.0.1', 1528939224, '__ci_last_regenerate|i:1528939185;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528938223\";last_check|i:1528938480;');
 
 -- --------------------------------------------------------
 
@@ -135,23 +117,23 @@ CREATE TABLE `companies` (
 --
 
 INSERT INTO `companies` (`id`, `name`, `slug`, `gst_no`, `aadhar_no`, `pencard_no`, `company_address`, `flg_doc`, `company_owner`, `phone1`, `phone2`, `cities_id`, `servicetypes_id`, `groups_id`, `email`, `location`, `state`, `city`, `latitude`, `logitude`, `country`, `zip_code`, `ranges`, `aadhar_doc`, `pencard_doc`, `packages_id`, `leads_id`, `remaining_leads_id`, `is_delete`, `is_active`, `created`, `updated`) VALUES
-(4, 'DC', '', '77', 'weeeee', 'ACYPQ 2369852', 'pune', 0, 'DC', '741', '5644444', 'a:1:{i:0;s:6:"Nashik";}', 0, 0, 'admin@gmail.com', 'Indian Oil Nagar, Shivaji Nagar, Mumbai, Maharashtra, India', 'maharashtra', 'mumbai', '7', '9633', 'india', '11', 10, '', '', 0, 0, 0, 1, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(5, 'MSW', '', 'awe741', '12345693', 'ACYPQ 2369852', 'Pune Station Bus Stand, Agarkar Nagar, Pune, Maharashtra, India', 0, 'MSW 1', '741852', '852', 'a:4:{i:0;s:6:"Nashik";i:1;s:6:"chopda";i:2;s:6:"chopda";i:3;s:6:"mumbai";}', 0, 9, 'msw@gmail.com', 'Nashik Road, Nashik, Maharashtra, India', 'Maharashtra', 'pune', '9633', '8521', 'india', '11', 85, '', '', 0, 0, 0, 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(6, 'BMW', '', '963258', '855269933', '7412369', 'Ozar, Maharashtra, India', 0, 'BMW ', '7777', '888', 'a:1:{i:0;s:6:"mumbai";}', 0, 10, 'bmw@gmail.com', 'Nashik, Maharashtra, India', 'Maharashtra', 'Nashik', '52', '528', 'India', '411038', 8596, '', '', 0, 0, 0, 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(7, 'Sundaram', '', '87', '741', '789', 'Nashik', 0, 'Sundaram123', '456', '963', 'a:1:{i:0;s:6:"Nashik";}', 0, 10, 'Sundaram@gmail.com', 'Mumbai, Maharashtra, India', 'maharashtra', 'Mumbai', '88996633', '7412589', 'India', '20', 8588, '', '', 0, 0, 0, 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(8, 'MI', '', '', '', '', 'Pune', 0, 'MI', '', '', 'a:4:{i:0;s:6:"Nashik";i:1;s:6:"chopda";i:2;s:6:"chopda";i:3;s:6:"mumbai";}', 0, 12, 'mi@gmail.com', 'Pune Station Bus Stand, Sanjay Gandhi Road, Agarkar Nagar, Pune, Maharashtra, India', 'Maharashtra', 'Pune', '', '', '', '11', 0, '', '', 0, 0, 0, 1, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(9, 'Lenovo', '', '15223322', '', '', 'Lenovo pune', 0, 'Lenovo', '852', '7411', 'a:2:{i:0;s:6:"Nashik";i:1;s:4:"Pune";}', 0, 11, 'Lenovo@gmail.com', 'Tilak Road, Jadhav Nagar, Vadgaon Budruk, Pune, Maharashtra, India', '', '', '', '', '', '', 0, '', '', 0, 0, 0, 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(10, 'abc', '', '', '', '', '', 0, 'abc', '', '', 'a:2:{i:0;s:6:"Nashik";i:1;s:6:"Mumbai";}', 0, 0, '', 'Shirpur, Maharashtra, India', 'MH', 'Shirpur', '', '', 'India', '425405', 0, '', '', 0, 0, 0, 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(11, 'Google', '', '444', '444', '444', 'USA', 0, 'google', '111', '222', 'a:1:{i:0;s:6:"Mumbai";}', 0, 0, 'google', 'USAF Academy, CO, USA', 'CO', 'U.S. Air Force Academy', '', '', 'United States', '80840', 90, '', '', 6, 0, 0, 0, 0, '2018-04-28 00:00:00', '0000-00-00 00:00:00'),
-(12, 'MI', '', '1562', '852', 'ACQP', 'Pune Station Bus Stand, Agarkar Nagar, Pune, Maharashtra, India', 0, 'MI', '55', '55', 'a:1:{i:0;s:4:"Pune";}', 0, 0, 'mi', 'Pune Station Bus Stand, Sanjay Gandhi Road, Agarkar Nagar, Pune, Maharashtra, India', 'MH', 'Pune', '', '', 'India', '411001', 0, '', '', 9, 0, 0, 0, 0, '2018-04-28 00:00:00', '0000-00-00 00:00:00'),
-(13, 'Lenovo', '', '77777', '777', '77777', 'Lenovo', 0, 'Lenovo', '777', '8888', 'a:1:{i:0;s:6:"Nashik";}', 0, 0, 'Lenovo@gmail.com', 'Kothrud Bus Depot, Eklavya Colony, Kothrud, Pune, Maharashtra, India', 'MH', 'Pune', '', '', 'India', '411038', 230, '', '', 0, 0, 0, 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(14, 'Intel', '', '444', '555666', 'aqcp65656', 'USA', 0, 'Intel', '123', '456', 'a:1:{i:0;s:6:"Mumbai";}', 0, 0, 'admin@gmail.com', 'Utersum, Germany', 'SH', 'Utersum', '', '', 'Germany', '25938', 111, '', '', 0, 0, 0, 0, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(15, 'Accenture', '', '123', '8522', '78963258', 'Pune', 0, 'Accenture', '111', '111', 'a:1:{i:0;s:4:"Pune";}', 0, 0, 'abc@gamil.com', 'Hinjawadi Phase 1 Road, Phase 1, Hinjewadi Rajiv Gandhi Infotech Park, Hinjawadi, Pimpri-Chinchwad, Pune, Maharashtra, India', 'MH', 'Pimpri-Chinchwad', '', '', 'India', '411057', 0, '', '', 0, 0, 0, 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(16, 'TCS', '', '88888', '8888', '8888', 'TCS', 0, 'TCS', '55555', '77777', 'a:2:{i:0;s:6:"Nashik";i:1;s:6:"Mumbai";}', 0, 0, 'TCS', 'Mahatma Gandhi Road, Agarwal Colony, Sadar Bazaar, Pune, Maharashtra, India', 'MH', 'Pune', '', '', 'India', '411001', 111, '', '', 8, 0, 0, 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(17, 'MSW', '', '1234569852', '852963', '852963', 'MSW', 0, 'MSW', '9999', '9999', 'a:1:{i:0;s:6:"Nashik";}', 0, 0, 'MSW', 'Mswi Street, Village 1 South, Cape Town, South Africa', 'WC', 'Cape Town', '', '', 'South Africa', '7784', 11, '', '', 9, 0, 0, 0, 0, '2018-05-06 00:00:00', '0000-00-00 00:00:00'),
-(18, 'abcddddd', '', '', '', '', '', 0, 'ss', '', '', '', 2, 0, '', '', '', '', '', '', '', '', 0, '', '', 6, 0, 0, 0, 0, '2018-04-02 00:00:00', '0000-00-00 00:00:00'),
+(4, 'DC', '', '77', 'weeeee', 'ACYPQ 2369852', 'pune', 0, 'DC', '741', '5644444', 'a:1:{i:0;s:6:\"Nashik\";}', 0, 0, 'admin@gmail.com', 'Indian Oil Nagar, Shivaji Nagar, Mumbai, Maharashtra, India', 'maharashtra', 'mumbai', '7', '9633', 'india', '11', 10, '', '', 0, 0, 0, 1, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(5, 'MSW', '', 'awe741', '12345693', 'ACYPQ 2369852', 'Pune Station Bus Stand, Agarkar Nagar, Pune, Maharashtra, India', 0, 'MSW 1', '741852', '852', 'a:4:{i:0;s:6:\"Nashik\";i:1;s:6:\"chopda\";i:2;s:6:\"chopda\";i:3;s:6:\"mumbai\";}', 0, 9, 'msw@gmail.com', 'Nashik Road, Nashik, Maharashtra, India', 'Maharashtra', 'pune', '9633', '8521', 'india', '11', 85, '', '', 0, 0, 0, 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(6, 'BMW', '', '963258', '855269933', '7412369', 'Ozar, Maharashtra, India', 0, 'BMW ', '7777', '888', 'a:1:{i:0;s:6:\"mumbai\";}', 0, 10, 'bmw@gmail.com', 'Nashik, Maharashtra, India', 'Maharashtra', 'Nashik', '52', '528', 'India', '411038', 8596, '', '', 0, 0, 0, 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(7, 'Sundaram', '', '87', '741', '789', 'Nashik', 0, 'Sundaram123', '456', '963', 'a:1:{i:0;s:6:\"Nashik\";}', 0, 10, 'Sundaram@gmail.com', 'Mumbai, Maharashtra, India', 'maharashtra', 'Mumbai', '88996633', '7412589', 'India', '20', 8588, '', '', 0, 0, 0, 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(8, 'MI', '', '', '', '', 'Pune', 0, 'MI', '', '', 'a:4:{i:0;s:6:\"Nashik\";i:1;s:6:\"chopda\";i:2;s:6:\"chopda\";i:3;s:6:\"mumbai\";}', 0, 12, 'mi@gmail.com', 'Pune Station Bus Stand, Sanjay Gandhi Road, Agarkar Nagar, Pune, Maharashtra, India', 'Maharashtra', 'Pune', '', '', '', '11', 0, '', '', 0, 0, 0, 1, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(9, 'Lenovo', '', '15223322', '', '', 'Lenovo pune', 0, 'Lenovo', '852', '7411', 'a:2:{i:0;s:6:\"Nashik\";i:1;s:4:\"Pune\";}', 0, 11, 'Lenovo@gmail.com', 'Tilak Road, Jadhav Nagar, Vadgaon Budruk, Pune, Maharashtra, India', '', '', '', '', '', '', 0, '', '', 0, 0, 0, 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(10, 'abc', '', '', '', '', '', 0, 'abc', '', '', 'a:2:{i:0;s:6:\"Nashik\";i:1;s:6:\"Mumbai\";}', 0, 0, '', 'Shirpur, Maharashtra, India', 'MH', 'Shirpur', '', '', 'India', '425405', 0, '', '', 0, 0, 0, 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(11, 'Google', '', '444', '444', '444', 'USA', 0, 'google', '111', '222', 'a:1:{i:0;s:6:\"Mumbai\";}', 0, 0, 'google', 'USAF Academy, CO, USA', 'CO', 'U.S. Air Force Academy', '', '', 'United States', '80840', 90, '', '', 6, 0, 0, 0, 1, '2018-04-28 00:00:00', '2018-06-13 15:24:05'),
+(12, 'MI', '', '1562', '852', 'ACQP', 'Pune Station Bus Stand, Agarkar Nagar, Pune, Maharashtra, India', 0, 'MI', '55', '55', 'a:1:{i:0;s:4:\"Pune\";}', 0, 0, 'mi', 'Pune Station Bus Stand, Sanjay Gandhi Road, Agarkar Nagar, Pune, Maharashtra, India', 'MH', 'Pune', '', '', 'India', '411001', 0, '', '', 9, 0, 0, 0, 1, '2018-04-28 00:00:00', '2018-06-13 15:24:07'),
+(13, 'Lenovo', '', '77777', '777', '77777', 'Lenovo', 0, 'Lenovo', '777', '8888', 'a:1:{i:0;s:6:\"Nashik\";}', 0, 0, 'Lenovo@gmail.com', 'Kothrud Bus Depot, Eklavya Colony, Kothrud, Pune, Maharashtra, India', 'MH', 'Pune', '', '', 'India', '411038', 230, '', '', 0, 0, 0, 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(14, 'Intel', '', '444', '555666', 'aqcp65656', 'USA', 0, 'Intel', '123', '456', 'a:1:{i:0;s:6:\"Mumbai\";}', 0, 0, 'admin@gmail.com', 'Utersum, Germany', 'SH', 'Utersum', '', '', 'Germany', '25938', 111, '', '', 0, 0, 0, 0, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(15, 'Accenture', '', '123', '8522', '78963258', 'Pune', 0, 'Accenture', '111', '111', 'a:1:{i:0;s:4:\"Pune\";}', 0, 0, 'abc@gamil.com', 'Hinjawadi Phase 1 Road, Phase 1, Hinjewadi Rajiv Gandhi Infotech Park, Hinjawadi, Pimpri-Chinchwad, Pune, Maharashtra, India', 'MH', 'Pimpri-Chinchwad', '', '', 'India', '411057', 0, '', '', 0, 0, 0, 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(16, 'TCS', '', '88888', '8888', '8888', 'TCS', 0, 'TCS', '55555', '77777', 'a:2:{i:0;s:6:\"Nashik\";i:1;s:6:\"Mumbai\";}', 0, 0, 'TCS', 'Mahatma Gandhi Road, Agarwal Colony, Sadar Bazaar, Pune, Maharashtra, India', 'MH', 'Pune', '', '', 'India', '411001', 111, '', '', 8, 0, 0, 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(17, 'MSW', '', '1234569852', '852963', '852963', 'MSW', 0, 'MSW', '9999', '9999', 'a:1:{i:0;s:6:\"Nashik\";}', 0, 0, 'MSW', 'Mswi Street, Village 1 South, Cape Town, South Africa', 'WC', 'Cape Town', '', '', 'South Africa', '7784', 11, '', '', 9, 0, 0, 0, 1, '2018-05-06 00:00:00', '2018-06-13 15:24:09'),
+(18, 'abcddddd', '5b21c18abdae5', NULL, '123654789', NULL, 'alwar', 0, 'ss', NULL, NULL, '', NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '36985', 0, 'WhatsApp_Image_2018-05-22_at_5_31_45_PM.jpeg', 'WhatsApp_Image_2018-05-22_at_5_31_46_PM(1).jpeg', 6, 0, 0, 0, 1, '2018-04-02 00:00:00', '2018-06-14 01:14:50'),
 (19, 'fastrack', '', '852', '852963', 'pl789', 'Pune', 0, 'fastrack', '123', '456', '', 2, 0, 'fastrack@gmail.com', 'Kothrud Bus Depot, Eklavya Colony, Kothrud, Pune, Maharashtra, India', 'MH', 'Pune', '122355.333', '9633.369', 'India', '411038', 10, '', '', 8, 0, 0, 0, 1, '2018-04-16 00:00:00', '0000-00-00 00:00:00'),
-(28, 'Company name', '5b20eda91b724', 'GST No.', 'Aadhar No.', 'Pencard No.', 'Company Address', NULL, 'Company Owner', 'Phone', 'Alternate Phone', NULL, 2, NULL, 'Email', 'Jaipur, Rajasthan, India', 'rajastha', 'jaipur', '1265', '544545', 'india', '302011', 0, 'DRGbzQ4X4AAjRsr5.jpg', 'New_Picture_(2)3.png', NULL, NULL, NULL, NULL, NULL, '2018-06-13 14:22:02', '2018-06-13 10:10:49');
+(28, 'Company name', '5b2150bce3fc2', 'GST No.', 'Aadhar No.', 'Pencard No.', 'Company Address', NULL, 'Company Owner', 'Phone', 'Alternate Phone', NULL, 2, NULL, 'Email', 'Jaipur, Rajasthan, India', 'rajastha', 'jaipur', '1265', '544545', 'india', '302011', 0, 'DRGbzQ4X4AAjRsr5.jpg', 'New_Picture_(2)3.png', NULL, NULL, NULL, NULL, NULL, '2018-06-13 14:22:02', '2018-06-13 17:13:32');
 
 -- --------------------------------------------------------
 
@@ -171,8 +153,6 @@ CREATE TABLE `companies_city` (
 --
 
 INSERT INTO `companies_city` (`id`, `cities_id`, `companies_id`, `is_delete`) VALUES
-(7, 4, 18, 0),
-(8, 6, 18, 0),
 (9, 1, 11, 0),
 (10, 2, 11, 0),
 (11, 4, 11, 0),
@@ -183,7 +163,10 @@ INSERT INTO `companies_city` (`id`, `cities_id`, `companies_id`, `is_delete`) VA
 (16, 7, 19, 0),
 (17, 8, 19, 0),
 (32, 6, 27, 0),
-(33, 4, 27, 0);
+(33, 4, 27, 0),
+(36, 4, 28, 0),
+(37, 1, 28, 0),
+(38, 2, 28, 0);
 
 -- --------------------------------------------------------
 
@@ -303,7 +286,6 @@ CREATE TABLE `companies_service` (
 --
 
 INSERT INTO `companies_service` (`id`, `companies_id`, `services_id`, `is_delete`) VALUES
-(2, 18, 3, 0),
 (3, 11, 4, 0),
 (4, 11, 6, 0),
 (5, 19, 4, 0),
@@ -336,7 +318,7 @@ CREATE TABLE `email_templates` (
 --
 
 INSERT INTO `email_templates` (`id`, `title`, `subject`, `slug`, `body`, `variable`, `created`, `updated`, `is_active`) VALUES
-(4, 'Forgot Password', 'Forgot Password', 'forgot-password', '<p>Dear User,</p>\r\n\r\n<p>Your password is reset successfully,&nbsp;</p>\r\n\r\n<p>Please <a href="{link}">click here</a> to create new password.</p>\r\n\r\n<p>Thank you</p>\r\n\r\n<p><strong>Regards,</strong></p>\r\n\r\n<p><strong>Easy My Search</strong></p>', '{link}', '2015-09-29 00:37:15', '2018-06-12 07:22:31', 1),
+(4, 'Forgot Password', 'Forgot Password', 'forgot-password', '<p>Dear User,</p>\r\n\r\n<p>Your password is reset successfully,&nbsp;</p>\r\n\r\n<p>Please <a href=\"{link}\">click here</a> to create new password.</p>\r\n\r\n<p>Thank you</p>\r\n\r\n<p><strong>Regards,</strong></p>\r\n\r\n<p><strong>Easy My Search</strong></p>', '{link}', '2015-09-29 00:37:15', '2018-06-12 07:22:31', 1),
 (6, 'Reset Password', 'Password Reset', 'reset-password', '<p>Dear User</p>\r\n\r\n<p>As per your request , Your password has been reset</p>\r\n\r\n<p>New Password : <strong>{password} </strong></p>\r\n\r\n<p>This is auto generated password. You are advised to change your password as per you convenience.</p>\r\n\r\n<p><strong>Regards,</strong></p>\r\n\r\n<p><strong>Easy My Search</strong></p>\r\n\r\n<p>&nbsp;</p>', '{password}', '2016-03-03 19:22:20', '2018-06-12 07:21:57', 1),
 (7, 'Two Step Authentication', 'EasyMySearch Login Verification', 'two-step-authentication', '<p>Dear User,</p>\r\n\r\n<p><strong>{code} </strong>is your one time password (OTP) for email verification to complete the login process</p>\r\n\r\n<p>Thank you</p>\r\n\r\n<p><strong>Regards,</strong></p>\r\n\r\n<p><strong>Easy My Search Team</strong></p>', '{code}', '2018-03-10 19:30:22', '2018-06-12 07:22:13', 1);
 
@@ -370,7 +352,7 @@ INSERT INTO `flash_messages` (`id`, `key`, `value`, `group`, `order`, `updated`)
 (8, 'SubadminInactiveSuccess', 'Subadmin Inactive Successfully.', 'Subadmin', 6, '2018-02-22 03:30:06'),
 (9, 'SettingUpdateSuccess', 'Setting updted successfully.', 'Setting', 1, '2018-02-22 03:30:06'),
 (10, 'PasswordChangeSuccess', 'Password changed successfully.', 'Setting', 2, '2018-02-22 03:30:06'),
-(11, 'EmailTemplateUpdateSuccess', 'Email Template updted successfully.', 'Email Template', 1, '2018-02-22 03:30:06'),
+(11, 'EmailTemplateUpdateSuccess', 'Email Template updated successfully.', 'Email Template', 1, '2018-06-14 00:56:13'),
 (12, 'EmailTemplateAddSuccess', 'Email Template added successfully.', 'Email Template', 2, '2018-02-22 03:30:06'),
 (13, 'EmailTemplateDeleteSuccess', 'Email Template deleted successfully.', 'Email Template', 3, '2018-02-22 03:30:06'),
 (14, 'EmailTemplateActiveSuccess', 'Email Template Active Successfully.', 'Email Template', 4, '2018-02-22 03:30:06'),
@@ -384,7 +366,12 @@ INSERT INTO `flash_messages` (`id`, `key`, `value`, `group`, `order`, `updated`)
 (22, 'ChangeProfileSuccess', 'Your profile updated successfully.', 'Setting', 4, '2018-03-09 16:36:28'),
 (23, 'LogDeleteSuccess', 'Log file deleted successfully.', 'Logs', 1, '2018-03-09 17:54:04'),
 (24, 'DatabaseBackUpCreated', 'Database backup file created successfully.', 'Database Backup', 1, '2018-03-11 11:08:52'),
-(25, 'DatabaseBackUpDeleteSuccess', 'Backup file deleted successfully', 'Database Backup', 2, '2018-03-11 10:37:12');
+(25, 'DatabaseBackUpDeleteSuccess', 'Backup file deleted successfully', 'Database Backup', 2, '2018-03-11 10:37:12'),
+(26, 'CompanyAddSuccess', 'Company added successfully.', 'Company', 1, '2018-06-14 00:55:16'),
+(27, 'CompanyUpdateSuccess', 'Company updated successfully.', 'Company', 2, '2018-06-14 00:56:04'),
+(28, 'CompanyDeleteSuccess', 'Company deleted successfully.', 'Company', 3, '2018-06-14 00:56:44'),
+(29, 'CompanyActiveSuccess', 'Company Active Successfully.', 'Company', 4, '2018-06-14 00:57:20'),
+(30, 'CompanyInactiveSuccess', 'Company Inactive Successfully.', 'Company', 5, '2018-06-14 00:57:52');
 
 -- --------------------------------------------------------
 
@@ -512,7 +499,12 @@ INSERT INTO `permissions` (`id`, `key`, `name`, `group`, `order`) VALUES
 (21, 'email_templates-index', 'Email Template Listing', 'Email Templates', 1),
 (22, 'email_templates-edit', 'Email Template Edit', 'Email Templates', 2),
 (23, 'email_templates-status', 'Email Template Manage Status', 'Email Templates', 3),
-(44, 'settings-index', 'Site Setting', 'Settings', 1);
+(44, 'settings-index', 'Site Setting', 'Settings', 1),
+(45, 'company-index', 'Company Listing', 'Company', 1),
+(46, 'company-add', 'Company Add', 'Company', 2),
+(47, 'company-edit', 'Company Edit', 'Company', 3),
+(48, 'company-delete', 'Company Delete', 'Company', 4),
+(49, 'company-status', 'Company Change Status', 'Company', 5);
 
 -- --------------------------------------------------------
 
@@ -652,9 +644,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `salt`, `email`, `activation_code`, `forgotten_password_code`, `forgotten_password_time`, `remember_code`, `two_step_authentication`, `authentication_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`, `multi_session`) VALUES
-(1, '127.0.0.1', 'admin', '$2y$08$X.wo1a1ctWWqF/tiLCx.wubIZsXlKjpxjZNsHwi0ooBkuxL1Muple', NULL, 'admin@admin.com', '', '41OxdsvwogkRPa7YoTUUku1b6c8113ad4e2f5ac2', 1508057752, NULL, 0, NULL, 1528767362, 1528871126, 1, 'Super', 'Admin', 'ADMIN', '', 0),
-(6, '112.110.103.182', NULL, '$2y$08$vpd/P3G4muFz2ndh.ffxVuOLnnS6Tuk7VXfZI9qRLLGvpoxiTe3n6', NULL, 'raoarun16@gmail.com', NULL, NULL, NULL, NULL, 0, NULL, 1520146847, 1520873599, 1, 'Arun', 'kumar', NULL, '9138333368', 0),
-(7, '157.37.132.82', NULL, '$2y$08$fGILetq/Noz8If5a7FccF.WiNAH1hbGQQXWQF9JaostHDlaDMl7LC', NULL, 'motilalsoni@gmail.com', NULL, NULL, NULL, NULL, 0, NULL, 1520696550, 1520697301, 1, 'Motilal', 'Soni', NULL, '90324978491', 0);
+(1, '127.0.0.1', 'admin', '$2y$08$X.wo1a1ctWWqF/tiLCx.wubIZsXlKjpxjZNsHwi0ooBkuxL1Muple', NULL, 'admin@admin.com', '', '41OxdsvwogkRPa7YoTUUku1b6c8113ad4e2f5ac2', 1508057752, NULL, 0, NULL, 1528767362, 1528938480, 1, 'Super', 'Admin', 'ADMIN', '', 0),
+(7, '157.37.132.82', NULL, '$2y$08$v8Dp4PROqvlpO5G5SVMWc..U9K4RYsyxAsrfTrG/EBy/c.rF6AO9C', NULL, 'motilalsoni@gmail.com', NULL, NULL, NULL, NULL, 0, NULL, 1520696550, 1528938250, 1, 'Motilal', 'Soni', NULL, '90324978491', 0);
 
 -- --------------------------------------------------------
 
@@ -675,7 +666,6 @@ CREATE TABLE `users_groups` (
 INSERT INTO `users_groups` (`id`, `user_id`, `group_id`) VALUES
 (1, 1, 1),
 (2, 1, 2),
-(7, 6, 3),
 (8, 7, 3);
 
 -- --------------------------------------------------------
@@ -735,7 +725,9 @@ INSERT INTO `users_permissions` (`id`, `user_id`, `permission_id`, `created`) VA
 (55, 6, 51, '2018-03-07 03:08:00'),
 (56, 6, 52, '2018-03-07 03:08:00'),
 (57, 6, 53, '2018-03-07 03:08:00'),
-(58, 6, 54, '2018-03-07 03:08:00');
+(58, 6, 54, '2018-03-07 03:08:00'),
+(59, 7, 45, '2018-06-14 01:03:15'),
+(60, 7, 46, '2018-06-14 01:03:15');
 
 -- --------------------------------------------------------
 
@@ -956,7 +948,7 @@ ALTER TABLE `companies`
 -- AUTO_INCREMENT for table `companies_city`
 --
 ALTER TABLE `companies_city`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 --
 -- AUTO_INCREMENT for table `companies_group`
 --
@@ -971,7 +963,7 @@ ALTER TABLE `companies_package`
 -- AUTO_INCREMENT for table `companies_service`
 --
 ALTER TABLE `companies_service`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `email_templates`
 --
@@ -981,7 +973,7 @@ ALTER TABLE `email_templates`
 -- AUTO_INCREMENT for table `flash_messages`
 --
 ALTER TABLE `flash_messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 --
 -- AUTO_INCREMENT for table `groups`
 --
@@ -996,7 +988,7 @@ ALTER TABLE `leads`
 -- AUTO_INCREMENT for table `login_attempts`
 --
 ALTER TABLE `login_attempts`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `packages`
 --
@@ -1006,7 +998,7 @@ ALTER TABLE `packages`
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 --
 -- AUTO_INCREMENT for table `portals`
 --
@@ -1041,12 +1033,13 @@ ALTER TABLE `users_groups`
 -- AUTO_INCREMENT for table `users_permissions`
 --
 ALTER TABLE `users_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 --
 -- AUTO_INCREMENT for table `visitors`
 --
 ALTER TABLE `visitors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

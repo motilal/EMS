@@ -13,7 +13,7 @@
                 <?php } ?>
             </div>     
             <!-- /.box-header -->
-            <div class="box-body"> 
+            <div class="box-body table-responsive"> 
                 <table id="dataTables-grid" class="table table-bordered table-striped" width="100%">
                     <thead>
                         <tr> 
@@ -35,7 +35,7 @@
                                     <td><?php echo $row->company_owner; ?></td>
                                     <td>
                                         <?php echo $row->company_address; ?>
-                                        <div style="display:none;"><?php echo json_encode($row); ?></div>
+                                        <div class="hide"><?php echo json_encode($row); ?></div>
                                     </td>
                                     <td><?php echo date(DATE_FORMATE, strtotime($row->created)); ?></td>
                                     <td>

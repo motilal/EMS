@@ -10,6 +10,13 @@ $config = array(
             'rules' => "trim|required|max_length[255]"
         )
     ),
+    'groups/manage' => array(
+        array(
+            'field' => 'name',
+            'label' => 'Group Name',
+            'rules' => "trim|required|max_length[255]"
+        )
+    ),
     'email_templates/manage' => array(
         array(
             'field' => 'title',

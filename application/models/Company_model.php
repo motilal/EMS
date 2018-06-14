@@ -101,4 +101,17 @@ class Company_model extends CI_Model {
         }
     }
 
+    public function company_options() {
+        $sql = $this->db->select('name,id')->where(array('is_active' => 1, 'is_delete' => '0'))->order_by('name', 'ASC')->get('companies');
+        if ($sql->num_rows() > 0) {
+            $array = array();
+            foreach ($sql->result() as $row) {
+                $array[$row->id] = $row->name;
+            }
+            return $array;
+        } else {
+            return false;
+        }
+    }
+
 }
