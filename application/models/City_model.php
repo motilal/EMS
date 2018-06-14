@@ -25,7 +25,7 @@ class City_model extends CI_Model {
     }
 
     public function cities_options() {
-        $sql = $this->db->select('name,id')->order_by('name', 'ASC')->where(array("status" => 1, 'is_delete' => '0'))->get('cities');
+        $sql = $this->db->select('name,id')->order_by('name', 'ASC')->where(array("is_active" => 1, 'is_delete' => '0'))->get('cities');
         if ($sql->num_rows() > 0) {
             $array = array();
             foreach ($sql->result() as $row) {
@@ -47,5 +47,3 @@ class City_model extends CI_Model {
     }
 
 }
-
-?>

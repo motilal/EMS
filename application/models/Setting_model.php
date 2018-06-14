@@ -1,5 +1,6 @@
-<?php 
-/** 
+<?php
+
+/**
  * @author Motilal Soni
  */
 if (!defined('BASEPATH'))
@@ -13,7 +14,7 @@ class Setting_model extends CI_Model {
 
     public function get_config_items($condition = array()) {
         $result = $this->db->select("settings.*")
-                ->get_where("settings", !empty($condition) ? $condition : array("status" => 1));
+                ->get_where("settings", !empty($condition) ? $condition : array("is_active" => 1));
         return $result->num_rows() > 0 ? $result->result() : null;
     }
 
@@ -24,5 +25,3 @@ class Setting_model extends CI_Model {
     }
 
 }
-
-?>

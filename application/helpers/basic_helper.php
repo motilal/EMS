@@ -1,4 +1,6 @@
 <?php
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
 
 if (!function_exists('pr')) {
 
@@ -284,7 +286,7 @@ if (!function_exists('get_site_setting')) {
         $value = get_site_setting_cache($field_name);
         if ($value == false) {
             $CI = & get_instance();
-            $sql = $CI->db->select('value')->get_where('settings', array('field_name' => $field_name, 'status' => '1'));
+            $sql = $CI->db->select('value')->get_where('settings', array('field_name' => $field_name, 'is_active' => '1'));
             if ($sql->num_rows() > 0) {
                 return $sql->row()->value;
             } else {
@@ -302,7 +304,7 @@ if (!function_exists('get_site_setting_cache')) {
         $CI = & get_instance();
         $CI->load->driver('cache');
         if ($CI->cache->get('site_setting_data') == FALSE) {
-            $sql = $CI->db->select('field_name,value')->get_where('settings', array('status' => '1'));
+            $sql = $CI->db->select('field_name,value')->get_where('settings', array('is_active' => '1'));
             $cacheData = array();
             if ($sql->num_rows() > 0) {
                 foreach ($sql->result() as $row) {
@@ -354,37 +356,4 @@ if (!function_exists('clean_temp_dir')) {
         }
     }
 
-}
-
-if (!function_exists('get_all_courses')) {
-
-    function get_all_courses() {
-        $CI = & get_instance();
-        $sql = $CI->db->select('id,name,slug')->get_where('courses', array('status' => 1));
-        if ($sql->num_rows() > 0) {
-            $courses = $sql->result_array();
-            foreach ($courses as $key => $course) {
-                $subcourse_sql = $CI->db->select('id,name,slug')->get_where('sub_courses', array('status' => 1, 'course_id' => $course['id']));
-                if ($subcourse_sql->num_rows() > 0) {
-                    $courses[$key]['total_sub_course'] = $subcourse_sql->num_rows();
-                    $courses[$key]['sub_course'] = $subcourse_sql->result_array();
-                } else {
-                    unset($courses[$key]);
-                }
-            }
-            return $courses;
-        } else {
-            return '';
-        }
-    }
-
-}
-if (!function_exists('get_all_subcourses')) {
-
-    function get_all_subcourses($limit = 7) {
-        $CI = & get_instance();
-        $CI->load->model(array("sub_course_model" => 'sub_course'));
-        return $CI->sub_course->get_list(array('courses.status' => '1', 'sub_courses.is_featured' => '1'), array('start' => 0, 'limit' => $limit), array('created', 'DESC'));
-    }
-
-}
+} 

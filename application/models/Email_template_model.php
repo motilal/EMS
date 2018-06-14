@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 /*
  * @author Motilal Soni
  */
@@ -32,12 +33,10 @@ class Email_template_model extends CI_Model {
     public function getBySlag($type = "") {
         if ($type != "") {
             $result = $this->db->select("email_templates.*")
-                    ->get_where("email_templates", array("slug" => $type, "status" => 1));
+                    ->get_where("email_templates", array("slug" => $type, "is_active" => 1));
             return $result->num_rows() > 0 ? $result->row() : null;
         }
         return false;
     }
 
 }
-
-?>

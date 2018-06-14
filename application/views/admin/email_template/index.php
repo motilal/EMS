@@ -22,7 +22,7 @@
                                     <td><?php echo $row->title; ?></td>
                                     <td><?php echo $row->subject; ?></td>
                                     <td>
-                                        <?php echo $this->layout->element('admin/element/_module_status', array('status' => $row->status, 'id' => $row->id, 'url' => "admin/email_templates/changestatus", 'permissionKey' => 'email_templates-status'), true); ?>
+                                        <?php echo $this->layout->element('admin/element/_module_status', array('status' => $row->is_active, 'id' => $row->id, 'url' => "admin/email_templates/changestatus", 'permissionKey' => 'email_templates-status'), true); ?>
                                     </td>
                                     <td>  
                                         <?php echo $this->layout->element('admin/element/_module_action', array('id' => $row->id, 'editUrl' => "admin/email_templates/manage/$row->id", 'viewUrl' => "admin/email_templates/view/$row->id", 'editPermissionKey' => 'email_templates-edit', 'deletePermissionKey' => 'email_templates-delete'), true); ?>

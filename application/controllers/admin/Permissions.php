@@ -94,5 +94,3 @@ class Permissions extends CI_Controller {
     }
 
 }
-
-?>

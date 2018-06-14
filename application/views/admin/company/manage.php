@@ -6,7 +6,7 @@
             <div class="box-body">
 
                 <div class="row">
-                    <?php echo form_open(null, array("id" => "manage-page-form", "method" => "post")); ?>
+                    <?php echo form_open_multipart(null, array("id" => "manage-form", "method" => "post")); ?>
 
                     <div class="col-lg-12 padding0">
                         <div class="col-lg-6">
@@ -63,18 +63,18 @@
 
                     <div class="col-lg-12 padding0">
                         <div class="col-lg-6">
-                            <div class="form-group <?php echo form_error('services_id') != "" ? 'has-error' : ''; ?>">
-                                <label class="control-label" for="services_id">Service</label> 
-                                <?php echo form_dropdown('services_id', $services_options, set_value("services_id", isset($data->services_id) ? $data->services_id : "", false), 'class="form-control" id="services_id" style="width:100%;"'); ?> 
-                                <?php echo form_error('services_id'); ?>
+                            <div class="form-group <?php echo form_error('servicetypes_id') != "" ? 'has-error' : ''; ?>">
+                                <label class="control-label" for="servicetypes_id">Service</label> 
+                                <?php echo form_dropdown('servicetypes_id', $servicetypes_options, set_value("servicetypes_id", isset($data->servicetypes_id) ? $data->servicetypes_id : "", false), 'class="form-control select2dropdown" id="servicetypes_id" style="width:100%;"'); ?> 
+                                <?php echo form_error('servicetypes_id'); ?>
                             </div>
                         </div> 
 
                         <div class="col-lg-6">
-                            <div class="form-group <?php echo form_error('sub_services[]') != "" ? 'has-error' : ''; ?>">
-                                <label class="control-label" for="sub_services">Sub Service(s)</label> 
-                                <?php echo form_dropdown('sub_services[]', $sub_services_options, set_value("sub_services[]", '', false), 'class="form-control" multiple="multiple" id="sub_services" style="width:100%;"'); ?> 
-                                <?php echo form_error('sub_services[]'); ?>
+                            <div class="form-group <?php echo form_error('services[]') != "" ? 'has-error' : ''; ?>">
+                                <label class="control-label" for="services">Sub Service(s)</label> 
+                                <?php echo form_dropdown('services[]', isset($services_options) ? $services_options : '', set_value("services[]", isset($company_services) ? $company_services : '', false), 'class="form-control" multiple="multiple" id="services" style="width:100%;"'); ?> 
+                                <?php echo form_error('services[]'); ?>
                             </div>
                         </div>  
                     </div>
@@ -98,15 +98,13 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-6">
-                            <?php
-                            if (isset($data->aadhar_doc) && $data->aadhar_doc != "") {
-                                //echo img(getAadharImage($data->aadhar_doc, array('width' => 100, 'height' => 100)), FALSE, array('width' => 100));
-                            }
-                            ?>
+                        <div class="col-lg-6"> 
                             <div class="form-group">
                                 <label class="control-label" for="aadhar_doc">Aadhar document:</label>
-                                <?php echo form_upload("aadhar_doc", '', "id='aadhar_doc'"); ?> 
+                                <?php echo form_upload("aadhar_doc", '', "id='aadhar_doc' accept='image/*'"); ?>  
+                                <?php if (isset($data->aadhar_doc) && $data->aadhar_doc != "") { ?>
+                                    <a href="<?php echo site_url('admin/companies/download_doc/' . $data->aadhar_doc); ?>"><?php echo $data->aadhar_doc; ?></a>
+                                <?php } ?>
                             </div> 
                         </div>
                     </div>
@@ -120,15 +118,13 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-6">
-                            <?php
-                            if (isset($data->pencard_doc) && $data->pencard_doc != "") {
-                                //echo img(getImage($data->pencard_doc, array('width' => 100, 'height' => 100)), FALSE, array('width' => 100));
-                            }
-                            ?>
+                        <div class="col-lg-6"> 
                             <div class="form-group">
                                 <label class="control-label" for="pencard_doc">Pencard document:</label>
-                                <?php echo form_upload("pencard_doc", '', "id='pencard_doc'"); ?> 
+                                <?php echo form_upload("pencard_doc", '', "id='pencard_doc' accept='image/*'"); ?> 
+                                <?php if (isset($data->pencard_doc) && $data->pencard_doc != "") { ?>
+                                    <a href="<?php echo site_url('admin/companies/download_doc/' . $data->pencard_doc); ?>"><?php echo $data->pencard_doc; ?></a>
+                                <?php } ?>
                             </div> 
                         </div>
                     </div>
@@ -145,7 +141,7 @@
                         <div class="col-lg-6">
                             <div class="form-group <?php echo form_error('cities[]') != "" ? 'has-error' : ''; ?>">
                                 <label class="control-label" for="cities">Select City(s)</label> 
-                                <?php echo form_dropdown('cities[]', $cities_options, set_value("cities[]", '', false), 'class="form-control" multiple="multiple" id="cities" style="width:100%;"'); ?> 
+                                <?php echo form_dropdown('cities[]', $cities_options, set_value("cities[]", isset($company_cities) ? $company_cities : '', false), 'class="form-control" multiple="multiple" id="cities" style="width:100%;"'); ?> 
                                 <?php echo form_error('cities[]'); ?>
                             </div>
                         </div>  
@@ -198,7 +194,7 @@
 
                         <div class="col-lg-6">
                             <div class="form-group <?php echo form_error('logitude') != "" ? 'has-error' : ''; ?>">
-                                <label class="control-label" for="logitude">Latitude</label>
+                                <label class="control-label" for="logitude">Longitude</label>
                                 <?php echo form_input("logitude", set_value("logitude", isset($data->logitude) ? $data->logitude : "", false), "id='logitude' class='form-control'"); ?>
                                 <?php echo form_error('logitude'); ?>
                             </div>
@@ -209,7 +205,7 @@
                         <div class="col-lg-6"> 
                             <?php echo form_hidden('id', set_value('id', isset($data->id) ? $data->id : "")); ?>
                             <button type="submit" class="btn btn-primary">Submit</button>
-                            <button type="button" class="btn btn-default" onclick="window.location.href = '<?php echo site_url("admin/pages"); ?>'">Cancel</button>
+                            <button type="button" class="btn btn-default" onclick="window.location.href = '<?php echo site_url("admin/companies"); ?>'">Cancel</button>
                         </div>
                     </div>
                     <?php echo form_close(); ?>
@@ -224,8 +220,27 @@
 </div>
 <!-- /.row -->  
 <script type="text/javascript">
-    $("#cities,#sub_services").select2({
+    $("#cities,#services").select2({
         tags: false
+    });
+
+    $('#servicetypes_id').on('select2:select', function (e) {
+        var _this = $(this);
+        $.ajax({
+            url: '<?php echo site_url('admin/companies/ajax_getsubservices'); ?>',
+            type: "POST",
+            dataType: "json",
+            data: {servicetypes_id: _this.val()},
+            success: function (response) {
+                if (response.result) {
+                    $('#services').select2('destroy').empty().select2({data: response.result});
+                }
+            },
+            error: function (jqXHR, exception) {
+                showMessage('error', {message: 'Uncaught Error.\n' + jqXHR.responseText});
+            }
+        });
+
     });
 
     var placeSearch, autocomplete;

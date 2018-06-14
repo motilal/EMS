@@ -35,7 +35,7 @@ class Permission_model extends CI_Model {
         if ($sql->num_rows() > 0) {
             $array = array();
             foreach ($sql->result() as $row) {
-                $array[$row->name] = $row->name; 
+                $array[$row->name] = $row->name;
             }
             return $array;
         } else {
@@ -44,5 +44,3 @@ class Permission_model extends CI_Model {
     }
 
 }
-
-?>

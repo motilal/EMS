@@ -12,22 +12,23 @@ class Service_model extends CI_Model {
         parent::__construct();
     }
 
-    public function get_service_list($condition = array(), $order = array()) {
-        $this->db->select("*");
-        if (!empty($condition)) {
+    public function get_list($condition = array()) {
+        $this->db->select("services.*");
+        if (!empty($condition) || $condition != "") {
             $this->db->where($condition);
-        }
-        if (!empty($order)) {
-            $this->db->order_by($order[0], $order[1]);
         }
         $data = $this->db->get("services");
         return $data;
     }
 
-    public function services_options() {
-        $sql = $this->db->select('name,id')->order_by('name', 'ASC')->where(array("status" => 1, 'is_delete' => '0'))->get('services');
+    public function services_options($service_id = '') {
+        $condition = array("is_active" => 1, 'is_delete' => '0');
+        if (is_numeric($service_id) && $service_id > 0) {
+            $condition['servicetypes_id'] = $service_id;
+        }
+        $sql = $this->db->select('name,id')->order_by('name', 'ASC')->where($condition)->get('services');
         if ($sql->num_rows() > 0) {
-            $array = array('' => 'Select Service');
+            $array = array();
             foreach ($sql->result() as $row) {
                 $array[$row->id] = $row->name;
             }
@@ -47,5 +48,3 @@ class Service_model extends CI_Model {
     }
 
 }
-
-?>

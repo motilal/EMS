@@ -6,13 +6,13 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Sub_service_model extends CI_Model {
+class Servicetype_model extends CI_Model {
 
     public function __construct() {
         parent::__construct();
     }
 
-    public function get_subservice_list($condition = array(), $order = array()) {
+    public function get_service_list($condition = array(), $order = array()) {
         $this->db->select("*");
         if (!empty($condition)) {
             $this->db->where($condition);
@@ -20,14 +20,14 @@ class Sub_service_model extends CI_Model {
         if (!empty($order)) {
             $this->db->order_by($order[0], $order[1]);
         }
-        $data = $this->db->get("sub_services");
+        $data = $this->db->get("servicetypes");
         return $data;
     }
 
-    public function sub_services_options() {
-        $sql = $this->db->select('name,id')->order_by('name', 'ASC')->where(array("status" => 1, 'is_delete' => '0'))->get('sub_services');
+    public function servicetypes_options() {
+        $sql = $this->db->select('name,id')->order_by('name', 'ASC')->where(array("is_active" => 1, 'is_delete' => '0'))->get('servicetypes');
         if ($sql->num_rows() > 0) {
-            $array = array();
+            $array = array('' => 'Select Service');
             foreach ($sql->result() as $row) {
                 $array[$row->id] = $row->name;
             }
@@ -37,15 +37,13 @@ class Sub_service_model extends CI_Model {
         }
     }
 
-    public function getServiceById($id) {
+    public function getServicetypeById($id) {
         if (is_numeric($id) && $id > 0) {
             $result = $this->db->select("*")
-                    ->get_where("sub_services", array("id" => $id, 'is_delete' => '0'));
+                    ->get_where("servicetypes", array("id" => $id, 'is_delete' => '0'));
             return $result->num_rows() > 0 ? $result->row() : null;
         }
         return false;
     }
 
 }
-
-?>

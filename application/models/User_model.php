@@ -40,24 +40,6 @@ class User_model extends CI_Model {
         return $data;
     }
 
-    public function getById($id) {
-        if (is_numeric($id) && $id > 0) {
-            $result = $this->db->select("events.*")
-                    ->get_where("events", array("id" => $id));
-            return $result->num_rows() > 0 ? $result->row() : null;
-        }
-        return false;
-    }
-
-    public function getBySlag($type = "") {
-        if ($type != "") {
-            $result = $this->db->select("events.*")
-                    ->get_where("events", array("slug" => $type, "status" => 1));
-            return $result->num_rows() > 0 ? $result->row() : null;
-        }
-        return false;
-    }
-
     public function get_permissions() {
         $result = $this->db->select("*")->order_by('order')->get("permissions");
         return $result->num_rows() > 0 ? $result->result() : null;
@@ -84,5 +66,3 @@ class User_model extends CI_Model {
     }
 
 }
-
-?>

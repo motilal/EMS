@@ -3,8 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title><?php echo SITE_TITLE; ?> | <?php echo isset($title) ? $title : ''; ?></title>
-        <!-- Tell the browser to be responsive to screen width -->
+        <title><?php echo SITE_TITLE; ?> | <?php echo isset($title) ? $title : ''; ?></title> 
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"> 
         <link rel="shortcut icon" href="<?php echo base_url('asset/admin/images/favicon.ico'); ?>" type="image/x-icon">
         <link rel="stylesheet" href="<?php echo base_url('asset/admin/plugin/bootstrape/css/bootstrap.min.css'); ?>"> 
@@ -39,18 +38,18 @@
             <script type="text/javascript" src="<?php echo base_url("asset/admin/plugin/ckeditor/ckeditor.js") ?>"></script>
             <script type="text/javascript" src="<?php echo base_url("asset/admin/plugin/ckfinder/ckfinder.js") ?>"></script>
             <script type="text/javascript">
-                $(function () {
-                    $('textarea.editor').each(function (e) {
-                        CKEDITOR.replace(this.id, {
-                            filebrowserBrowseUrl: '<?php echo base_url('asset/admin/plugin/ckfinder/ckfinder.html'); ?>',
-                            filebrowserImageBrowseUrl: '<?php echo base_url('asset/admin/plugin/ckfinder/ckfinder.html?type=Images'); ?>',
-                            filebrowserFlashBrowseUrl: '<?php echo base_url('asset/admin/plugin/ckfinder/ckfinder.html?type=Flash'); ?>',
-                            filebrowserUploadUrl: '<?php echo base_url('asset/admin/plugin/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files'); ?>',
-                            filebrowserImageUploadUrl: '<?php echo base_url('asset/admin/plugin/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images'); ?>',
-                            filebrowserFlashUploadUrl: '<?php echo base_url('asset/admin/plugin/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images'); ?>'
-                        });
+            $(function () {
+                $('textarea.editor').each(function (e) {
+                    CKEDITOR.replace(this.id, {
+                        filebrowserBrowseUrl: '<?php echo base_url('asset/admin/plugin/ckfinder/ckfinder.html'); ?>',
+                        filebrowserImageBrowseUrl: '<?php echo base_url('asset/admin/plugin/ckfinder/ckfinder.html?type=Images'); ?>',
+                        filebrowserFlashBrowseUrl: '<?php echo base_url('asset/admin/plugin/ckfinder/ckfinder.html?type=Flash'); ?>',
+                        filebrowserUploadUrl: '<?php echo base_url('asset/admin/plugin/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files'); ?>',
+                        filebrowserImageUploadUrl: '<?php echo base_url('asset/admin/plugin/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images'); ?>',
+                        filebrowserFlashUploadUrl: '<?php echo base_url('asset/admin/plugin/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images'); ?>'
                     });
                 });
+            });
             </script>
         <?php } ?>
 
@@ -181,7 +180,7 @@
 
                 <!-- Main content -->
                 <section class="content">
-                    <?php echo sanitize_output($content_for_layout); ?> 
+                    <?php echo $content_for_layout; ?> 
                 </section>
                 <!-- /.content -->
             </div>

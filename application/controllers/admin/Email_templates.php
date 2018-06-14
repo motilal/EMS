@@ -110,10 +110,10 @@ class Email_templates extends CI_Controller {
                 $id = $this->input->post('id');
                 $status = $this->input->post('status');
                 if ($status == "1") {
-                    $this->db->where("id", $id)->update("email_templates", array("status" => 0));
+                    $this->db->where("id", $id)->update("email_templates", array("is_active" => 0));
                     $response['success'] = __('EmailTemplateInactiveSuccess');
                 } else if ($status == "0") {
-                    $this->db->where("id", $id)->update("email_templates", array("status" => 1));
+                    $this->db->where("id", $id)->update("email_templates", array("is_active" => 1));
                     $response['success'] = __('EmailTemplateActiveSuccess');
                 }
             } else {
@@ -124,5 +124,3 @@ class Email_templates extends CI_Controller {
     }
 
 }
-
-?>

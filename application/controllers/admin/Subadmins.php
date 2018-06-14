@@ -221,5 +221,3 @@ class Subadmins extends CI_Controller {
     }
 
 }
-
-?>

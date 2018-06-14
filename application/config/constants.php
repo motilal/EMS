@@ -95,13 +95,6 @@ defined('DATETIME_FORMATE') OR define('DATETIME_FORMATE', 'd-M-Y H:i');
 defined('ENV_HOST') OR define('ENV_HOST', 'localhost');
 
 define('TEMP_IMG_PATH', 'uploads/temp/');
-define('FORM_ALERT_IMG_PATH', 'uploads/form_alert/');
-define('NEWS_IMG_PATH', 'uploads/news/');
-define('SUBJECT_IMG_PATH', 'uploads/subject/');
-define('COURSE_IMG_PATH', 'uploads/course/');
-define('SUB_COURSE_IMG_PATH', 'uploads/sub_course/');
-define('SLIDER_IMG_PATH', 'uploads/slider/');
-define('DISCUSSION_IMG_PATH', 'uploads/discussion/');
-define('CURRENT_AFFAIRS_QUIZ_IMG_PATH', 'uploads/current_affairs_quiz/');
+define('COMPANY_DOC_PATH', 'uploads/company_doc/');
 
 

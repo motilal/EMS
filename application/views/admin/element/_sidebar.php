@@ -5,12 +5,8 @@ $segment_fun = $this->uri->segment(3);
 $subadminIndex = ($segment_cntr == 'subadmins' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
 $subadminAdd = ($segment_cntr == 'subadmins' && $segment_fun == 'add') ? 'active' : '';
 
-$newsIndex = ($segment_cntr == 'news' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
-$newsAdd = ($segment_cntr == 'news' && $segment_fun == 'manage') ? 'active' : '';
-
-$formalertIndex = ($segment_cntr == 'form_alerts' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
-$formalertCategoryIndex = ($segment_cntr == 'form_alerts' && $segment_fun == 'categories') ? 'active' : '';
-$formalertAdd = ($segment_cntr == 'form_alerts' && $segment_fun == 'manage') ? 'active' : '';
+$companiesIndex = ($segment_cntr == 'companies' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
+$companiesAdd = ($segment_cntr == 'companies' && $segment_fun == 'manage') ? 'active' : '';
 
 $settingIndex = ($segment_cntr == 'settings' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
 $settingProfile = ($segment_cntr == 'settings' && $segment_fun == 'profile') ? 'active' : '';
@@ -60,49 +56,25 @@ $user_permissions = $this->session->userdata('_subadmin_module_permissions');
 
 
 
-            <?php if (is_allow_module('news')) { ?>
-                <li class="treeview <?php echo $segment_cntr == 'news' ? 'active menu-open' : ''; ?>">
+            <?php if (is_allow_module('company')) { ?>
+                <li class="treeview <?php echo $segment_cntr == 'companies' ? 'active menu-open' : ''; ?>">
                     <a href="#">
-                        <i class="fa fa-newspaper-o"></i>
-                        <span>News</span>
+                        <i class="fa fa-building"></i>
+                        <span>Company</span>
                         <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
                     </a>
-                    <ul class="treeview-menu" style="display:<?php echo $segment_cntr == 'news' ? 'block' : 'none'; ?>;">
-                        <?php if (is_allow_action('news-index')) { ?>
-                            <li class="<?php echo $newsIndex; ?>"><a href="<?php echo site_url('admin/news'); ?>"><i class="fa fa-th-list"></i> Manage News</a></li>
+                    <ul class="treeview-menu" style="display:<?php echo $segment_cntr == 'companies' ? 'block' : 'none'; ?>;">
+                        <?php if (is_allow_action('company-index')) { ?>
+                            <li class="<?php echo $companiesIndex; ?>"><a href="<?php echo site_url('admin/companies'); ?>"><i class="fa fa-th-list"></i> Manage Company</a></li>
                         <?php } ?>
-                        <?php if (is_allow_action('news-add')) { ?>
-                            <li class="<?php echo $newsAdd; ?>"><a href="<?php echo site_url('admin/news/manage'); ?>"><i class="fa fa-plus"></i> Add New News</a></li> 
+                        <?php if (is_allow_action('company-add')) { ?>
+                            <li class="<?php echo $companiesAdd; ?>"><a href="<?php echo site_url('admin/companies/manage'); ?>"><i class="fa fa-plus"></i> Add New Company</a></li> 
                         <?php } ?>
                     </ul>
                 </li>
             <?php } ?>																					
-
-            <?php if (is_allow_module('form alerts')) { ?>
-                <li class="treeview <?php echo $segment_cntr == 'form_alerts' ? 'active menu-open' : ''; ?>">
-                    <a href="#">
-                        <i class="fa fa-bell-o"></i>
-                        <span>Form Alert</span>
-                        <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
-                    <ul class="treeview-menu" style="display:<?php echo $segment_cntr == 'form_alerts' ? 'block' : 'none'; ?>;">
-                        <?php if (is_allow_action('form_alert-index')) { ?>
-                            <li class="<?php echo $formalertIndex; ?>"><a href="<?php echo site_url('admin/form_alerts'); ?>"><i class="fa fa-th-list"></i> Manage From Alert</a></li>
-                        <?php } ?>
-                        <?php if (is_allow_action('form_alert-category-index')) { ?>
-                            <li class="<?php echo $formalertCategoryIndex; ?>"><a href="<?php echo site_url('admin/form_alerts/categories'); ?>"><i class="glyphicon glyphicon-tags"></i> Manage Categories</a></li>
-                        <?php } ?>
-                        <?php if (is_allow_action('form_alert-add')) { ?>
-                            <li class="<?php echo $formalertAdd; ?>"><a href="<?php echo site_url('admin/form_alerts/manage'); ?>"><i class="fa fa-plus"></i> Add Form Alert</a></li> 
-                        <?php } ?>
-                    </ul>
-                </li>
-            <?php } ?> 
-
 
 
             <?php if (is_allow_module('email templates')) { ?>    
@@ -114,7 +86,7 @@ $user_permissions = $this->session->userdata('_subadmin_module_permissions');
             <?php } ?>
 
 
-            <li class="treeview <?php echo in_array($segment_cntr, array('settings', 'flash_messages', 'logs')) ? 'active menu-open' : ''; ?>">
+            <li class="treeview <?php echo in_array($segment_cntr, array('settings', 'logs')) ? 'active menu-open' : ''; ?>">
                 <a href="#">
                     <i class="fa fa-gear"></i>
                     <span>Setting</span>

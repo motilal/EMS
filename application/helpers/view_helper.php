@@ -1,5 +1,8 @@
 <?php
 
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
+
 if (!function_exists("sanitize_output")) {
 
     /**
@@ -20,7 +23,6 @@ if (!function_exists("sanitize_output")) {
             '<',
             '\\1'
         );
-
         //$buffer = preg_replace($search, $replace, $buffer);
 
         return $buffer;
@@ -103,6 +105,23 @@ if (!function_exists('getPageSerial')) {
     }
 
 }
+
+/* set blank value to NULL */
+if (!function_exists('filterPostData')) {
+
+    function filterPostData($data = array()) {
+        if (!empty($data)) {
+            foreach ($data as $key => $value) {
+                if (empty($value) && $value == "") {
+                    $data[$key] = NULL;
+                }
+            }
+        }
+        return $data;
+    }
+
+}
+
 
 if (!function_exists('getNewsImage')) {
 
