@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 14, 2018 at 06:53 AM
+-- Generation Time: Jun 14, 2018 at 07:49 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 5.6.31
 
@@ -69,7 +69,14 @@ CREATE TABLE `ci_sessions` (
 INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
 ('s90pl6hlq3869drgrblm1r03oigsm3f1', '127.0.0.1', 1528938766, '__ci_last_regenerate|i:1528938476;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528938223\";last_check|i:1528938480;'),
 ('4il963js9hspjclg33qnkt1l58kbf0he', '127.0.0.1', 1528939080, '__ci_last_regenerate|i:1528938807;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528938223\";last_check|i:1528938480;'),
-('qv68n60tdu7g8deon9j785up0hfkg0l8', '127.0.0.1', 1528939224, '__ci_last_regenerate|i:1528939185;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528938223\";last_check|i:1528938480;');
+('qv68n60tdu7g8deon9j785up0hfkg0l8', '127.0.0.1', 1528939224, '__ci_last_regenerate|i:1528939185;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528938223\";last_check|i:1528938480;'),
+('e47a6p9vqp77hc5k1bendio7r71of71s', '127.0.0.1', 1528940568, '__ci_last_regenerate|i:1528940270;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528938223\";last_check|i:1528938480;'),
+('4oa8221r353spjdlrh0n7jvp2nhl81ac', '127.0.0.1', 1528940578, '__ci_last_regenerate|i:1528940578;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528938223\";last_check|i:1528938480;'),
+('m62f7q0ir6j025oaujlps0fpudb7p05p', '127.0.0.1', 1528941140, '__ci_last_regenerate|i:1528940926;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528938223\";last_check|i:1528938480;'),
+('rfhuap3pr5nsovf9vf35v1q5ojptmm7f', '127.0.0.1', 1528941345, '__ci_last_regenerate|i:1528941242;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528938223\";last_check|i:1528938480;'),
+('8c3rc7g08dqhdqtvg1jij2l1mukrfmo0', '127.0.0.1', 1528941703, '__ci_last_regenerate|i:1528941560;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528938223\";last_check|i:1528938480;'),
+('bj5mil0pkfde8s9a3ddg3k4sh90ne3ci', '127.0.0.1', 1528942261, '__ci_last_regenerate|i:1528941902;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528938223\";last_check|i:1528938480;'),
+('epndj609qom79bbo6is7f3e300penkkr', '127.0.0.1', 1528942724, '__ci_last_regenerate|i:1528942520;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528938223\";last_check|i:1528938480;');
 
 -- --------------------------------------------------------
 
@@ -294,6 +301,55 @@ INSERT INTO `companies_service` (`id`, `companies_id`, `services_id`, `is_delete
 (9, 0, 28, 0),
 (10, 28, 5, 0),
 (11, 28, 4, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `company_groups`
+--
+
+CREATE TABLE `company_groups` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `parent_id` int(11) NOT NULL,
+  `cities_id` int(11) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `is_delete` tinyint(1) NOT NULL,
+  `is_active` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `company_groups`
+--
+
+INSERT INTO `company_groups` (`id`, `name`, `slug`, `parent_id`, `cities_id`, `created`, `is_delete`, `is_active`) VALUES
+(1, 'msw nashik', '', 0, 0, '0000-00-00 00:00:00', 1, 0),
+(2, 'dfdf', '', 0, 0, '2018-10-19 18:30:00', 1, 0),
+(3, 'dhiraj', '', 0, 0, '2018-03-16 18:30:00', 1, 1),
+(4, 'aa', '', 0, 0, '2018-03-28 18:30:00', 1, 1),
+(5, 'abhi', '', 0, 0, '2018-02-28 18:30:00', 1, 0),
+(6, 'aa', '', 0, 0, '0000-00-00 00:00:00', 1, 1),
+(7, 'sss', '', 0, 0, '2018-04-20 18:30:00', 1, 1),
+(8, 'raje', '', 0, 0, '2018-04-26 18:30:00', 1, 0),
+(9, 'Testing 1', '', 0, 0, '2018-04-10 18:30:00', 1, 0),
+(10, 'Testing 2', '', 0, 0, '2018-04-11 18:30:00', 1, 1),
+(11, 'Testing 3', '', 0, 0, '2018-04-13 18:30:00', 1, 1),
+(12, 'MSW', '', 0, 0, '2018-04-18 18:30:00', 1, 1),
+(13, 'PVPIT', '', 0, 4, '2018-04-17 18:30:00', 1, 0),
+(14, 'yyyyy', '', 0, 1, '2018-04-01 18:30:00', 1, 0),
+(15, 'sdfsdf', '', 0, 1, '2018-04-01 18:30:00', 1, 0),
+(16, 'fdgdfgdgdg', '', 0, 2, '2018-04-19 18:30:00', 1, 0),
+(17, 'rl', '', 0, 2, '2018-04-27 18:30:00', 1, 0),
+(18, 'JSPM', '', 0, 2, '2018-03-31 18:30:00', 1, 0),
+(19, 'intel', '', 0, 2, '2018-04-09 18:30:00', 1, 0),
+(20, 'A1', '', 0, 1, '2018-04-09 18:30:00', 0, 0),
+(21, 'B2', '', 0, 3, '2018-04-18 18:30:00', 1, 0),
+(22, 'C3', '', 0, 4, '2018-04-16 18:30:00', 1, 0),
+(23, 'C3', '', 0, 1, '2018-04-09 18:30:00', 0, 1),
+(24, 'B2', '', 0, 2, '2018-04-14 18:30:00', 1, 0),
+(25, 'B2', '', 0, 4, '2018-04-01 18:30:00', 1, 0),
+(26, 'Motilal soni', '', 0, 2, '2018-06-13 18:30:00', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -835,6 +891,12 @@ ALTER TABLE `companies_service`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `company_groups`
+--
+ALTER TABLE `company_groups`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `email_templates`
 --
 ALTER TABLE `email_templates`
@@ -964,6 +1026,11 @@ ALTER TABLE `companies_package`
 --
 ALTER TABLE `companies_service`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+--
+-- AUTO_INCREMENT for table `company_groups`
+--
+ALTER TABLE `company_groups`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 --
 -- AUTO_INCREMENT for table `email_templates`
 --
