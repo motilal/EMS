@@ -74,7 +74,15 @@ $user_permissions = $this->session->userdata('_subadmin_module_permissions');
                         <?php } ?>
                     </ul>
                 </li>
-            <?php } ?>																					
+            <?php } ?>			
+
+            <?php if (is_allow_module('group')) { ?>    
+                <li class="<?php echo $segment_cntr == 'groups' ? 'active' : ''; ?>">
+                    <a href="<?php echo site_url('admin/groups'); ?>">
+                        <i class="fa fa-users"></i> <span>Group</span> 
+                    </a>
+                </li>
+            <?php } ?>
 
 
             <?php if (is_allow_module('email templates')) { ?>    

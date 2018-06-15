@@ -33,14 +33,13 @@
                                     <td><?php echo $key + 1; ?></td>
                                     <td><?php echo $row->name; ?></td>
                                     <td><?php echo $row->name; ?></td> 
-                                    <td><?php echo $row->name; ?>
-                                        <?php
-                                        //$companys = $this->company->get_subject_subcourses(array('subject_id' => $row->id));
-                                        //$companys_ids = filterAssocArray($companys, 'id');
-                                        //$companys = filterAssocArray($companys, 'name');
-                                        //echo empty($companys) ? '' : implode(',', $companys);
+                                    <td><?php
+                                        $companies = $this->group->get_group_companies($row->id);
+                                        $companies_ids = filterAssocArray($companies, 'id');
+                                        $companies = filterAssocArray($companies, 'name');
+                                        echo empty($companies) ? '' : implode(',', $companies);
                                         ?>
-                                        <div class="companys" style="display:none;"><?php //echo empty($companys_ids) ? '' : json_encode($companys_ids);    ?></div>
+                                        <div class="companies" style="display:none;"><?php echo empty($companies_ids) ? '' : json_encode($companies_ids); ?></div>
                                     </td>
                                     <td><?php echo date(DATE_FORMATE, strtotime($row->created)); ?></td>
                                     <td>
@@ -141,12 +140,12 @@
                     });
                 } else if (res.success && res.msg && res.data) {
                     if (res.mode == 'add') {
-                        datatbl.row.add([0, res.data.image, res.data.name, res.data.companys, res.data.created, res.data.statusButtons, res.data.actionButtons]).draw();
+                        datatbl.row.add([0, res.data.name, res.data.name, res.data.companies, res.data.created, res.data.statusButtons, res.data.actionButtons]).draw();
                         $('.changestatus[data-id="' + res.data.id + '"]').closest('tr').attr('id', 'row_' + res.data.id);
                     } else if (res.mode == 'edit') {
-                        $('#row_' + res.data.id).find('td:nth-child(2)').html(res.data.image);
+                        $('#row_' + res.data.id).find('td:nth-child(2)').text(res.data.name);
                         $('#row_' + res.data.id).find('td:nth-child(3)').text(res.data.name);
-                        $('#row_' + res.data.id).find('td:nth-child(4)').html(res.data.companys);
+                        $('#row_' + res.data.id).find('td:nth-child(4)').html(res.data.companies);
                     }
                     showMessage('success', {message: res.msg});
                     $('#modal-manage').modal('hide');
@@ -173,13 +172,13 @@
     $(document).on('click', 'a.edit-row', function (e) {
         e.preventDefault();
         var id = $(this).data('id');
-        var name = $.trim($(this).closest('tr').find('td:nth-child(3)').text());
-        var companys_selected = $.trim($(this).closest('tr').find('td:nth-child(4)').find('.companys').text());
+        var name = $.trim($(this).closest('tr').find('td:nth-child(2)').text());
+        var companies_selected = $.trim($(this).closest('tr').find('td:nth-child(4)').find('.companies').text());
         $('#manage-form').find('[name="name"]').val(name);
         $('#manage-form').find('[name="id"]').val(id);
         $('.modal-title').text('Edit Subject');
-        if (companys_selected != "") {
-            $('#company').val(JSON.parse(companys_selected)).trigger('change.select2');
+        if (companies_selected != "") {
+            $('#company').val(JSON.parse(companies_selected)).trigger('change.select2');
         }
         $('#modal-manage').modal('show');
     });

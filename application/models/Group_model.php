@@ -36,18 +36,24 @@ class Group_model extends CI_Model {
     public function getBySlag($type = "") {
         if ($type != "") {
             $result = $this->db->select("company_groups.*")
-                    ->get_where("company_groups", array("slug" => $type, "status" => 1));
+                    ->get_where("company_groups", array("slug" => $type, "is_active" => 1));
             return $result->num_rows() > 0 ? $result->row() : null;
         }
         return false;
     }
 
-    public function get_company_groups($condition) {
-        $result = $this->db->select("company_groups.*")
-                ->join('subject_subcourses', 'company_groups.id=subject_subcourses.subject_id', 'INNER')
-                ->where(!empty($condition) ? $condition : 1, TRUE)
-                ->get("company_groups");
-        return $result->num_rows() > 0 ? $result->result() : null;
+    public function get_group_companies($company_groups_id) {
+        if (is_numeric($company_groups_id) && $company_groups_id > 0) {
+            $result = $this->db->select("companies.name,companies.id")
+                    ->where(array('cg.is_delete' => 0, 'cg.company_groups_id' => $company_groups_id))
+                    ->join('companies', 'companies.id=cg.companies_id', 'INNER')
+                    ->get("companies_group as cg");
+            $array = array();
+            if ($result->num_rows()) {
+                return $result->result();
+            }
+            return $array;
+        }
     }
 
 }

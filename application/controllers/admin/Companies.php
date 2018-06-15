@@ -84,8 +84,6 @@ class Companies extends CI_Controller {
                 "logitude" => $this->input->post("logitude")
             );
             $saveData = filterPostData($saveData);
-            pr($this->input->post());
-            pr($saveData);
             if (isset($_FILES['aadhar_doc']['name']) && $_FILES['aadhar_doc']['name'] != "") {
                 $fileUpload = $this->do_upload('aadhar_doc');
                 if (isset($fileUpload['error']) && $fileUpload['error'] != "") {

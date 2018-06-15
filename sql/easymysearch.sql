@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 14, 2018 at 07:49 AM
+-- Generation Time: Jun 15, 2018 at 07:52 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 5.6.31
 
@@ -67,16 +67,28 @@ CREATE TABLE `ci_sessions` (
 --
 
 INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
-('s90pl6hlq3869drgrblm1r03oigsm3f1', '127.0.0.1', 1528938766, '__ci_last_regenerate|i:1528938476;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528938223\";last_check|i:1528938480;'),
-('4il963js9hspjclg33qnkt1l58kbf0he', '127.0.0.1', 1528939080, '__ci_last_regenerate|i:1528938807;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528938223\";last_check|i:1528938480;'),
-('qv68n60tdu7g8deon9j785up0hfkg0l8', '127.0.0.1', 1528939224, '__ci_last_regenerate|i:1528939185;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528938223\";last_check|i:1528938480;'),
-('e47a6p9vqp77hc5k1bendio7r71of71s', '127.0.0.1', 1528940568, '__ci_last_regenerate|i:1528940270;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528938223\";last_check|i:1528938480;'),
-('4oa8221r353spjdlrh0n7jvp2nhl81ac', '127.0.0.1', 1528940578, '__ci_last_regenerate|i:1528940578;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528938223\";last_check|i:1528938480;'),
-('m62f7q0ir6j025oaujlps0fpudb7p05p', '127.0.0.1', 1528941140, '__ci_last_regenerate|i:1528940926;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528938223\";last_check|i:1528938480;'),
-('rfhuap3pr5nsovf9vf35v1q5ojptmm7f', '127.0.0.1', 1528941345, '__ci_last_regenerate|i:1528941242;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528938223\";last_check|i:1528938480;'),
-('8c3rc7g08dqhdqtvg1jij2l1mukrfmo0', '127.0.0.1', 1528941703, '__ci_last_regenerate|i:1528941560;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528938223\";last_check|i:1528938480;'),
-('bj5mil0pkfde8s9a3ddg3k4sh90ne3ci', '127.0.0.1', 1528942261, '__ci_last_regenerate|i:1528941902;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528938223\";last_check|i:1528938480;'),
-('epndj609qom79bbo6is7f3e300penkkr', '127.0.0.1', 1528942724, '__ci_last_regenerate|i:1528942520;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528938223\";last_check|i:1528938480;');
+('6ui2o4lsahv3hh48dagp68s0mnf2osh8', '127.0.0.1', 1529027724, '__ci_last_regenerate|i:1529027431;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528992475\";last_check|i:1529022986;'),
+('fh93jikn45keeeoe8h8sikpieeuurbu4', '127.0.0.1', 1529027107, '__ci_last_regenerate|i:1529026938;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528992475\";last_check|i:1529022986;'),
+('q8kburo0k0hj2d4mgqld6h00nnor32g0', '127.0.0.1', 1529026936, '__ci_last_regenerate|i:1529026614;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528992475\";last_check|i:1529022986;'),
+('ev9bddid6aunbinq3cnf7jgi4hij0duh', '127.0.0.1', 1529026351, '__ci_last_regenerate|i:1529026016;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528992475\";last_check|i:1529022986;'),
+('b2bttnnp3ahhi2fa8hifhpvojbhk4o06', '127.0.0.1', 1529025951, '__ci_last_regenerate|i:1529025651;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528992475\";last_check|i:1529022986;'),
+('qe4mtftb4lc8geiqmf2rstc955tecsm2', '127.0.0.1', 1529025633, '__ci_last_regenerate|i:1529025633;'),
+('pfo162a6vc9dt7fijgj4kmuefk1ivr28', '127.0.0.1', 1529025646, '__ci_last_regenerate|i:1529025646;'),
+('ec8rdnkrpdko1jk6fu3p1i2cu20v9vf7', '127.0.0.1', 1529025599, '__ci_last_regenerate|i:1529025599;'),
+('orvf9g95v8os545rh47rokjoa9jt69ll', '127.0.0.1', 1529024840, '__ci_last_regenerate|i:1529024840;'),
+('bns2a5lbj3rr578j7qfg5u52e7s6ood5', '127.0.0.1', 1529025549, '__ci_last_regenerate|i:1529025257;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528992475\";last_check|i:1529022986;'),
+('dn4m9lsihnrr31gfrvb3nvgo2p12agbj', '127.0.0.1', 1529024716, '__ci_last_regenerate|i:1529024715;'),
+('guc0bn2goa1vm2n80tf5e7vhh0ie2oe0', '127.0.0.1', 1529024791, '__ci_last_regenerate|i:1529024791;'),
+('rs2raf3fqsmejck1g1dfhcrofkhoeq9g', '127.0.0.1', 1529024580, '__ci_last_regenerate|i:1529024579;'),
+('7m9j0073qbid9qauvnh95cu4ff60ifvd', '127.0.0.1', 1529023496, '__ci_last_regenerate|i:1529023283;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528992475\";last_check|i:1529022986;'),
+('lovbbchroijk3fhdu77rhq50699lqebn', '127.0.0.1', 1529023884, '__ci_last_regenerate|i:1529023883;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528992475\";last_check|i:1529022986;error|s:19:\"File Does not exist\";__ci_vars|a:1:{s:5:\"error\";s:3:\"old\";}'),
+('vrpniorhmm1d0o9623sd0ed8cum4itd4', '127.0.0.1', 1529024419, '__ci_last_regenerate|i:1529024419;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528992475\";last_check|i:1529022986;'),
+('a5jg1tjetsg1do258fgq2f886g564qrq', '127.0.0.1', 1529023222, '__ci_last_regenerate|i:1529022962;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528992475\";last_check|i:1529022986;'),
+('31ve3grobafil46tp3cj0uafm5fatkei', '127.0.0.1', 1529028257, '__ci_last_regenerate|i:1529027963;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528992475\";last_check|i:1529022986;'),
+('k6nnvrhc909b66h12ppd1517kgq0u4v7', '127.0.0.1', 1529028571, '__ci_last_regenerate|i:1529028294;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528992475\";last_check|i:1529022986;'),
+('k0qt0n15uu1mm9mk5c066220nhl0v4ud', '127.0.0.1', 1529028722, '__ci_last_regenerate|i:1529028607;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528992475\";last_check|i:1529022986;'),
+('e5b6uue00pqc70vtj634rhhqcksumvjo', '127.0.0.1', 1529029186, '__ci_last_regenerate|i:1529028909;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528992475\";last_check|i:1529022986;'),
+('et4sf740husdkserecg3jukgst3t4t19', '127.0.0.1', 1529029290, '__ci_last_regenerate|i:1529029252;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528992475\";last_check|i:1529022986;');
 
 -- --------------------------------------------------------
 
@@ -184,7 +196,7 @@ INSERT INTO `companies_city` (`id`, `cities_id`, `companies_id`, `is_delete`) VA
 CREATE TABLE `companies_group` (
   `id` int(11) NOT NULL,
   `companies_id` int(11) NOT NULL,
-  `groups_id` int(11) NOT NULL,
+  `company_groups_id` int(11) NOT NULL,
   `is_delete` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -192,7 +204,7 @@ CREATE TABLE `companies_group` (
 -- Dumping data for table `companies_group`
 --
 
-INSERT INTO `companies_group` (`id`, `companies_id`, `groups_id`, `is_delete`) VALUES
+INSERT INTO `companies_group` (`id`, `companies_id`, `company_groups_id`, `is_delete`) VALUES
 (1, 10, 9, 0),
 (2, 7, 9, 0),
 (3, 5, 13, 0),
@@ -212,21 +224,25 @@ INSERT INTO `companies_group` (`id`, `companies_id`, `groups_id`, `is_delete`) V
 (17, 7, 19, 0),
 (18, 6, 19, 0),
 (19, 2, 19, 0),
-(20, 15, 20, 0),
-(21, 13, 20, 0),
-(22, 16, 20, 0),
 (23, 11, 21, 0),
 (24, 12, 21, 0),
 (25, 7, 22, 0),
 (26, 14, 22, 0),
 (27, 7, 22, 0),
-(28, 7, 23, 0),
 (29, 17, 23, 0),
 (30, 9, 21, 0),
 (31, 3, 24, 0),
 (32, 10, 25, 0),
-(33, 5, 23, 0),
-(34, 10, 23, 0);
+(35, 19, 27, 0),
+(36, 11, 27, 0),
+(58, 12, 26, 0),
+(59, 12, 26, 0),
+(69, 19, 20, 0),
+(70, 14, 20, 0),
+(71, 19, 23, 0),
+(72, 11, 23, 0),
+(73, 14, 23, 0),
+(74, 19, 28, 0);
 
 -- --------------------------------------------------------
 
@@ -343,13 +359,15 @@ INSERT INTO `company_groups` (`id`, `name`, `slug`, `parent_id`, `cities_id`, `c
 (17, 'rl', '', 0, 2, '2018-04-27 18:30:00', 1, 0),
 (18, 'JSPM', '', 0, 2, '2018-03-31 18:30:00', 1, 0),
 (19, 'intel', '', 0, 2, '2018-04-09 18:30:00', 1, 0),
-(20, 'A1', '', 0, 1, '2018-04-09 18:30:00', 0, 0),
+(20, 'Tata Building', 'tata-building', 0, 7, '2018-04-09 18:30:00', 0, 1),
 (21, 'B2', '', 0, 3, '2018-04-18 18:30:00', 1, 0),
 (22, 'C3', '', 0, 4, '2018-04-16 18:30:00', 1, 0),
-(23, 'C3', '', 0, 1, '2018-04-09 18:30:00', 0, 1),
+(23, 'C3', 'c3', 0, 1, '2018-04-09 18:30:00', 0, 1),
 (24, 'B2', '', 0, 2, '2018-04-14 18:30:00', 1, 0),
 (25, 'B2', '', 0, 4, '2018-04-01 18:30:00', 1, 0),
-(26, 'Motilal soni', '', 0, 2, '2018-06-13 18:30:00', 0, 0);
+(26, 'Motilal soni', 'motilal-soni', 0, 7, '2018-06-13 18:30:00', 1, 1),
+(27, 'Chemistry', 'chemistry', 0, 7, '2018-06-14 11:00:13', 0, 1),
+(28, 'Chemistry', 'chemistry-1', 0, 7, '2018-06-14 11:00:16', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -427,7 +445,12 @@ INSERT INTO `flash_messages` (`id`, `key`, `value`, `group`, `order`, `updated`)
 (27, 'CompanyUpdateSuccess', 'Company updated successfully.', 'Company', 2, '2018-06-14 00:56:04'),
 (28, 'CompanyDeleteSuccess', 'Company deleted successfully.', 'Company', 3, '2018-06-14 00:56:44'),
 (29, 'CompanyActiveSuccess', 'Company Active Successfully.', 'Company', 4, '2018-06-14 00:57:20'),
-(30, 'CompanyInactiveSuccess', 'Company Inactive Successfully.', 'Company', 5, '2018-06-14 00:57:52');
+(30, 'CompanyInactiveSuccess', 'Company Inactive Successfully.', 'Company', 5, '2018-06-14 00:57:52'),
+(31, 'GroupAddSuccess', 'Group added successfully.', 'Group', 1, '2018-06-14 16:11:34'),
+(32, 'GroupUpdateSuccess', 'Group updated successfully.', 'Group', 2, '2018-06-14 16:11:54'),
+(33, 'GroupDeleteSuccess', 'Group deleted successfully.', 'Group', 3, '2018-06-14 16:12:12'),
+(34, 'GroupActiveSuccess', 'Group Active successfully.', 'Group', 4, '2018-06-14 16:12:32'),
+(35, 'GroupInactiveSuccess', 'Group Inactive successfully.', 'Group', 5, '2018-06-14 16:12:45');
 
 -- --------------------------------------------------------
 
@@ -458,9 +481,10 @@ INSERT INTO `groups` (`id`, `name`, `description`) VALUES
 
 CREATE TABLE `leads` (
   `id` int(11) NOT NULL,
-  `portal_id` int(11) NOT NULL,
+  `portals_id` int(11) NOT NULL,
+  `record_id` int(11) DEFAULT NULL,
   `name` varchar(255) NOT NULL,
-  `email_address` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
   `location` varchar(255) NOT NULL,
   `latitude` varchar(50) NOT NULL,
   `longitude` varchar(50) NOT NULL,
@@ -471,6 +495,8 @@ CREATE TABLE `leads` (
   `phone_number` varchar(20) NOT NULL,
   `message` varchar(255) NOT NULL,
   `date` date NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `is_delete` tinyint(1) NOT NULL,
   `is_active` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -479,12 +505,15 @@ CREATE TABLE `leads` (
 -- Dumping data for table `leads`
 --
 
-INSERT INTO `leads` (`id`, `portal_id`, `name`, `email_address`, `location`, `latitude`, `longitude`, `city`, `state`, `country`, `zip`, `phone_number`, `message`, `date`, `is_delete`, `is_active`) VALUES
-(1, 0, 'msw', 'msw@gmail.com', 'pune', '', '', '', '', '', '', '123456985230', 'hi', '2018-04-17', 0, 1),
-(2, 0, 'dda', 'da', 'da', '', '', '', '', '', '', 'd4a', 'fgggggaa', '2018-04-05', 1, 0),
-(3, 0, 'testing', 'testing', 'Pune Airport, Pune International Airport Area, Lohgaon, Pune, Maharashtra', '122355.333', '1526933.444', 'Pune', 'MH', '', '411032', '789413321', 'hiiii', '2018-04-28', 0, 0),
-(4, 0, 'abc', '', 'Shirpur, Maharashtra, India', '', '', 'Shirpur', 'MH', '', '425405', '', '', '2018-04-28', 0, 0),
-(5, 0, 'rohit', '', '', '', '', '', '', '', '', '', '', '0000-00-00', 0, 1);
+INSERT INTO `leads` (`id`, `portals_id`, `record_id`, `name`, `email`, `location`, `latitude`, `longitude`, `city`, `state`, `country`, `zip`, `phone_number`, `message`, `date`, `created`, `updated`, `is_delete`, `is_active`) VALUES
+(1, 0, NULL, 'msw', 'msw@gmail.com', 'pune', '', '', '', '', '', '', '123456985230', 'hi', '2018-04-17', '2018-06-15 01:11:29', '2018-06-15 01:43:16', 1, 1),
+(2, 0, NULL, 'dda', 'da', 'da', '', '', '', '', '', '', 'd4a', 'fgggggaa', '2018-04-05', '2018-06-15 01:11:29', '2018-06-15 01:37:01', 1, 1),
+(3, 0, NULL, 'testing', 'testing', 'Pune Airport, Pune International Airport Area, Lohgaon, Pune, Maharashtra', '122355.333', '1526933.444', 'Pune', 'MH', '', '411032', '789413321', 'hiiii', '2018-04-28', '2018-06-15 01:11:29', '2018-06-15 01:42:11', 1, 1),
+(4, 0, NULL, 'abc', '', 'Shirpur, Maharashtra, India', '', '', 'Shirpur', 'MH', '', '425405', '', '', '2018-04-28', '2018-06-15 01:11:29', '2018-06-15 01:42:16', 1, 1),
+(5, 0, NULL, 'rohit', '', '', '', '', '', '', '', '', '', '', '0000-00-00', '2018-06-15 01:11:29', '2018-06-15 01:43:19', 1, 1),
+(6, 3, NULL, 'Meta tag delete', 'rakeshss@gmail.com', 'dsdsfs', '', '', '', '', '', '', '3434353422', 'dfdfg', '0000-00-00', '2018-06-15 01:11:29', '2018-06-15 01:40:45', 0, 1),
+(7, 3, 6, 'Meta tag delete', 'rakeshss@gmail.com', 'dsdsfs', '', '', '', '', '', '', '3434353422', 'dfdfg', '0000-00-00', '2018-06-15 01:11:29', '2018-06-15 01:40:47', 0, 1),
+(8, 3, 9, 'Meta tag delete', 'rakeshss@gmail.com', 'dsdsfs', '', '', '', '', '', '', '3434353422', 'dfdfg', '0000-00-00', '2018-06-15 01:20:46', '2018-06-15 01:36:58', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -560,7 +589,12 @@ INSERT INTO `permissions` (`id`, `key`, `name`, `group`, `order`) VALUES
 (46, 'company-add', 'Company Add', 'Company', 2),
 (47, 'company-edit', 'Company Edit', 'Company', 3),
 (48, 'company-delete', 'Company Delete', 'Company', 4),
-(49, 'company-status', 'Company Change Status', 'Company', 5);
+(49, 'company-status', 'Company Change Status', 'Company', 5),
+(50, 'group-index', 'Group Listing', 'Group', 1),
+(51, 'group-add', 'Group Add', 'Group', 2),
+(52, 'group-edit', 'Group Edit', 'Group', 3),
+(53, 'group-delete', 'Group Delete', 'Group', 4),
+(54, 'group-status', 'Group Change Status', 'Group', 5);
 
 -- --------------------------------------------------------
 
@@ -582,8 +616,8 @@ CREATE TABLE `portals` (
 
 INSERT INTO `portals` (`id`, `name`, `site_link`, `is_delete`, `is_active`) VALUES
 (1, 'pestomart', 'https://www.pestomart.com/', 0, 1),
-(2, 'easymysearch', 'https://easymysearch.com/', 0, 0),
-(3, 'wwwwrrrr', 'wwwwrrrrr', 1, 0);
+(2, 'easymysearch', 'https://easymysearch.com/', 0, 1),
+(3, 'wwwwrrrr', 'wwwwrrrrr', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -700,7 +734,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `salt`, `email`, `activation_code`, `forgotten_password_code`, `forgotten_password_time`, `remember_code`, `two_step_authentication`, `authentication_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`, `multi_session`) VALUES
-(1, '127.0.0.1', 'admin', '$2y$08$X.wo1a1ctWWqF/tiLCx.wubIZsXlKjpxjZNsHwi0ooBkuxL1Muple', NULL, 'admin@admin.com', '', '41OxdsvwogkRPa7YoTUUku1b6c8113ad4e2f5ac2', 1508057752, NULL, 0, NULL, 1528767362, 1528938480, 1, 'Super', 'Admin', 'ADMIN', '', 0),
+(1, '127.0.0.1', 'admin', '$2y$08$X.wo1a1ctWWqF/tiLCx.wubIZsXlKjpxjZNsHwi0ooBkuxL1Muple', NULL, 'admin@admin.com', '', '41OxdsvwogkRPa7YoTUUku1b6c8113ad4e2f5ac2', 1508057752, NULL, 0, NULL, 1528767362, 1529022986, 1, 'Super', 'Admin', 'ADMIN', '', 0),
 (7, '157.37.132.82', NULL, '$2y$08$v8Dp4PROqvlpO5G5SVMWc..U9K4RYsyxAsrfTrG/EBy/c.rF6AO9C', NULL, 'motilalsoni@gmail.com', NULL, NULL, NULL, NULL, 0, NULL, 1520696550, 1528938250, 1, 'Motilal', 'Soni', NULL, '90324978491', 0);
 
 -- --------------------------------------------------------
@@ -841,7 +875,8 @@ INSERT INTO `visitors` (`id`, `ip_address`, `come_in`, `last_activity`) VALUES
 (45, '127.0.0.1', '2018-06-03 12:58:59', NULL),
 (46, '127.0.0.1', '2018-06-09 16:15:43', '2018-06-09 16:16:36'),
 (47, '127.0.0.1', '2018-06-10 09:39:03', '2018-06-10 14:36:15'),
-(48, '::1', '2018-06-12 06:42:59', '2018-06-12 07:03:36');
+(48, '::1', '2018-06-12 06:42:59', '2018-06-12 07:03:36'),
+(49, '127.0.0.1', '2018-06-15 06:33:00', '2018-06-15 06:50:46');
 
 --
 -- Indexes for dumped tables
@@ -1015,7 +1050,7 @@ ALTER TABLE `companies_city`
 -- AUTO_INCREMENT for table `companies_group`
 --
 ALTER TABLE `companies_group`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 --
 -- AUTO_INCREMENT for table `companies_package`
 --
@@ -1025,12 +1060,12 @@ ALTER TABLE `companies_package`
 -- AUTO_INCREMENT for table `companies_service`
 --
 ALTER TABLE `companies_service`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `company_groups`
 --
 ALTER TABLE `company_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT for table `email_templates`
 --
@@ -1040,7 +1075,7 @@ ALTER TABLE `email_templates`
 -- AUTO_INCREMENT for table `flash_messages`
 --
 ALTER TABLE `flash_messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 --
 -- AUTO_INCREMENT for table `groups`
 --
@@ -1050,12 +1085,12 @@ ALTER TABLE `groups`
 -- AUTO_INCREMENT for table `leads`
 --
 ALTER TABLE `leads`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `login_attempts`
 --
 ALTER TABLE `login_attempts`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `packages`
 --
@@ -1065,7 +1100,7 @@ ALTER TABLE `packages`
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 --
 -- AUTO_INCREMENT for table `portals`
 --
@@ -1105,7 +1140,7 @@ ALTER TABLE `users_permissions`
 -- AUTO_INCREMENT for table `visitors`
 --
 ALTER TABLE `visitors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;COMMIT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
