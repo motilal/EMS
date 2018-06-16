@@ -70,35 +70,20 @@ class Leads extends CI_Controller {
 
         if ($this->form_validation->run() === TRUE) {
             $data = array(
-                "title" => $this->input->post('title'),
-                "category" => $this->input->post('category'),
-                "short_description" => $this->input->post('short_description'),
-                "description" => $this->input->post('description', false),
-                "meta_keywords" => $this->input->post("meta_keywords"),
-                "meta_description" => $this->input->post("meta_description")
+                "portals_id" => $this->input->post('portals_id'),
+                "name" => $this->input->post('name'),
+                "email" => $this->input->post('email'),
+                "location" => $this->input->post('location'),
+                "phone_number" => $this->input->post("phone_number"),
+                "date" => $this->input->post("date"),
+                'message' => $this->input->post("message")
             );
-            if (isset($_FILES['image']['name']) && $_FILES['image']['name'] != "") {
-                $fileUpload = $this->do_upload();
-                if (isset($fileUpload['error']) && $fileUpload['error'] != "") {
-                    $this->session->set_flashdata("error", $fileUpload['error']);
-                    redirect("admin/leads/manage/$id");
-                } else {
-                    @unlink(FORM_ALERT_IMG_PATH . $detail->image);
-                    $data['image'] = $fileUpload['upload_data']['file_name'];
-                }
-            }
-            if ($id > 0) {
-                $data['slug'] = create_unique_slug($this->input->post('title'), 'leads', 'slug', 'id', $id);
-            } else {
-                $data['slug'] = create_unique_slug($this->input->post('title'), 'leads', 'slug');
-            }
             if ($this->input->post('id') > 0) {
                 $data['updated'] = date("Y-m-d H:i:s");
                 $this->db->update("leads", $data, array("id" => $this->input->post('id')));
                 $this->session->set_flashdata("success", __('LeadUpdateSuccess'));
             } else {
                 $data['created'] = date("Y-m-d H:i:s");
-                $data['user_id'] = $this->ion_auth->get_user_id();
                 $this->db->insert("leads", $data);
                 $this->session->set_flashdata("success", __('LeadAddSuccess'));
             }

@@ -8,6 +8,9 @@ $subadminAdd = ($segment_cntr == 'subadmins' && $segment_fun == 'add') ? 'active
 $companiesIndex = ($segment_cntr == 'companies' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
 $companiesAdd = ($segment_cntr == 'companies' && $segment_fun == 'manage') ? 'active' : '';
 
+$leadsIndex = ($segment_cntr == 'leads' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
+$leadsAdd = ($segment_cntr == 'leads' && $segment_fun == 'manage') ? 'active' : '';
+
 $settingIndex = ($segment_cntr == 'settings' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
 $settingProfile = ($segment_cntr == 'settings' && $segment_fun == 'profile') ? 'active' : '';
 $logIndex = ($segment_cntr == 'logs') ? 'active' : '';
@@ -83,6 +86,27 @@ $user_permissions = $this->session->userdata('_subadmin_module_permissions');
                     </a>
                 </li>
             <?php } ?>
+
+            <?php if (is_allow_module('lead')) { ?>
+                <li class="treeview <?php echo $segment_cntr == 'leads' ? 'active menu-open' : ''; ?>">
+                    <a href="#">
+                        <i class="fa fa-inbox"></i>
+                        <span>Lead Inbox</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu" style="display:<?php echo $segment_cntr == 'leads' ? 'block' : 'none'; ?>;">
+                        <?php if (is_allow_action('lead-index')) { ?>
+                            <li class="<?php echo $leadsIndex; ?>"><a href="<?php echo site_url('admin/leads'); ?>"><i class="fa fa-th-list"></i> Manage Lead</a></li>
+                        <?php } ?>
+                        <?php if (is_allow_action('lead-add')) { ?>
+                            <li class="<?php echo $leadsAdd; ?>"><a href="<?php echo site_url('admin/leads/manage'); ?>"><i class="fa fa-plus"></i> Add New Lead</a></li> 
+                        <?php } ?>
+                    </ul>
+                </li>
+            <?php } ?>	    
+
 
 
             <?php if (is_allow_module('email templates')) { ?>    

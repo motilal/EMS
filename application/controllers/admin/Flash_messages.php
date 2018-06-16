@@ -101,7 +101,7 @@ class Flash_messages extends CI_Controller {
             $DbLastUpdated = $sql->row()->updated;
             $languageFilePath = APPPATH . 'language/english/general_lang.php';
             if (file_exists($languageFilePath)) {
-                $langFileUpdated = date("Y-m-d H:i:s", filemtime($languageFilePath)); 
+                $langFileUpdated = date("Y-m-d H:i:s", filemtime($languageFilePath));
                 if (strtotime($DbLastUpdated) > strtotime($langFileUpdated)) {
                     return true;
                 }
@@ -146,22 +146,21 @@ class Flash_messages extends CI_Controller {
         redirect('admin/flash_messages');
     }
 
-    function insert_flash() {
-        die;
-        //$this->db->query('TRUNCATE flash_messages');
-        $lang = array();
-        $lang['SubCourse']['SubCourseUpdateSuccess'] = "Sub Course updted successfully.";
-        $lang['SubCourse']['SubCourseAddSuccess'] = "Sub Course added successfully.";
-        $lang['SubCourse']['SubCourseDeleteSuccess'] = "Sub Course deleted successfully.";
-        $lang['SubCourse']['SubCourseActiveSuccess'] = "Sub Course Active Successfully.";
-        $lang['SubCourse']['SubCourseInactiveSuccess'] = "Sub Course Inactive Successfully.";
-        foreach ($lang as $k => $v) {
-            $count = 0;
-            foreach ($v as $k1 => $v1) {
-                $count++;
-                $data = array('key' => $k1, 'value' => $v1, 'group' => $k, 'order' => $count);
-                $this->db->insert('flash_messages', $data);
-                echo $this->db->insert_id() . '<br>';
+    function insert_auto_flash($module = '') {
+        if (!empty($module)) {
+            $lang[$module][$module . "UpdateSuccess"] = "$module updted successfully.";
+            $lang[$module][$module . 'AddSuccess'] = "$module added successfully.";
+            $lang[$module][$module . 'DeleteSuccess'] = "$module deleted successfully.";
+            $lang[$module][$module . 'ActiveSuccess'] = "$module Active Successfully.";
+            $lang[$module][$module . 'InactiveSuccess'] = "$module Inactive Successfully.";
+            foreach ($lang as $k => $v) {
+                $count = 0;
+                foreach ($v as $k1 => $v1) {
+                    $count++;
+                    $data = array('key' => $k1, 'value' => $v1, 'group' => $k, 'order' => $count);
+                    $this->db->insert('flash_messages', $data);
+                    echo $this->db->insert_id() . '<br>';
+                }
             }
         }
     }

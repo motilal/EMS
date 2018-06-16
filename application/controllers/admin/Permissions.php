@@ -78,6 +78,25 @@ class Permissions extends CI_Controller {
         $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
 
+    function insert_auto_permission($module = '') {
+        if (!empty($module)) {
+            $lang[$module][strtolower($module) . "-index"] = "$module Listing";
+            $lang[$module][strtolower($module) . '-add'] = "$module Add";
+            $lang[$module][strtolower($module) . '-edit'] = "$module Edit";
+            $lang[$module][strtolower($module) . '-delete'] = "$module Delete";
+            $lang[$module][strtolower($module) . '-status'] = "$module Change Status";
+            foreach ($lang as $k => $v) {
+                $count = 0;
+                foreach ($v as $k1 => $v1) {
+                    $count++;
+                    $data = array('key' => $k1, 'name' => $v1, 'group' => $k, 'order' => $count);
+                    $this->db->insert('permissions', $data);
+                    echo $this->db->insert_id() . '<br>';
+                }
+            }
+        }
+    }
+
     function _validate_permission_key($str) {
         $id = $this->input->post('id');
         $condition = array('key' => $str);
