@@ -23,7 +23,7 @@ class Groups extends CI_Controller {
 
     public function index() {
         $this->acl->has_permission('group-index');
-        $condition = array('is_delete' => '0');
+        $condition = array('company_groups.is_delete' => '0');
         $start = (int) $this->input->get('start');
         $result = $this->group->get_list($condition);
         $this->viewData['result'] = $result;
@@ -108,7 +108,10 @@ class Groups extends CI_Controller {
                 }
             }
             if ($has_permission === TRUE) {
+                $this->load->model('city_model', 'city');
                 $detail = $this->group->getById($resource_id);
+                $citydetail = $this->city->getById($detail->cities_id);
+                $detail->city_name = isset($citydetail->name) ? $citydetail->name : '';
                 $detail->created = date(DATE_FORMATE, strtotime($detail->created));
                 $detail->statusButtons = $this->layout->element('admin/element/_module_status', array('status' => $detail->is_active, 'id' => $detail->id, 'url' => "admin/groups/changestatus", 'permissionKey' => "group-status"), true);
                 $detail->actionButtons = $this->layout->element('admin/element/_module_action', array('id' => $detail->id, 'editUrl' => 'admin/groups/manage', 'deleteUrl' => 'admin/groups/delete', 'editPermissionKey' => 'group-edit', 'deletePermissionKey' => 'group-delete'), true);

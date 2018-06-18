@@ -12,7 +12,7 @@ class City_model extends CI_Model {
         parent::__construct();
     }
 
-    public function get_city_list($condition = array(), $order = array()) {
+    public function get_list($condition = array(), $order = array()) {
         $this->db->select("*");
         if (!empty($condition)) {
             $this->db->where($condition);
@@ -37,7 +37,7 @@ class City_model extends CI_Model {
         }
     }
 
-    public function getServiceById($id) {
+    public function getById($id) {
         if (is_numeric($id) && $id > 0) {
             $result = $this->db->select("*")
                     ->get_where("cities", array("id" => $id, 'is_delete' => '0'));

@@ -534,4 +534,13 @@ $config['mail_smtp'] = array(
     'mailtype' => 'html',
     'charset' => 'utf-8'
 );
-
+$config['package_type'] = array(
+    '1' => 'Single',
+    '2' => 'Combo'
+);
+$config['follow_status'] = array(
+    '1' => 'Not interested',
+    '2' => 'Meeting',
+    '3' => 'Payment Done',
+    '4' => 'Again Follow up Date'
+);

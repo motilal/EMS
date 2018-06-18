@@ -13,12 +13,21 @@ class Service_model extends CI_Model {
     }
 
     public function get_list($condition = array()) {
-        $this->db->select("services.*");
+        $this->db->select("services.*,servicetypes.name as service_name");
         if (!empty($condition) || $condition != "") {
             $this->db->where($condition);
         }
-        $data = $this->db->get("services");
+        $data = $this->db->join('servicetypes', 'servicetypes.id=services.servicetypes_id', 'LEFT')->get("services");
         return $data;
+    }
+
+    public function getById($id) {
+        if (is_numeric($id) && $id > 0) {
+            $result = $this->db->select("*")
+                    ->get_where("services", array("id" => $id, 'is_delete' => '0'));
+            return $result->num_rows() > 0 ? $result->row() : null;
+        }
+        return false;
     }
 
     public function services_options($service_id = '') {
@@ -36,15 +45,6 @@ class Service_model extends CI_Model {
         } else {
             return false;
         }
-    }
-
-    public function getServiceById($id) {
-        if (is_numeric($id) && $id > 0) {
-            $result = $this->db->select("*")
-                    ->get_where("services", array("id" => $id, 'is_delete' => '0'));
-            return $result->num_rows() > 0 ? $result->row() : null;
-        }
-        return false;
     }
 
 }

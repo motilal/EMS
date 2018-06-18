@@ -1,9 +1,12 @@
 <div class="row">
     <div class="col-xs-12"> 
-        <div class="box">
-
+        <div class="box"> 
+            <div class="box-header">
+                <i class="fa fa-institution"></i> 
+                <h3 class="box-title"><?php echo isset($pageHeading) ? $pageHeading : '&nbsp;'; ?></h3> 
+            </div>     
             <!-- /.box-header -->
-            <div class="box-body"> 
+            <div class="box-body table-responsive"> 
                 <table id="dataTables-grid" class="table table-bordered table-striped" width="100%">
                     <thead>
                         <tr>

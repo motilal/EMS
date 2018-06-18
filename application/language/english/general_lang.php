@@ -1,7 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
 *
-* Last Updated:  14-06-2018 21:42:49 by Super Admin
+* Last Updated:  17-06-2018 23:16:52 by Super Admin
 *
 * Description: language file for falsh messages
 *
@@ -60,4 +60,39 @@ $lang['GroupUpdateSuccess'] = "Group updated successfully.";
 $lang['GroupDeleteSuccess'] = "Group deleted successfully.";
 $lang['GroupActiveSuccess'] = "Group Active successfully.";
 $lang['GroupInactiveSuccess'] = "Group Inactive successfully.";
+
+/* SubService Group Messages */
+$lang['ServiceUpdateSuccess'] = "Sub Service updted successfully.";
+$lang['ServiceAddSuccess'] = "Sub Service added successfully.";
+$lang['ServiceDeleteSuccess'] = "Sub Service deleted successfully.";
+$lang['ServiceActiveSuccess'] = "Sub Service Active Successfully.";
+$lang['ServiceInactiveSuccess'] = "Sub Service Inactive Successfully.";
+
+/* Service Group Messages */
+$lang['ServicetypeUpdateSuccess'] = "Service updted successfully.";
+$lang['ServicetypeAddSuccess'] = "Service added successfully.";
+$lang['ServicetypeDeleteSuccess'] = "Service deleted successfully.";
+$lang['ServicetypeActiveSuccess'] = "Service Active Successfully.";
+$lang['ServicetypeInactiveSuccess'] = "Service Inactive Successfully.";
+
+/* Package Group Messages */
+$lang['PackageUpdateSuccess'] = "Package updted successfully.";
+$lang['PackageAddSuccess'] = "Package added successfully.";
+$lang['PackageDeleteSuccess'] = "Package deleted successfully.";
+$lang['PackageActiveSuccess'] = "Package Active Successfully.";
+$lang['PackageInactiveSuccess'] = "Package Inactive Successfully.";
+
+/* City Group Messages */
+$lang['CityUpdateSuccess'] = "City updted successfully.";
+$lang['CityAddSuccess'] = "City added successfully.";
+$lang['CityDeleteSuccess'] = "City deleted successfully.";
+$lang['CityActiveSuccess'] = "City Active Successfully.";
+$lang['CityInactiveSuccess'] = "City Inactive Successfully.";
+
+/* FollowUp Group Messages */
+$lang['FollowUpUpdateSuccess'] = "FollowUp updted successfully.";
+$lang['FollowUpAddSuccess'] = "FollowUp added successfully.";
+$lang['FollowUpDeleteSuccess'] = "FollowUp deleted successfully.";
+$lang['FollowUpActiveSuccess'] = "FollowUp Active Successfully.";
+$lang['FollowUpInactiveSuccess'] = "FollowUp Inactive Successfully.";
 

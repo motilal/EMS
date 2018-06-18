@@ -2,7 +2,7 @@
     <div class="col-xs-12"> 
         <div class="box box-info"> 
             <!-- /.box-header -->
-            <div class="box-body"> 
+            <div class="box-body table-responsive"> 
                 <?php if (!empty($data)) { ?> 
                     <table class="table table-bordered table-striped"> 
                         <tbody> 
@@ -10,6 +10,26 @@
                                 <th>Portal Name</th>
                                 <td colspan="4"><?php echo $data->portal_name; ?></td>
                             </tr>
+                            <?php if (!empty($data->service_name)): ?>
+                                <tr>
+                                    <th>Service Type</th>
+                                    <td colspan="4"><?php echo $data->service_name; ?></td>
+                                </tr>
+                            <?php endif; ?>
+
+                            <?php if (!empty($data->service_from)): ?>
+                                <tr>
+                                    <th>Service From</th>
+                                    <td colspan="4"><?php echo $data->service_from; ?></td>
+                                </tr>
+                            <?php endif; ?>
+
+                            <?php if (!empty($data->service_to)): ?>
+                                <tr>
+                                    <th>Service To</th>
+                                    <td colspan="4"><?php echo $data->service_to; ?></td>
+                                </tr> 
+                            <?php endif; ?>
                             <tr>
                                 <th>Name</th>
                                 <td colspan="4"><?php echo $data->name; ?></td>
@@ -30,7 +50,8 @@
                             <tr>
                                 <th>Date</th>
                                 <td colspan="4"><?php echo $data->date; ?></td>
-                            </tr>
+                            </tr> 
+
                             <tr>
                                 <th>Message</th>
                                 <td colspan="4"><?php echo $data->message; ?></td>

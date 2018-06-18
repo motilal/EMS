@@ -265,7 +265,7 @@ class Companies extends CI_Controller {
             $response['result'] = array();
             $this->load->model(array('service_model' => 'service'));
             if ($this->input->post('servicetypes_id') != "" && is_numeric($this->input->post('servicetypes_id'))) {
-                $result = $this->service->get_list(array('is_delete' => '0', 'is_active' => '1', 'servicetypes_id' => $this->input->post('servicetypes_id')));
+                $result = $this->service->get_list(array('services.is_delete' => '0', 'services.is_active' => '1', 'servicetypes_id' => $this->input->post('servicetypes_id')));
                 if ($result->num_rows() > 0) {
                     foreach ($result->result_array() as $key => $row) {
                         $response['result'][$key]['id'] = $row['id'];

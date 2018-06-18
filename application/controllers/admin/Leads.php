@@ -168,8 +168,9 @@ class Leads extends CI_Controller {
                 $rowData[5] = $row->phone_number;
                 $rowData[6] = $this->layout->element('admin/element/_module_status', array('status' => $row->is_active, 'id' => $row->id, 'url' => "admin/leads/changestatus", 'permissionKey' => "lead-status"), true);
                 $editUrl = 'admin/leads/manage/' . $row->id;
+                $viewUrl = 'admin/leads/view/' . $row->id;
                 $deleteUrl = 'admin/leads/delete';
-                $rowData[7] = $this->layout->element('admin/element/_module_action', array('id' => $row->id, 'editUrl' => $editUrl, 'deleteUrl' => $deleteUrl, 'editPermissionKey' => 'lead-edit', 'deletePermissionKey' => 'lead-delete'), true);
+                $rowData[7] = $this->layout->element('admin/element/_module_action', array('id' => $row->id, 'editUrl' => $editUrl, 'deleteUrl' => $deleteUrl, 'viewUrl' => $viewUrl, 'editPermissionKey' => 'lead-edit', 'deletePermissionKey' => 'lead-delete'), true);
                 $resultData[] = $rowData;
             }
         }

@@ -26,6 +26,8 @@ class Email_templates extends CI_Controller {
         $result = $this->email_template->get_list();
         $this->viewData['result'] = $result;
         $this->viewData['title'] = "Email Templates list";
+        $this->viewData['pageModule'] = 'Email Template Manager';
+        $this->viewData['pageHeading'] = 'Email Template';
         $this->viewData['datatable_asset'] = true;
         $this->viewData['breadcrumb'] = array('Email Templates Manager' => '');
         $this->layout->view("admin/email_template/index", $this->viewData);
@@ -80,6 +82,7 @@ class Email_templates extends CI_Controller {
             }
             redirect("admin/email_templates");
         }
+        $this->viewData['breadcrumb'] = array('Email Template Manager' => 'admin/companies', $this->viewData['title'] => '');
         $this->viewData['ckeditor_asset'] = true;
         $this->layout->view("admin/email_template/manage", $this->viewData);
     }

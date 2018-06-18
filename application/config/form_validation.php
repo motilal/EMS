@@ -17,6 +17,68 @@ $config = array(
             'rules' => "trim|required|max_length[255]"
         )
     ),
+    'packages/manage' => array(
+        array(
+            'field' => 'name',
+            'label' => 'Package Name',
+            'rules' => "trim|required|max_length[255]"
+        ),
+        array(
+            'field' => 'duration',
+            'label' => 'Package Duration',
+            'rules' => "trim|required|numeric|max_length[11]"
+        ),
+        array(
+            'field' => 'amount',
+            'label' => 'Package Amount',
+            'rules' => "trim|required|numeric|max_length[11]"
+        ),
+        array(
+            'field' => 'no_of_leads',
+            'label' => 'Number of leads',
+            'rules' => "trim|required|numeric|max_length[11]"
+        )
+    ),
+    'follow_up/manage' => array(
+        array(
+            'field' => 'member_name',
+            'label' => 'Member Name',
+            'rules' => "trim|required|max_length[255]"
+        )
+    ),
+    'servicetypes/manage' => array(
+        array(
+            'field' => 'name',
+            'label' => 'Service Name',
+            'rules' => "trim|required|max_length[255]"
+        )
+    ),
+    'services/manage' => array(
+        array(
+            'field' => 'name',
+            'label' => 'Name',
+            'rules' => "trim|required|max_length[255]"
+        )
+    ),
+    'cities/manage' => array(
+        array(
+            'field' => 'name',
+            'label' => 'Name',
+            'rules' => "trim|required|max_length[255]"
+        )
+    ),
+    'leads/manage' => array(
+        array(
+            'field' => 'name',
+            'label' => 'Name',
+            'rules' => "trim|required|max_length[255]"
+        ),
+        array(
+            'field' => 'portals_id',
+            'label' => 'Portal',
+            'rules' => "trim|required"
+        )
+    ),
     'email_templates/manage' => array(
         array(
             'field' => 'title',

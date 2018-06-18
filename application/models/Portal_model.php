@@ -1,42 +1,42 @@
 <?php
 
-/**
+/*
  * @author Motilal Soni
  */
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Servicetype_model extends CI_Model {
+class Portal_model extends CI_Model {
 
     public function __construct() {
         parent::__construct();
     }
 
     public function get_list($condition = array(), $order = array()) {
-        $this->db->select("servicetypes.*,portals.name as portal_name");
+        $this->db->select("*");
         if (!empty($condition)) {
             $this->db->where($condition);
         }
         if (!empty($order)) {
             $this->db->order_by($order[0], $order[1]);
         }
-        $data = $this->db->join('portals', 'portals.id=servicetypes.portals_id', 'LEFT')->get("servicetypes");
+        $data = $this->db->get("portals");
         return $data;
     }
 
     public function getById($id) {
         if (is_numeric($id) && $id > 0) {
-            $result = $this->db->select("*")
-                    ->get_where("servicetypes", array("id" => $id, 'is_delete' => '0'));
+            $result = $this->db->select("portals.*")
+                    ->get_where("portals", array("id" => $id));
             return $result->num_rows() > 0 ? $result->row() : null;
         }
         return false;
     }
 
-    public function servicetypes_options() {
-        $sql = $this->db->select('name,id')->order_by('name', 'ASC')->where(array("is_active" => 1, 'is_delete' => '0'))->get('servicetypes');
+    public function portal_options() {
+        $sql = $this->db->select('name,id')->order_by('name', 'ASC')->get('portals');
         if ($sql->num_rows() > 0) {
-            $array = array('' => 'Select Service');
+            $array = array();
             foreach ($sql->result() as $row) {
                 $array[$row->id] = $row->name;
             }

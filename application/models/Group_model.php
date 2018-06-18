@@ -13,14 +13,14 @@ class Group_model extends CI_Model {
     }
 
     public function get_list($condition = array(), $order = array()) {
-        $this->db->select("company_groups.*");
+        $this->db->select("company_groups.*,cities.name as city_name");
         if (!empty($condition)) {
             $this->db->where($condition);
         }
         if (!empty($order)) {
             $this->db->order_by($order[0], $order[1]);
         }
-        $data = $this->db->get("company_groups");
+        $data = $this->db->join('cities', 'cities.id=company_groups.cities_id', 'LEFT')->get("company_groups");
         return $data;
     }
 
