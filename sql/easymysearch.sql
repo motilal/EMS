@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 15, 2018 at 07:52 AM
+-- Generation Time: Jun 18, 2018 at 08:55 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 5.6.31
 
@@ -32,22 +32,25 @@ CREATE TABLE `cities` (
   `id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `is_active` tinyint(1) NOT NULL,
-  `is_delete` int(1) NOT NULL
+  `is_delete` int(1) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `cities`
 --
 
-INSERT INTO `cities` (`id`, `name`, `is_active`, `is_delete`) VALUES
-(1, 'Nashik', 1, 0),
-(2, 'Pune', 1, 0),
-(3, 'chopda', 1, 1),
-(4, 'Mumbai', 1, 0),
-(5, 'bm', 1, 1),
-(6, 'Gurgaon', 1, 0),
-(7, 'Delhi', 1, 0),
-(8, 'Noida', 1, 0);
+INSERT INTO `cities` (`id`, `name`, `is_active`, `is_delete`, `created`, `updated`) VALUES
+(1, 'Nashik', 1, 0, '2018-06-16 12:01:50', '2018-06-17 14:45:18'),
+(2, 'Pune', 1, 0, '2018-06-16 12:01:50', NULL),
+(3, 'chopda', 1, 1, '2018-06-16 12:01:50', NULL),
+(4, 'Mumbai', 1, 0, '2018-06-16 12:01:50', NULL),
+(5, 'bm', 1, 1, '2018-06-16 12:01:50', NULL),
+(6, 'Gurgaon', 1, 0, '2018-06-16 12:01:50', NULL),
+(7, 'Delhi', 1, 0, '2018-06-16 12:01:50', NULL),
+(8, 'Noida', 1, 0, '2018-06-16 12:01:50', NULL),
+(9, 'Jaipur', 1, 1, '2018-06-16 12:20:47', '2018-06-16 12:21:34');
 
 -- --------------------------------------------------------
 
@@ -67,28 +70,19 @@ CREATE TABLE `ci_sessions` (
 --
 
 INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
-('6ui2o4lsahv3hh48dagp68s0mnf2osh8', '127.0.0.1', 1529027724, '__ci_last_regenerate|i:1529027431;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528992475\";last_check|i:1529022986;'),
-('fh93jikn45keeeoe8h8sikpieeuurbu4', '127.0.0.1', 1529027107, '__ci_last_regenerate|i:1529026938;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528992475\";last_check|i:1529022986;'),
-('q8kburo0k0hj2d4mgqld6h00nnor32g0', '127.0.0.1', 1529026936, '__ci_last_regenerate|i:1529026614;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528992475\";last_check|i:1529022986;'),
-('ev9bddid6aunbinq3cnf7jgi4hij0duh', '127.0.0.1', 1529026351, '__ci_last_regenerate|i:1529026016;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528992475\";last_check|i:1529022986;'),
-('b2bttnnp3ahhi2fa8hifhpvojbhk4o06', '127.0.0.1', 1529025951, '__ci_last_regenerate|i:1529025651;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528992475\";last_check|i:1529022986;'),
 ('qe4mtftb4lc8geiqmf2rstc955tecsm2', '127.0.0.1', 1529025633, '__ci_last_regenerate|i:1529025633;'),
 ('pfo162a6vc9dt7fijgj4kmuefk1ivr28', '127.0.0.1', 1529025646, '__ci_last_regenerate|i:1529025646;'),
 ('ec8rdnkrpdko1jk6fu3p1i2cu20v9vf7', '127.0.0.1', 1529025599, '__ci_last_regenerate|i:1529025599;'),
 ('orvf9g95v8os545rh47rokjoa9jt69ll', '127.0.0.1', 1529024840, '__ci_last_regenerate|i:1529024840;'),
-('bns2a5lbj3rr578j7qfg5u52e7s6ood5', '127.0.0.1', 1529025549, '__ci_last_regenerate|i:1529025257;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528992475\";last_check|i:1529022986;'),
 ('dn4m9lsihnrr31gfrvb3nvgo2p12agbj', '127.0.0.1', 1529024716, '__ci_last_regenerate|i:1529024715;'),
 ('guc0bn2goa1vm2n80tf5e7vhh0ie2oe0', '127.0.0.1', 1529024791, '__ci_last_regenerate|i:1529024791;'),
 ('rs2raf3fqsmejck1g1dfhcrofkhoeq9g', '127.0.0.1', 1529024580, '__ci_last_regenerate|i:1529024579;'),
-('7m9j0073qbid9qauvnh95cu4ff60ifvd', '127.0.0.1', 1529023496, '__ci_last_regenerate|i:1529023283;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528992475\";last_check|i:1529022986;'),
-('lovbbchroijk3fhdu77rhq50699lqebn', '127.0.0.1', 1529023884, '__ci_last_regenerate|i:1529023883;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528992475\";last_check|i:1529022986;error|s:19:\"File Does not exist\";__ci_vars|a:1:{s:5:\"error\";s:3:\"old\";}'),
-('vrpniorhmm1d0o9623sd0ed8cum4itd4', '127.0.0.1', 1529024419, '__ci_last_regenerate|i:1529024419;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528992475\";last_check|i:1529022986;'),
-('a5jg1tjetsg1do258fgq2f886g564qrq', '127.0.0.1', 1529023222, '__ci_last_regenerate|i:1529022962;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528992475\";last_check|i:1529022986;'),
-('31ve3grobafil46tp3cj0uafm5fatkei', '127.0.0.1', 1529028257, '__ci_last_regenerate|i:1529027963;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528992475\";last_check|i:1529022986;'),
-('k6nnvrhc909b66h12ppd1517kgq0u4v7', '127.0.0.1', 1529028571, '__ci_last_regenerate|i:1529028294;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528992475\";last_check|i:1529022986;'),
-('k0qt0n15uu1mm9mk5c066220nhl0v4ud', '127.0.0.1', 1529028722, '__ci_last_regenerate|i:1529028607;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528992475\";last_check|i:1529022986;'),
-('e5b6uue00pqc70vtj634rhhqcksumvjo', '127.0.0.1', 1529029186, '__ci_last_regenerate|i:1529028909;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528992475\";last_check|i:1529022986;'),
-('et4sf740husdkserecg3jukgst3t4t19', '127.0.0.1', 1529029290, '__ci_last_regenerate|i:1529029252;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1528992475\";last_check|i:1529022986;');
+('i75c25ne0uecu8tt8rbluqrh0lg898bg', '127.0.0.1', 1529256718, '__ci_last_regenerate|i:1529256418;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1529246449\";last_check|i:1529256466;'),
+('h8mk9njjqqpuindso898q764rig8nbf0', '127.0.0.1', 1529256856, '__ci_last_regenerate|i:1529256740;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1529246449\";last_check|i:1529256466;'),
+('jpcgfijq1406paumdhie7rus30mr54qa', '127.0.0.1', 1529257675, '__ci_last_regenerate|i:1529257393;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1529246449\";last_check|i:1529256466;'),
+('666hf8j6n2mrs4n2fpdpitimqtojpq6a', '127.0.0.1', 1529257727, '__ci_last_regenerate|i:1529257719;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1529246449\";last_check|i:1529256466;'),
+('v7ijvq254gpkcv4s2bmo2mg4jsb4ppsm', '127.0.0.1', 1529258290, '__ci_last_regenerate|i:1529258031;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1529246449\";last_check|i:1529256466;'),
+('dag6cdqdels0uhpnksfpvpfq7it59he9', '::1', 1529171938, '__ci_last_regenerate|i:1529171937;');
 
 -- --------------------------------------------------------
 
@@ -128,7 +122,7 @@ CREATE TABLE `companies` (
   `is_delete` tinyint(1) DEFAULT NULL,
   `is_active` tinyint(1) DEFAULT NULL COMMENT '1 Active  0 Inactive',
   `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `updated` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -149,7 +143,7 @@ INSERT INTO `companies` (`id`, `name`, `slug`, `gst_no`, `aadhar_no`, `pencard_n
 (14, 'Intel', '', '444', '555666', 'aqcp65656', 'USA', 0, 'Intel', '123', '456', 'a:1:{i:0;s:6:\"Mumbai\";}', 0, 0, 'admin@gmail.com', 'Utersum, Germany', 'SH', 'Utersum', '', '', 'Germany', '25938', 111, '', '', 0, 0, 0, 0, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (15, 'Accenture', '', '123', '8522', '78963258', 'Pune', 0, 'Accenture', '111', '111', 'a:1:{i:0;s:4:\"Pune\";}', 0, 0, 'abc@gamil.com', 'Hinjawadi Phase 1 Road, Phase 1, Hinjewadi Rajiv Gandhi Infotech Park, Hinjawadi, Pimpri-Chinchwad, Pune, Maharashtra, India', 'MH', 'Pimpri-Chinchwad', '', '', 'India', '411057', 0, '', '', 0, 0, 0, 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (16, 'TCS', '', '88888', '8888', '8888', 'TCS', 0, 'TCS', '55555', '77777', 'a:2:{i:0;s:6:\"Nashik\";i:1;s:6:\"Mumbai\";}', 0, 0, 'TCS', 'Mahatma Gandhi Road, Agarwal Colony, Sadar Bazaar, Pune, Maharashtra, India', 'MH', 'Pune', '', '', 'India', '411001', 111, '', '', 8, 0, 0, 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(17, 'MSW', '', '1234569852', '852963', '852963', 'MSW', 0, 'MSW', '9999', '9999', 'a:1:{i:0;s:6:\"Nashik\";}', 0, 0, 'MSW', 'Mswi Street, Village 1 South, Cape Town, South Africa', 'WC', 'Cape Town', '', '', 'South Africa', '7784', 11, '', '', 9, 0, 0, 0, 1, '2018-05-06 00:00:00', '2018-06-13 15:24:09'),
+(17, 'MSW', '5b25e0bc44065', '1234569852', '852963', '852963', 'MSW', 0, 'MSW', '9999', '9999', 'a:1:{i:0;s:6:\"Nashik\";}', NULL, 0, 'MSW', 'Mswi Street, Village 1 South, Cape Town, South Africa', 'WC', 'Cape Town', NULL, NULL, 'South Africa', '7784', 11, '', '', 9, 0, 0, 0, 1, '2018-05-06 00:00:00', '2018-06-17 04:17:00'),
 (18, 'abcddddd', '5b21c18abdae5', NULL, '123654789', NULL, 'alwar', 0, 'ss', NULL, NULL, '', NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '36985', 0, 'WhatsApp_Image_2018-05-22_at_5_31_45_PM.jpeg', 'WhatsApp_Image_2018-05-22_at_5_31_46_PM(1).jpeg', 6, 0, 0, 0, 1, '2018-04-02 00:00:00', '2018-06-14 01:14:50'),
 (19, 'fastrack', '', '852', '852963', 'pl789', 'Pune', 0, 'fastrack', '123', '456', '', 2, 0, 'fastrack@gmail.com', 'Kothrud Bus Depot, Eklavya Colony, Kothrud, Pune, Maharashtra, India', 'MH', 'Pune', '122355.333', '9633.369', 'India', '411038', 10, '', '', 8, 0, 0, 0, 1, '2018-04-16 00:00:00', '0000-00-00 00:00:00'),
 (28, 'Company name', '5b2150bce3fc2', 'GST No.', 'Aadhar No.', 'Pencard No.', 'Company Address', NULL, 'Company Owner', 'Phone', 'Alternate Phone', NULL, 2, NULL, 'Email', 'Jaipur, Rajasthan, India', 'rajastha', 'jaipur', '1265', '544545', 'india', '302011', 0, 'DRGbzQ4X4AAjRsr5.jpg', 'New_Picture_(2)3.png', NULL, NULL, NULL, NULL, NULL, '2018-06-13 14:22:02', '2018-06-13 17:13:32');
@@ -185,7 +179,11 @@ INSERT INTO `companies_city` (`id`, `cities_id`, `companies_id`, `is_delete`) VA
 (33, 4, 27, 0),
 (36, 4, 28, 0),
 (37, 1, 28, 0),
-(38, 2, 28, 0);
+(38, 2, 28, 0),
+(39, 6, 17, 0),
+(40, 4, 17, 0),
+(41, 1, 17, 0),
+(42, 8, 17, 0);
 
 -- --------------------------------------------------------
 
@@ -242,7 +240,8 @@ INSERT INTO `companies_group` (`id`, `companies_id`, `company_groups_id`, `is_de
 (71, 19, 23, 0),
 (72, 11, 23, 0),
 (73, 14, 23, 0),
-(74, 19, 28, 0);
+(74, 19, 28, 0),
+(75, 12, 20, 0);
 
 -- --------------------------------------------------------
 
@@ -359,14 +358,14 @@ INSERT INTO `company_groups` (`id`, `name`, `slug`, `parent_id`, `cities_id`, `c
 (17, 'rl', '', 0, 2, '2018-04-27 18:30:00', 1, 0),
 (18, 'JSPM', '', 0, 2, '2018-03-31 18:30:00', 1, 0),
 (19, 'intel', '', 0, 2, '2018-04-09 18:30:00', 1, 0),
-(20, 'Tata Building', 'tata-building', 0, 7, '2018-04-09 18:30:00', 0, 1),
+(20, 'Tata Building', 'tata-building', 0, 8, '2018-04-09 18:30:00', 0, 1),
 (21, 'B2', '', 0, 3, '2018-04-18 18:30:00', 1, 0),
 (22, 'C3', '', 0, 4, '2018-04-16 18:30:00', 1, 0),
 (23, 'C3', 'c3', 0, 1, '2018-04-09 18:30:00', 0, 1),
 (24, 'B2', '', 0, 2, '2018-04-14 18:30:00', 1, 0),
 (25, 'B2', '', 0, 4, '2018-04-01 18:30:00', 1, 0),
 (26, 'Motilal soni', 'motilal-soni', 0, 7, '2018-06-13 18:30:00', 1, 1),
-(27, 'Chemistry', 'chemistry', 0, 7, '2018-06-14 11:00:13', 0, 1),
+(27, 'Chemistry', 'chemistry', 0, 8, '2018-06-14 11:00:13', 0, 1),
 (28, 'Chemistry', 'chemistry-1', 0, 7, '2018-06-14 11:00:16', 1, 1);
 
 -- --------------------------------------------------------
@@ -450,7 +449,65 @@ INSERT INTO `flash_messages` (`id`, `key`, `value`, `group`, `order`, `updated`)
 (32, 'GroupUpdateSuccess', 'Group updated successfully.', 'Group', 2, '2018-06-14 16:11:54'),
 (33, 'GroupDeleteSuccess', 'Group deleted successfully.', 'Group', 3, '2018-06-14 16:12:12'),
 (34, 'GroupActiveSuccess', 'Group Active successfully.', 'Group', 4, '2018-06-14 16:12:32'),
-(35, 'GroupInactiveSuccess', 'Group Inactive successfully.', 'Group', 5, '2018-06-14 16:12:45');
+(35, 'GroupInactiveSuccess', 'Group Inactive successfully.', 'Group', 5, '2018-06-14 16:12:45'),
+(36, 'ServiceUpdateSuccess', 'Sub Service updted successfully.', 'SubService', 1, '2018-06-16 08:44:36'),
+(37, 'ServiceAddSuccess', 'Sub Service added successfully.', 'SubService', 2, '2018-06-16 08:44:50'),
+(38, 'ServiceDeleteSuccess', 'Sub Service deleted successfully.', 'SubService', 3, '2018-06-16 08:45:10'),
+(39, 'ServiceActiveSuccess', 'Sub Service Active Successfully.', 'SubService', 4, '2018-06-16 08:46:03'),
+(40, 'ServiceInactiveSuccess', 'Sub Service Inactive Successfully.', 'SubService', 5, '2018-06-16 08:46:31'),
+(41, 'ServicetypeUpdateSuccess', 'Service updted successfully.', 'Service', 1, '2018-06-16 08:46:49'),
+(42, 'ServicetypeAddSuccess', 'Service added successfully.', 'Service', 2, '2018-06-16 08:46:55'),
+(43, 'ServicetypeDeleteSuccess', 'Service deleted successfully.', 'Service', 3, '2018-06-16 08:47:01'),
+(44, 'ServicetypeActiveSuccess', 'Service Active Successfully.', 'Service', 4, '2018-06-16 08:47:05'),
+(45, 'ServicetypeInactiveSuccess', 'Service Inactive Successfully.', 'Service', 5, '2018-06-16 08:47:10'),
+(46, 'PackageUpdateSuccess', 'Package updted successfully.', 'Package', 1, '2018-06-17 14:40:49'),
+(47, 'PackageAddSuccess', 'Package added successfully.', 'Package', 2, '2018-06-17 14:40:49'),
+(48, 'PackageDeleteSuccess', 'Package deleted successfully.', 'Package', 3, '2018-06-17 14:40:49'),
+(49, 'PackageActiveSuccess', 'Package Active Successfully.', 'Package', 4, '2018-06-17 14:40:49'),
+(50, 'PackageInactiveSuccess', 'Package Inactive Successfully.', 'Package', 5, '2018-06-17 14:40:49'),
+(51, 'CityUpdateSuccess', 'City updted successfully.', 'City', 1, '2018-06-17 14:43:38'),
+(52, 'CityAddSuccess', 'City added successfully.', 'City', 2, '2018-06-17 14:43:38'),
+(53, 'CityDeleteSuccess', 'City deleted successfully.', 'City', 3, '2018-06-17 14:43:38'),
+(54, 'CityActiveSuccess', 'City Active Successfully.', 'City', 4, '2018-06-17 14:43:38'),
+(55, 'CityInactiveSuccess', 'City Inactive Successfully.', 'City', 5, '2018-06-17 14:43:38'),
+(56, 'FollowUpUpdateSuccess', 'FollowUp updted successfully.', 'FollowUp', 1, '2018-06-17 17:46:11'),
+(57, 'FollowUpAddSuccess', 'FollowUp added successfully.', 'FollowUp', 2, '2018-06-17 17:46:11'),
+(58, 'FollowUpDeleteSuccess', 'FollowUp deleted successfully.', 'FollowUp', 3, '2018-06-17 17:46:11'),
+(59, 'FollowUpActiveSuccess', 'FollowUp Active Successfully.', 'FollowUp', 4, '2018-06-17 17:46:11'),
+(60, 'FollowUpInactiveSuccess', 'FollowUp Inactive Successfully.', 'FollowUp', 5, '2018-06-17 17:46:11');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `follow_up`
+--
+
+CREATE TABLE `follow_up` (
+  `id` int(11) NOT NULL,
+  `member_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `follow_up_date` date DEFAULT NULL,
+  `status_id` int(11) DEFAULT NULL COMMENT '1 Not interested 2 Meeting 3 Payment Done 4  Again Follow up Date',
+  `phone_number` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `email` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `client_name` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `is_delete` tinyint(1) NOT NULL,
+  `is_active` tinyint(1) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `follow_up`
+--
+
+INSERT INTO `follow_up` (`id`, `member_name`, `follow_up_date`, `status_id`, `phone_number`, `email`, `client_name`, `is_delete`, `is_active`, `created`, `updated`) VALUES
+(1, 'dddd', '2018-04-17', 2, '2', 'd', '', 1, 1, '2018-06-17 16:53:05', NULL),
+(2, 'eee', '2018-04-30', 0, 'e', 'e', '', 1, 1, '2018-06-17 16:53:05', NULL),
+(3, 'dhiraj  chaudhari dhiraj', '2018-04-04', 2, '123456555555555555', 'dhiraj@gmail.commmmmmmmmmmmmm', '', 1, 0, '2018-06-17 16:53:05', NULL),
+(4, 'msw', '2018-04-02', 3, '02369852', 'abhi@msw.com', 'dhiraj', 0, 1, '2018-06-17 16:53:05', '2018-06-17 17:47:00'),
+(5, 'dd', '0000-00-00', 0, '', '', '', 1, 1, '2018-06-17 16:53:05', NULL),
+(6, 'abc', '2018-04-09', 4, '7895632587141', 'abc@gmail.com', 'xyz', 1, 0, '2018-06-17 16:53:05', NULL),
+(7, 'Motilal soni', '2018-06-28', 1, '9024978491', 'motilalsoni@gmail.com', 'Marcus', 0, 1, '2018-06-17 17:03:32', '2018-06-17 17:28:13');
 
 -- --------------------------------------------------------
 
@@ -483,18 +540,21 @@ CREATE TABLE `leads` (
   `id` int(11) NOT NULL,
   `portals_id` int(11) NOT NULL,
   `record_id` int(11) DEFAULT NULL,
-  `name` varchar(255) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `location` varchar(255) NOT NULL,
-  `latitude` varchar(50) NOT NULL,
-  `longitude` varchar(50) NOT NULL,
-  `city` varchar(50) NOT NULL,
-  `state` varchar(50) NOT NULL,
-  `country` varchar(50) NOT NULL,
-  `zip` varchar(50) NOT NULL,
-  `phone_number` varchar(20) NOT NULL,
-  `message` varchar(255) NOT NULL,
-  `date` date NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL,
+  `latitude` varchar(50) DEFAULT NULL,
+  `longitude` varchar(50) DEFAULT NULL,
+  `city` varchar(50) DEFAULT NULL,
+  `state` varchar(50) DEFAULT NULL,
+  `country` varchar(50) DEFAULT NULL,
+  `zip` varchar(50) DEFAULT NULL,
+  `phone_number` varchar(20) DEFAULT NULL,
+  `service_name` varchar(255) DEFAULT NULL,
+  `service_from` varchar(255) DEFAULT NULL,
+  `service_to` varchar(255) DEFAULT NULL,
+  `message` varchar(255) DEFAULT NULL,
+  `date` date DEFAULT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `is_delete` tinyint(1) NOT NULL,
@@ -505,15 +565,15 @@ CREATE TABLE `leads` (
 -- Dumping data for table `leads`
 --
 
-INSERT INTO `leads` (`id`, `portals_id`, `record_id`, `name`, `email`, `location`, `latitude`, `longitude`, `city`, `state`, `country`, `zip`, `phone_number`, `message`, `date`, `created`, `updated`, `is_delete`, `is_active`) VALUES
-(1, 0, NULL, 'msw', 'msw@gmail.com', 'pune', '', '', '', '', '', '', '123456985230', 'hi', '2018-04-17', '2018-06-15 01:11:29', '2018-06-15 01:43:16', 1, 1),
-(2, 0, NULL, 'dda', 'da', 'da', '', '', '', '', '', '', 'd4a', 'fgggggaa', '2018-04-05', '2018-06-15 01:11:29', '2018-06-15 01:37:01', 1, 1),
-(3, 0, NULL, 'testing', 'testing', 'Pune Airport, Pune International Airport Area, Lohgaon, Pune, Maharashtra', '122355.333', '1526933.444', 'Pune', 'MH', '', '411032', '789413321', 'hiiii', '2018-04-28', '2018-06-15 01:11:29', '2018-06-15 01:42:11', 1, 1),
-(4, 0, NULL, 'abc', '', 'Shirpur, Maharashtra, India', '', '', 'Shirpur', 'MH', '', '425405', '', '', '2018-04-28', '2018-06-15 01:11:29', '2018-06-15 01:42:16', 1, 1),
-(5, 0, NULL, 'rohit', '', '', '', '', '', '', '', '', '', '', '0000-00-00', '2018-06-15 01:11:29', '2018-06-15 01:43:19', 1, 1),
-(6, 3, NULL, 'Meta tag delete', 'rakeshss@gmail.com', 'dsdsfs', '', '', '', '', '', '', '3434353422', 'dfdfg', '0000-00-00', '2018-06-15 01:11:29', '2018-06-15 01:40:45', 0, 1),
-(7, 3, 6, 'Meta tag delete', 'rakeshss@gmail.com', 'dsdsfs', '', '', '', '', '', '', '3434353422', 'dfdfg', '0000-00-00', '2018-06-15 01:11:29', '2018-06-15 01:40:47', 0, 1),
-(8, 3, 9, 'Meta tag delete', 'rakeshss@gmail.com', 'dsdsfs', '', '', '', '', '', '', '3434353422', 'dfdfg', '0000-00-00', '2018-06-15 01:20:46', '2018-06-15 01:36:58', 0, 1);
+INSERT INTO `leads` (`id`, `portals_id`, `record_id`, `name`, `email`, `location`, `latitude`, `longitude`, `city`, `state`, `country`, `zip`, `phone_number`, `service_name`, `service_from`, `service_to`, `message`, `date`, `created`, `updated`, `is_delete`, `is_active`) VALUES
+(1, 0, NULL, 'msw', 'msw@gmail.com', 'pune', '', '', '', '', '', '', '123456985230', NULL, NULL, NULL, 'hi', '2018-04-17', '2018-06-15 01:11:29', '2018-06-15 01:43:16', 1, 1),
+(2, 0, NULL, 'dda', 'da', 'da', '', '', '', '', '', '', 'd4a', NULL, NULL, NULL, 'fgggggaa', '2018-04-05', '2018-06-15 01:11:29', '2018-06-15 01:37:01', 1, 1),
+(3, 0, NULL, 'testing', 'testing', 'Pune Airport, Pune International Airport Area, Lohgaon, Pune, Maharashtra', '122355.333', '1526933.444', 'Pune', 'MH', '', '411032', '789413321', NULL, NULL, NULL, 'hiiii', '2018-04-28', '2018-06-15 01:11:29', '2018-06-15 01:42:11', 1, 1),
+(4, 0, NULL, 'abc', '', 'Shirpur, Maharashtra, India', '', '', 'Shirpur', 'MH', '', '425405', '', NULL, NULL, NULL, '', '2018-04-28', '2018-06-15 01:11:29', '2018-06-15 01:42:16', 1, 1),
+(5, 0, NULL, 'rohit', '', '', '', '', '', '', '', '', '', NULL, NULL, NULL, '', '0000-00-00', '2018-06-15 01:11:29', '2018-06-15 01:43:19', 1, 1),
+(6, 3, NULL, 'Meta tag delete', 'rakeshss@gmail.com', 'dsdsfs', '', '', '', '', '', '', '3434353422', NULL, NULL, NULL, 'dfdfg', '0000-00-00', '2018-06-15 01:11:29', '2018-06-15 01:40:45', 0, 1),
+(7, 3, 6, 'Meta tag delete', 'rakeshss@gmail.com', 'dsdsfs', '', '', '', '', '', '', '3434353422', NULL, NULL, NULL, 'dfdfg', '0000-00-00', '2018-06-15 01:11:29', '2018-06-15 01:40:47', 0, 1),
+(8, 3, 9, 'Meta tag delete', 'rakeshss@gmail.com', 'dsdsfs', '', '', '', '', '', '', '3434353422', NULL, NULL, NULL, 'dfdfg', '0000-00-00', '2018-06-15 01:20:46', '2018-06-15 01:36:58', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -527,6 +587,13 @@ CREATE TABLE `login_attempts` (
   `login` varchar(100) NOT NULL,
   `time` int(11) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `login_attempts`
+--
+
+INSERT INTO `login_attempts` (`id`, `ip_address`, `login`, `time`) VALUES
+(2, '127.0.0.1', 'abhi7779988@gmail.com', 1529234174);
 
 -- --------------------------------------------------------
 
@@ -542,25 +609,54 @@ CREATE TABLE `packages` (
   `description` varchar(500) NOT NULL,
   `no_of_leads` int(11) NOT NULL,
   `package_type` int(11) NOT NULL COMMENT '1 single , 2 combo',
-  `service_id` int(11) NOT NULL,
+  `servicetypes_id` int(11) NOT NULL,
   `is_delete` tinyint(1) NOT NULL,
-  `is_active` tinyint(1) NOT NULL
+  `is_active` tinyint(1) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `packages`
 --
 
-INSERT INTO `packages` (`id`, `name`, `duration`, `amount`, `description`, `no_of_leads`, `package_type`, `service_id`, `is_delete`, `is_active`) VALUES
-(1, 'idea', 150, 200.00, 'ok', 10, 2, 0, 1, 0),
-(2, 'ddasdas', 55555, 20.36, 'sdas', 50, 2, 0, 1, 0),
-(3, 'sdsdsdgggggggg', 10, 250.00, 'sdsd', 888888888, 1, 0, 1, 1),
-(4, 'sffss', 10, 2563.00, 'dfdf', 10, 2, 0, 1, 1),
-(5, 'abc', 10, 2603.00, 'fgf', 25, 2, 2, 1, 1),
-(6, 'abcde', 100, 563.00, 'hiiiiii', 123, 1, 4, 0, 1),
-(7, 't1', 52, 632.00, '', 90, 1, 2, 0, 1),
-(8, 'G1', 963, 8569.00, '', 77, 2, 4, 0, 1),
-(9, 'c1', 7, 66.00, 'ok', 88, 1, 2, 0, 1);
+INSERT INTO `packages` (`id`, `name`, `duration`, `amount`, `description`, `no_of_leads`, `package_type`, `servicetypes_id`, `is_delete`, `is_active`, `created`, `updated`) VALUES
+(1, 'idea', 150, 200.00, 'ok', 10, 2, 0, 1, 0, '2018-06-17 04:56:28', NULL),
+(2, 'ddasdas', 55555, 20.36, 'sdas', 50, 2, 0, 1, 0, '2018-06-17 04:56:28', NULL),
+(3, 'sdsdsdgggggggg', 10, 250.00, 'sdsd', 888888888, 1, 0, 1, 1, '2018-06-17 04:56:28', NULL),
+(4, 'sffss', 10, 2563.00, 'dfdf', 10, 2, 0, 1, 1, '2018-06-17 04:56:28', '2018-06-17 16:12:41'),
+(5, 'abc', 10, 2603.00, 'fgf', 25, 2, 2, 1, 1, '2018-06-17 04:56:28', NULL),
+(6, 'abcde', 100, 563.00, 'hiiiiii', 123, 1, 4, 0, 1, '2018-06-17 04:56:28', '2018-06-17 14:41:31'),
+(7, 't1', 52, 632.00, '', 90, 1, 2, 0, 1, '2018-06-17 04:56:28', NULL),
+(8, 'G1', 963, 8569.00, '', 77, 2, 4, 0, 1, '2018-06-17 04:56:28', NULL),
+(9, 'c1', 7, 66.00, 'ok', 88, 1, 0, 0, 1, '2018-06-17 04:56:28', '2018-06-17 08:53:33'),
+(10, 'New package', 30, 56.00, 'this is very nice package', 15, 1, 11, 0, 1, '2018-06-17 08:31:41', '2018-06-17 08:40:19');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `packages_service`
+--
+
+CREATE TABLE `packages_service` (
+  `id` int(11) NOT NULL,
+  `packages_id` int(11) NOT NULL,
+  `services_id` int(11) NOT NULL,
+  `is_delete` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `packages_service`
+--
+
+INSERT INTO `packages_service` (`id`, `packages_id`, `services_id`, `is_delete`) VALUES
+(5, 6, 4, 0),
+(6, 6, 6, 0),
+(7, 7, 4, 0),
+(8, 7, 6, 0),
+(9, 8, 4, 0),
+(11, 10, 10, 0),
+(12, 10, 8, 0);
 
 -- --------------------------------------------------------
 
@@ -594,7 +690,37 @@ INSERT INTO `permissions` (`id`, `key`, `name`, `group`, `order`) VALUES
 (51, 'group-add', 'Group Add', 'Group', 2),
 (52, 'group-edit', 'Group Edit', 'Group', 3),
 (53, 'group-delete', 'Group Delete', 'Group', 4),
-(54, 'group-status', 'Group Change Status', 'Group', 5);
+(54, 'group-status', 'Group Change Status', 'Group', 5),
+(55, 'servicetype-index', 'Service Listing', 'Service', 1),
+(56, 'servicetype-add', 'Service Add', 'Service', 2),
+(57, 'servicetype-edit', 'Service Edit', 'Service', 3),
+(58, 'servicetype-delete', 'Service Delete', 'Service', 4),
+(59, 'servicetype-status', 'Service Change Status', 'Service', 5),
+(60, 'service-index', 'Sub Service Listing', 'Sub Service', 1),
+(61, 'service-add', 'Sub Service Add', 'Sub Service', 2),
+(62, 'service-edit', 'Sub Service Edit', 'Sub Service', 3),
+(63, 'service-delete', 'Sub Service Delete', 'Sub Service', 4),
+(64, 'service-status', 'Sub Service Change Status', 'Sub Service', 5),
+(65, 'lead-index', 'Lead Listing', 'Lead', 1),
+(66, 'lead-add', 'Lead Add', 'Lead', 2),
+(67, 'lead-edit', 'Lead Edit', 'Lead', 3),
+(68, 'lead-delete', 'Lead Delete', 'Lead', 4),
+(69, 'lead-status', 'Lead Change Status', 'Lead', 5),
+(70, 'city-index', 'City Listing', 'City', 1),
+(71, 'city-add', 'City Add', 'City', 2),
+(72, 'city-edit', 'City Edit', 'City', 3),
+(73, 'city-delete', 'City Delete', 'City', 4),
+(74, 'city-status', 'City Change Status', 'City', 5),
+(75, 'follow_up-index', 'Follow_Up Listing', 'Follow_Up', 1),
+(76, 'follow_up-add', 'Follow_Up Add', 'Follow_Up', 2),
+(77, 'follow_up-edit', 'Follow_Up Edit', 'Follow_Up', 3),
+(78, 'follow_up-delete', 'Follow_Up Delete', 'Follow_Up', 4),
+(79, 'follow_up-status', 'Follow_Up Change Status', 'Follow_Up', 5),
+(80, 'package-index', 'Package Listing', 'Package', 1),
+(81, 'package-add', 'Package Add', 'Package', 2),
+(82, 'package-edit', 'Package Edit', 'Package', 3),
+(83, 'package-delete', 'Package Delete', 'Package', 4),
+(84, 'package-status', 'Package Change Status', 'Package', 5);
 
 -- --------------------------------------------------------
 
@@ -631,20 +757,24 @@ CREATE TABLE `services` (
   `servicetypes_id` int(11) NOT NULL,
   `code` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `is_delete` tinyint(1) NOT NULL,
-  `is_active` tinyint(1) NOT NULL COMMENT '1 Active  0 Inactive'
+  `is_active` tinyint(1) NOT NULL COMMENT '1 Active  0 Inactive',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `services`
 --
 
-INSERT INTO `services` (`id`, `name`, `servicetypes_id`, `code`, `is_delete`, `is_active`) VALUES
-(1, 'msw pune ffff', 0, '', 0, 1),
-(2, 'hj', 0, '', 0, 1),
-(3, 'MSW', 4, '', 0, 1),
-(4, 'MSW1', 2, '', 0, 1),
-(5, 'b1', 2, 'kkkk', 0, 1),
-(6, 'dff', 0, 'dfd', 0, 1);
+INSERT INTO `services` (`id`, `name`, `servicetypes_id`, `code`, `is_delete`, `is_active`, `created`, `updated`) VALUES
+(4, 'MSW1', 6, 'sdfsd', 0, 1, '2018-06-16 06:54:52', '2018-06-16 07:28:42'),
+(5, 'b1', 6, 'kkkkwe', 0, 0, '2018-06-16 06:54:52', '2018-06-16 07:46:57'),
+(6, 'dff', 6, 'dfd', 0, 1, '2018-06-16 06:54:52', '2018-06-16 07:33:22'),
+(7, 'Meta tag edit', 4, 'dddd', 1, 1, '2018-06-16 07:36:03', '2018-06-16 07:46:41'),
+(8, 'Meta tag edit', 11, 'dddd', 0, 1, '2018-06-16 07:44:09', '0000-00-00 00:00:00'),
+(9, 'Meta tag edit', 11, 'dddd', 1, 1, '2018-06-16 07:44:16', '2018-06-16 07:46:39'),
+(10, 'Meta tag edit', 11, 'dddd', 0, 1, '2018-06-16 07:44:57', '0000-00-00 00:00:00'),
+(11, 'flipkart', 11, '12es1', 0, 0, '2018-06-16 07:45:15', '2018-06-16 07:46:52');
 
 -- --------------------------------------------------------
 
@@ -658,20 +788,28 @@ CREATE TABLE `servicetypes` (
   `code` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `portals_id` int(11) NOT NULL,
   `is_delete` tinyint(1) NOT NULL,
-  `is_active` tinyint(1) NOT NULL
+  `is_active` tinyint(1) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `servicetypes`
 --
 
-INSERT INTO `servicetypes` (`id`, `name`, `code`, `portals_id`, `is_delete`, `is_active`) VALUES
-(1, 'amc mdmdmdmd', '', 0, 1, 1),
-(2, 'msw ', '', 0, 0, 1),
-(3, 'docomo', '', 0, 1, 1),
-(4, 'abc', '', 0, 0, 1),
-(5, 'abc', 'hnnnn', 0, 1, 0),
-(6, 'hiiii', 'rrrr', 1, 0, 1);
+INSERT INTO `servicetypes` (`id`, `name`, `code`, `portals_id`, `is_delete`, `is_active`, `created`, `updated`) VALUES
+(1, 'amc mdmdmdmd', '', 0, 1, 1, '2018-06-16 05:27:27', '2018-06-16 05:27:54'),
+(2, 'msw', 'olo1', 1, 0, 1, '2018-06-16 05:27:27', '2018-06-16 06:13:04'),
+(3, 'docomo', '', 0, 1, 1, '2018-06-16 05:27:27', '2018-06-16 05:27:54'),
+(4, 'abc', '1234', 3, 0, 1, '2018-06-16 05:27:27', '2018-06-16 06:23:13'),
+(5, 'abc', 'hnnnn', 0, 1, 0, '2018-06-16 05:27:27', '2018-06-16 05:27:54'),
+(6, 'hiiii', 'rrrr', 1, 1, 1, '2018-06-16 05:27:27', '2018-06-16 06:17:18'),
+(7, 'My serer', '123454', 2, 0, 1, '2018-06-16 06:07:53', '2018-06-16 06:14:50'),
+(8, 'My ser', 'olo1', 1, 0, 1, '2018-06-16 06:07:59', '2018-06-16 06:07:59'),
+(9, 'My ser', 'olo1', 1, 1, 1, '2018-06-16 06:08:29', '2018-06-16 06:17:26'),
+(10, 'My ser', 'olo1', 1, 1, 1, '2018-06-16 06:08:45', '2018-06-16 06:17:27'),
+(11, 'Flipkart pay', 'code 123', 1, 0, 1, '2018-06-16 06:23:29', '2018-06-16 06:23:29'),
+(12, 'Group Add', 'ddd', 1, 0, 0, '2018-06-16 06:24:05', '2018-06-16 06:24:09');
 
 -- --------------------------------------------------------
 
@@ -734,7 +872,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `salt`, `email`, `activation_code`, `forgotten_password_code`, `forgotten_password_time`, `remember_code`, `two_step_authentication`, `authentication_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`, `multi_session`) VALUES
-(1, '127.0.0.1', 'admin', '$2y$08$X.wo1a1ctWWqF/tiLCx.wubIZsXlKjpxjZNsHwi0ooBkuxL1Muple', NULL, 'admin@admin.com', '', '41OxdsvwogkRPa7YoTUUku1b6c8113ad4e2f5ac2', 1508057752, NULL, 0, NULL, 1528767362, 1529022986, 1, 'Super', 'Admin', 'ADMIN', '', 0),
+(1, '127.0.0.1', 'admin', '$2y$08$X.wo1a1ctWWqF/tiLCx.wubIZsXlKjpxjZNsHwi0ooBkuxL1Muple', NULL, 'admin@admin.com', '', '41OxdsvwogkRPa7YoTUUku1b6c8113ad4e2f5ac2', 1508057752, NULL, 0, NULL, 1528767362, 1529256466, 1, 'Super', 'Admin', 'ADMIN', '', 0),
 (7, '157.37.132.82', NULL, '$2y$08$v8Dp4PROqvlpO5G5SVMWc..U9K4RYsyxAsrfTrG/EBy/c.rF6AO9C', NULL, 'motilalsoni@gmail.com', NULL, NULL, NULL, NULL, 0, NULL, 1520696550, 1528938250, 1, 'Motilal', 'Soni', NULL, '90324978491', 0);
 
 -- --------------------------------------------------------
@@ -819,65 +957,6 @@ INSERT INTO `users_permissions` (`id`, `user_id`, `permission_id`, `created`) VA
 (59, 7, 45, '2018-06-14 01:03:15'),
 (60, 7, 46, '2018-06-14 01:03:15');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `visitors`
---
-
-CREATE TABLE `visitors` (
-  `id` int(11) NOT NULL,
-  `ip_address` varchar(20) NOT NULL,
-  `come_in` datetime NOT NULL,
-  `last_activity` datetime DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `visitors`
---
-
-INSERT INTO `visitors` (`id`, `ip_address`, `come_in`, `last_activity`) VALUES
-(16, '127.0.0.1', '2018-05-10 22:03:04', NULL),
-(15, '127.0.0.1', '2018-05-10 21:59:42', '2018-05-10 22:03:01'),
-(14, '127.0.0.1', '2018-05-10 21:59:37', '2018-05-10 22:06:21'),
-(13, '127.0.0.5', '2018-05-10 21:59:35', NULL),
-(12, '127.0.0.1', '2018-05-10 09:12:53', '2018-05-10 09:13:04'),
-(11, '127.0.0.1', '2018-05-10 09:09:31', '2018-05-10 09:10:09'),
-(10, '127.0.0.1', '2018-05-10 07:54:18', '2018-05-10 21:59:27'),
-(17, '127.0.0.1', '2018-05-10 22:03:06', NULL),
-(18, '127.0.0.1', '2018-05-10 22:05:58', '2018-05-10 22:06:27'),
-(19, '127.0.0.1', '2018-05-10 22:06:08', '2018-05-10 22:09:35'),
-(20, '127.0.0.1', '2018-05-10 22:06:11', NULL),
-(21, '127.0.0.1', '2018-05-10 22:06:15', NULL),
-(22, '127.0.0.1', '2018-05-10 22:06:19', NULL),
-(23, '127.0.0.1', '2018-05-10 22:06:24', NULL),
-(24, '127.0.0.1', '2018-05-10 22:09:29', '2018-05-10 22:21:48'),
-(25, '127.0.0.1', '2018-05-11 07:20:22', '2018-05-11 20:49:56'),
-(26, '127.0.0.1', '2018-05-11 20:46:59', NULL),
-(27, '127.0.0.1', '2018-05-11 20:47:02', NULL),
-(28, '127.0.0.1', '2018-05-11 20:47:06', NULL),
-(29, '127.0.0.1', '2018-05-11 20:47:08', NULL),
-(30, '127.0.0.1', '2018-05-11 20:47:12', NULL),
-(31, '127.0.0.1', '2018-05-11 20:49:37', NULL),
-(32, '127.0.0.1', '2018-05-11 20:49:40', '2018-05-11 20:49:53'),
-(33, '127.0.0.1', '2018-05-11 20:49:59', NULL),
-(34, '127.0.0.1', '2018-05-19 11:23:27', '2018-05-19 22:33:40'),
-(35, '127.0.0.1', '2018-05-19 12:45:00', '2018-05-19 13:24:05'),
-(36, '127.0.0.1', '2018-05-19 12:47:42', '2018-05-19 13:42:30'),
-(37, '127.0.0.1', '2018-05-19 13:42:41', '2018-05-19 13:44:51'),
-(38, '127.0.0.1', '2018-05-19 13:48:04', '2018-05-19 13:54:48'),
-(39, '127.0.0.1', '2018-05-19 15:39:31', NULL),
-(40, '127.0.0.1', '2018-05-19 15:39:33', NULL),
-(41, '127.0.0.1', '2018-05-20 07:02:36', '2018-05-20 07:47:40'),
-(42, '127.0.0.1', '2018-05-23 22:27:14', NULL),
-(43, '127.0.0.1', '2018-05-27 09:49:54', '2018-05-27 09:50:09'),
-(44, '127.0.0.1', '2018-06-02 11:25:45', '2018-06-02 13:30:39'),
-(45, '127.0.0.1', '2018-06-03 12:58:59', NULL),
-(46, '127.0.0.1', '2018-06-09 16:15:43', '2018-06-09 16:16:36'),
-(47, '127.0.0.1', '2018-06-10 09:39:03', '2018-06-10 14:36:15'),
-(48, '::1', '2018-06-12 06:42:59', '2018-06-12 07:03:36'),
-(49, '127.0.0.1', '2018-06-15 06:33:00', '2018-06-15 06:50:46');
-
 --
 -- Indexes for dumped tables
 --
@@ -945,6 +1024,12 @@ ALTER TABLE `flash_messages`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `follow_up`
+--
+ALTER TABLE `follow_up`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `groups`
 --
 ALTER TABLE `groups`
@@ -966,6 +1051,12 @@ ALTER TABLE `login_attempts`
 -- Indexes for table `packages`
 --
 ALTER TABLE `packages`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `packages_service`
+--
+ALTER TABLE `packages_service`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1022,12 +1113,6 @@ ALTER TABLE `users_permissions`
   ADD KEY `permission_id` (`permission_id`);
 
 --
--- Indexes for table `visitors`
---
-ALTER TABLE `visitors`
-  ADD PRIMARY KEY (`id`);
-
---
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -1035,7 +1120,7 @@ ALTER TABLE `visitors`
 -- AUTO_INCREMENT for table `cities`
 --
 ALTER TABLE `cities`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `companies`
 --
@@ -1045,12 +1130,12 @@ ALTER TABLE `companies`
 -- AUTO_INCREMENT for table `companies_city`
 --
 ALTER TABLE `companies_city`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 --
 -- AUTO_INCREMENT for table `companies_group`
 --
 ALTER TABLE `companies_group`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 --
 -- AUTO_INCREMENT for table `companies_package`
 --
@@ -1075,7 +1160,12 @@ ALTER TABLE `email_templates`
 -- AUTO_INCREMENT for table `flash_messages`
 --
 ALTER TABLE `flash_messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+--
+-- AUTO_INCREMENT for table `follow_up`
+--
+ALTER TABLE `follow_up`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `groups`
 --
@@ -1090,17 +1180,22 @@ ALTER TABLE `leads`
 -- AUTO_INCREMENT for table `login_attempts`
 --
 ALTER TABLE `login_attempts`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `packages`
 --
 ALTER TABLE `packages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+--
+-- AUTO_INCREMENT for table `packages_service`
+--
+ALTER TABLE `packages_service`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 --
 -- AUTO_INCREMENT for table `portals`
 --
@@ -1110,12 +1205,12 @@ ALTER TABLE `portals`
 -- AUTO_INCREMENT for table `services`
 --
 ALTER TABLE `services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `servicetypes`
 --
 ALTER TABLE `servicetypes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `settings`
 --
@@ -1135,12 +1230,7 @@ ALTER TABLE `users_groups`
 -- AUTO_INCREMENT for table `users_permissions`
 --
 ALTER TABLE `users_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
---
--- AUTO_INCREMENT for table `visitors`
---
-ALTER TABLE `visitors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;COMMIT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
