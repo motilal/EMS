@@ -101,10 +101,13 @@ class Company_model extends CI_Model {
         }
     }
 
-    public function company_options() {
+    public function company_options($first_element = false) {
         $sql = $this->db->select('name,id')->where(array('is_active' => 1, 'is_delete' => '0'))->order_by('name', 'ASC')->get('companies');
         if ($sql->num_rows() > 0) {
             $array = array();
+            if ($first_element) {
+                $array = array('' => 'Select Company');
+            }
             foreach ($sql->result() as $row) {
                 $array[$row->id] = $row->name;
             }
@@ -112,6 +115,15 @@ class Company_model extends CI_Model {
         } else {
             return false;
         }
+    }
+
+    public function get_company_packages($condition) {
+        $result = $this->db->select("cp.*,companies.name as company_name,packages.name as package_name")
+                ->where($condition)
+                ->join('companies', 'companies.id=cp.companies_id', 'LEFT')
+                ->join('packages', 'packages.id=cp.packages_id', 'LEFT')
+                ->get("companies_package as cp");
+        return $result;
     }
 
 }

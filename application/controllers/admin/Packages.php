@@ -59,7 +59,7 @@ class Packages extends CI_Controller {
                 "duration" => $this->input->post('duration'),
                 "amount" => $this->input->post('amount'),
                 "no_of_leads" => $this->input->post('no_of_leads'),
-                "servicetypes_id" => $this->input->post('servicetypes_id'),
+                "servicetypes_id" => $this->input->post('servicetypes_id') > 0 ? $this->input->post('servicetypes_id') : NULL,
                 "description" => $this->input->post('description')
             );
             if ($this->input->post('id') > 0) {
@@ -162,9 +162,9 @@ class Packages extends CI_Controller {
         $this->viewData['data'] = $data = $this->package->getById($id);
         if (empty($data)) {
             show_404();
-        } 
+        }
         $this->load->model('servicetype_model', 'servicetype');
-        $serviceDetail = $this->servicetype->getById($data->servicetypes_id); 
+        $serviceDetail = $this->servicetype->getById($data->servicetypes_id);
         $data->service_name = isset($serviceDetail->name) ? $serviceDetail->name : '';
         $this->viewData['package_services'] = $this->package->get_package_services($id);
         $this->viewData['title'] = "Package Detail";

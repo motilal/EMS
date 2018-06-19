@@ -42,7 +42,7 @@
                                         <?php echo $this->layout->element('admin/element/_module_status', array('status' => $row->is_active, 'id' => $row->id, 'url' => "admin/companies/changestatus", 'permissionKey' => 'page-status'), true); ?>
                                     </td>
                                     <td class="action-link">  
-                                        <?php echo $this->layout->element('admin/element/_module_action', array('id' => $row->id, 'editUrl' => "admin/companies/manage/$row->id", 'viewUrl' => "admin/companies/view/$row->id", 'editPermissionKey' => 'page-edit', 'deleteUrl' => 'admin/companies/delete', 'deletePermissionKey' => 'page-delete'), true); ?>
+                                        <?php echo $this->layout->element('admin/element/_module_action', array('id' => $row->id, 'editUrl' => "admin/companies/manage/$row->id", 'viewUrl' => "admin/companies/view/$row->id", 'addPackageUrl' => "admin/companies/manage_package/$row->id", 'editPermissionKey' => 'page-edit', 'deleteUrl' => 'admin/companies/delete', 'deletePermissionKey' => 'page-delete'), true); ?>
                                     </td> 
                                 </tr> 
                             <?php endforeach; ?>

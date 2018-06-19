@@ -1,6 +1,10 @@
 <?php
 $segment_cntr = $this->uri->segment(2);
 $segment_fun = $this->uri->segment(3);
+
+$companyIndex = ($segment_cntr == 'companies' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
+$companyManagePackage = ($segment_cntr == 'companies' && $segment_fun == 'manage_package') ? 'active' : '';
+
 $settingIndex = ($segment_cntr == 'settings' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
 $settingProfile = ($segment_cntr == 'settings' && $segment_fun == 'profile') ? 'active' : '';
 $logIndex = ($segment_cntr == 'logs') ? 'active' : '';
@@ -38,11 +42,21 @@ $user_permissions = $this->session->userdata('_subadmin_module_permissions');
                 </li>
             <?php } ?>
 
-            <?php if (is_allow_module('company')) { ?>    
-                <li class="<?php echo $segment_cntr == 'companies' ? 'active' : ''; ?>">
-                    <a href="<?php echo site_url('admin/companies'); ?>">
-                        <i class="fa fa-building"></i> <span>Company</span> 
+
+
+            <?php if (is_allow_module('company')) { ?>  
+                <li class="treeview <?php echo $segment_cntr == 'companies' ? 'active menu-open' : ''; ?>">
+                    <a href="#">
+                        <i class="fa fa-building"></i>
+                        <span>Company Manager</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
                     </a>
+                    <ul class="treeview-menu" style="display:<?php echo $segment_cntr == 'companies' ? 'block' : 'none'; ?>;">
+                        <li class="<?php echo $companyIndex; ?>"><a href="<?php echo site_url('admin/companies'); ?>"><i class="fa fa-th-list"></i> Manage Company</a></li>
+                        <li class="<?php echo $companyManagePackage; ?>"><a href="<?php echo site_url('admin/companies/manage_package'); ?>"><i class="fa fa-shopping-cart"></i> Company Package</a></li> 
+                    </ul>
                 </li>
             <?php } ?>
 

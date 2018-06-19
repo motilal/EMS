@@ -1,7 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
 *
-* Last Updated:  17-06-2018 23:16:52 by Super Admin
+* Last Updated:  19-06-2018 07:44:38 by Super Admin
 *
 * Description: language file for falsh messages
 *
@@ -53,6 +53,10 @@ $lang['CompanyUpdateSuccess'] = "Company updated successfully.";
 $lang['CompanyDeleteSuccess'] = "Company deleted successfully.";
 $lang['CompanyActiveSuccess'] = "Company Active Successfully.";
 $lang['CompanyInactiveSuccess'] = "Company Inactive Successfully.";
+$lang['CompanyPackageAddSuccess'] = "Company package added successfully.";
+$lang['CompanyPackageDeleteRestrict'] = "The package have used leads so you can not delete this.";
+$lang['CompanyPackageInactiveSuccess'] = "Company Package Inactive successfully";
+$lang['CompanyPackageActiveSuccess'] = "Company Package active successfully";
 
 /* Group Group Messages */
 $lang['GroupAddSuccess'] = "Group added successfully.";

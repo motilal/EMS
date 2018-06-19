@@ -15,4 +15,8 @@
     <?php if (isset($downloadUrl)) { ?>
         <a href="<?php echo site_url($downloadUrl); ?>" class="btn btn-block btn-primary btn-xs"  data-toggle="tooltip" title="" data-original-title="Download"> <span class="fa fa-download"></span> </a>
     <?php } ?>
+    <?php if (isset($addPackageUrl)) { ?>
+        <a href="<?php echo site_url($addPackageUrl); ?>" class="btn btn-block btn-warning btn-xs"  data-toggle="tooltip" title="" data-original-title="Manage Package"> <span class="fa fa-shopping-cart"></span> </a>
+    <?php } ?>
+
 </div> 

@@ -79,6 +79,18 @@ $config = array(
             'rules' => "trim|required"
         )
     ),
+    'manage_package' => array(
+        array(
+            'field' => 'package',
+            'label' => 'Package',
+            'rules' => "trim|required|callback__validate_package"
+        ),
+        array(
+            'field' => 'company',
+            'label' => 'Company',
+            'rules' => "trim|required"
+        )
+    ),
     'email_templates/manage' => array(
         array(
             'field' => 'title',

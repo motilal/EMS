@@ -168,7 +168,7 @@ class Companies extends CI_Controller {
                     $this->db->where('companies_id', $comp_id)->delete('companies_service');
                 }
                 /* end */
-                $this->session->set_flashdata("success", __('ComapanyUpdateSuccess'));
+                $this->session->set_flashdata("success", __('CompanyUpdateSuccess'));
             } else {
                 $saveData['created'] = date("Y-m-d H:i:s");
                 $this->db->insert("companies", $saveData);
@@ -189,7 +189,7 @@ class Companies extends CI_Controller {
                     }
                     $this->db->insert_batch('companies_service', $subServicesData);
                 }
-                $this->session->set_flashdata("success", __('ComapanyAddSuccess'));
+                $this->session->set_flashdata("success", __('CompanyAddSuccess'));
             }
             redirect("admin/companies");
         }
@@ -227,7 +227,7 @@ class Companies extends CI_Controller {
             $has_permission = $this->acl->has_permission('company-delete', FALSE);
             if ($has_permission === TRUE) {
                 if ($id > 0 && $this->db->where("id", $id)->update("companies", array('is_delete' => '1'))) {
-                    $response['success'] = __('ComapanyDeleteSuccess');
+                    $response['success'] = __('CompanyDeleteSuccess');
                 } else {
                     $response['error'] = __('InvalidRequest');
                 }
@@ -247,10 +247,10 @@ class Companies extends CI_Controller {
                 $status = $this->input->post('status');
                 if ($status == "1") {
                     $this->db->where("id", $id)->update("companies", array("is_active" => 0));
-                    $response['success'] = __('ComapanyInactiveSuccess');
+                    $response['success'] = __('CompanyInactiveSuccess');
                 } else if ($status == "0") {
                     $this->db->where("id", $id)->update("companies", array("is_active" => 1));
-                    $response['success'] = __('ComapanyActiveSuccess');
+                    $response['success'] = __('CompanyActiveSuccess');
                 }
             } else {
                 $response['error'] = $has_permission;
@@ -288,6 +288,113 @@ class Companies extends CI_Controller {
                 force_download($filename, $data);
             }
         }
+    }
+
+    public function manage_package($company_id = NULL) {
+        $this->load->model('package_model', 'package');
+        if ($this->input->is_ajax_request()) {
+            $this->load->library('form_validation');
+            $response = array();
+            if ($this->form_validation->run('manage_package') === TRUE) {
+                $packageDetail = $this->package->getById($this->input->post('package'));
+                if (!empty($packageDetail)) {
+                    $data = array(
+                        "companies_id" => $this->input->post('company'),
+                        "packages_id" => $this->input->post('package'),
+                        "total_leads" => $packageDetail->no_of_leads,
+                        'used_leads' => 0,
+                        'created' => date("Y-m-d H:i:s"),
+                        'is_active' => 1
+                    );
+                    $has_permission = $this->acl->has_permission('company-add-package', FALSE);
+                    if ($has_permission === TRUE) {
+                        $this->db->insert("companies_package", $data);
+                        $response['success'] = true;
+                        $response['msg'] = __('CompanyPackageAddSuccess');
+                    } else {
+                        $response['error'] = $has_permission;
+                    }
+                }
+            } else {
+                $response['validation_error'] = $this->form_validation->error_array();
+            }
+            $this->output->set_content_type('application/json')
+                    ->set_output(json_encode($response))->_display();
+            exit();
+        }
+        $this->acl->has_permission('company-manage-package');
+        $condition = array();
+        if ($company_id != "") {
+            $condition['cp.companies_id'] = $company_id;
+            $this->viewData['company_id'] = $company_id;
+        }
+        $result = $this->company->get_company_packages($condition);
+        $this->viewData['result'] = $result;
+        $this->viewData['title'] = "Manage Company Package";
+        $this->viewData['pageModule'] = 'Company Manager';
+        $this->viewData['pageHeading'] = 'Company Package';
+        $this->viewData['breadcrumb'] = array('Company Manager' => '');
+        $this->viewData['datatable_asset'] = true;
+        $this->viewData['packages_options'] = $this->package->packages_options();
+        $this->viewData['company_options'] = $this->company->company_options(true);
+        $this->layout->view("admin/company/manage_package", $this->viewData);
+    }
+
+    function _validate_package($package_id) {
+        $company_id = $this->input->post('company');
+        if (!empty($package_id) && !empty($company_id)) {
+            $checkpackage = $this->db->select('id')->where(array('packages_id' => $package_id, 'companies_id' => $company_id, '`total_leads` > `used_leads`' => NULL))->get('companies_package');
+            if ($checkpackage->num_rows() > 0) {
+                $this->form_validation->set_message('_validate_package', 'Package already added for this company.You can add new package after expiration of all running package.');
+                return FALSE;
+            } else {
+                return TRUE;
+            }
+        }
+    }
+
+    public function change_comapany_package_status() {
+        $response = array();
+        if ($this->input->is_ajax_request()) {
+            $has_permission = $this->acl->has_permission('comapny-package-status', FALSE);
+            if ($has_permission === TRUE) {
+                $id = $this->input->post('id');
+                $status = $this->input->post('status');
+                if ($status == "1") {
+                    $this->db->where("id", $id)->update("companies_package", array("is_active" => 0));
+                    $response['success'] = __('CompanyPackageInactiveSuccess');
+                } else if ($status == "0") {
+                    $this->db->where("id", $id)->update("companies_package", array("is_active" => 1));
+                    $response['success'] = __('CompanyPackageActiveSuccess');
+                }
+            } else {
+                $response['error'] = $has_permission;
+            }
+        }
+        $this->output->set_content_type('application/json')->set_output(json_encode($response));
+    }
+
+    public function delete_company_package() {
+        $response = array();
+        if ($this->input->is_ajax_request()) {
+            $id = $this->input->post('id');
+            $has_permission = $this->acl->has_permission('company-package-delete', FALSE);
+            if ($has_permission === TRUE) {
+                $used_leads = $this->db->select('used_leads')->where("id", $id)->get('companies_package')->row();
+                if (isset($used_leads->used_leads) && $used_leads->used_leads == 0) {
+                    if ($id > 0 && $this->db->where("id", $id)->delete("companies_package")) {
+                        $response['success'] = __('CompanyDeleteSuccess');
+                    } else {
+                        $response['error'] = __('InvalidRequest');
+                    }
+                } else {
+                    $response['error'] = __('CompanyPackageDeleteRestrict');
+                }
+            } else {
+                $response['error'] = $has_permission;
+            }
+        }
+        $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
 
 }
