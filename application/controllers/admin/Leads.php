@@ -16,12 +16,23 @@ class Leads extends CI_Controller {
         $this->site_santry->redirect = "admin";
         $this->site_santry->allow(array());
         $this->layout->set_layout("admin/layout/layout_admin");
-        $this->load->model(array("lead_model" => 'lead'));
+        $this->load->model(array("lead_model" => 'lead', 'portal_model' => 'portal'));
     }
 
-    public function index() {
+    public function index($type = 'inbox', $portal_id = '') {
         $this->acl->has_permission('lead-index');
         $condition = array('led.is_delete' => '0');
+        if ($portal_id != "") {
+            $condition['led.portals_id'] = $portal_id;
+            $portalDetail = $this->portal->getById($portal_id);
+        }
+        if ($type == 'remaining') {
+            $condition['led.status'] = 0;
+        } else if ($type == 'sent') {
+            $condition['led.status'] = 1;
+        }
+        $this->viewData['type'] = $type;
+        $this->viewData['portal_id'] = isset($portal_id) ? $portal_id : '';
         if ($this->input->is_ajax_request()) {
             $orderColomn = array(1 => 'portal_name', 2 => 'record_id', 3 => 'led.name', 4 => 'led.email', 5 => 'led.phone_number', 6 => 'led.is_active');
             $params = dataTableGetRequest($this->input->get(), $orderColomn);
@@ -45,11 +56,38 @@ class Leads extends CI_Controller {
             $this->viewData['result'] = $this->showTableData($result->data->result());
         }
         $this->viewData['title'] = "Manage Leads";
-        $this->viewData['pageModule'] = 'Leads Manager';
+        if (isset($portalDetail->name)) {
+            $this->viewData['pageModule'] = 'Leads Manager (' . $portalDetail->name . ')';
+        } else {
+            $this->viewData['pageModule'] = 'Leads Manager';
+        }
         $this->viewData['pageHeading'] = 'Leads';
-        $this->viewData['breadcrumb'] = array('Leads Manager' => '');
+        $this->viewData['breadcrumb'] = array('Leads Manager' => 'admin/portals', 'Lead ' . ucfirst($type) => '');
         $this->viewData['datatable_asset'] = true;
         $this->layout->view("admin/lead/index", $this->viewData);
+    }
+
+    private function showTableData($data) {
+        $resultData = array();
+        if ($data != "") {
+            foreach ($data as $key => $row) {
+                $rowData = array();
+                $rowData[0] = getPageSerial($this->input->get('length'), $this->input->get('start'), $key);
+                $rowData[1] = $row->portal_name;
+                $rowData[2] = $row->record_id;
+                $rowData[3] = $row->name;
+                $rowData[4] = $row->email;
+                $rowData[5] = $row->phone_number;
+                $rowData[6] = $row->status == 0 ? '<span class="text-red">Pending<span>' : '<span class="text-green">Sent</span>';
+                $rowData[7] = $this->layout->element('admin/element/_module_status', array('status' => $row->is_active, 'id' => $row->id, 'url' => "admin/leads/changestatus", 'permissionKey' => "lead-status"), true);
+                $editUrl = 'admin/leads/manage/' . $row->id;
+                $viewUrl = 'admin/leads/view/' . $row->id;
+                $deleteUrl = 'admin/leads/delete';
+                $rowData[8] = $this->layout->element('admin/element/_module_action', array('id' => $row->id, 'editUrl' => $editUrl, 'deleteUrl' => $deleteUrl, 'viewUrl' => $viewUrl, 'editPermissionKey' => 'lead-edit', 'deletePermissionKey' => 'lead-delete'), true);
+                $resultData[] = $rowData;
+            }
+        }
+        return $resultData;
     }
 
     public function manage($id = null) {
@@ -155,22 +193,186 @@ class Leads extends CI_Controller {
         $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
 
-    private function showTableData($data) {
+    public function leads_sent_history($portal_id = NULL) {
+        $this->acl->has_permission('lead-sent-history');
+        $condition = array('leads.is_delete' => '0');
+        if ($portal_id != "") {
+            $condition['leads.portals_id'] = $portal_id;
+            $portalDetail = $this->portal->getById($portal_id);
+        }
+        $this->viewData['portal_id'] = isset($portal_id) ? $portal_id : '';
+        if ($this->input->is_ajax_request()) {
+            $orderColomn = array(1 => 'portal_name', 2 => 'record_id', 3 => 'led.name', 4 => 'led.email', 5 => 'led.phone_number', 6 => 'led.is_active');
+            $params = dataTableGetRequest($this->input->get(), $orderColomn);
+            if (!empty($params->search)) {
+                $keyword = $this->db->escape_str($params->search);
+                $condition["(companies.name like '{$keyword}' OR leads.record_id like '{$keyword}' OR leads.email like '%{$keyword}%' OR leads.phone_number like '%{$keyword}%' OR leads.name like '%{$keyword}%' OR leads.location like '%{$keyword}%' OR leads.message like '%{$keyword}%')"] = null;
+            }
+            $result = $this->lead->get_leads_sent_history($condition, $params->limit, $params->order, TRUE);
+            if ($result->data->num_rows() > 0) {
+                $response['data'] = $this->showLeadSentTableData($result->data->result());
+            } else {
+                $response['data'] = array();
+            }
+            $response['recordsFiltered'] = $response['recordsTotal'] = $result->num_rows;
+            $this->output->set_content_type('application/json')->set_output(json_encode($response))->_display();
+            exit();
+        }
+
+        $result = $this->lead->get_leads_sent_history($condition, array('start' => 0, 'limit' => $this->per_page), '', TRUE);
+        if ($result->data->num_rows() > 0) {
+            $this->viewData['result'] = $this->showLeadSentTableData($result->data->result());
+        }
+        $this->viewData['title'] = "Leads Sent History";
+        if (isset($portalDetail->name)) {
+            $this->viewData['pageModule'] = 'Leads Manager (' . $portalDetail->name . ')';
+        } else {
+            $this->viewData['pageModule'] = 'Leads Manager';
+        }
+        $this->viewData['pageHeading'] = 'Leads Sent History';
+        $this->viewData['breadcrumb'] = array('Leads Manager' => 'admin/portals', 'Lead Sent History' => '');
+        $this->viewData['datatable_asset'] = true;
+        $this->layout->view("admin/lead/leads_sent_history", $this->viewData);
+    }
+
+    public function leads_return_history($portal_id = NULL) {
+        $this->acl->has_permission('lead-return-history');
+        $condition = array('leads.is_delete' => '0');
+        if ($portal_id != "") {
+            $condition['leads.portals_id'] = $portal_id;
+            $portalDetail = $this->portal->getById($portal_id);
+        }
+        $this->viewData['portal_id'] = isset($portal_id) ? $portal_id : '';
+        if ($this->input->is_ajax_request()) {
+            $orderColomn = array(1 => 'companies.name', 2 => 'leads.name', 3 => 'leads.phone_number', 4 => 'leads.message', 5 => 'approve_date', 6 => 'approve_by', 7 => 'approve_status');
+            $params = dataTableGetRequest($this->input->get(), $orderColomn);
+            if (!empty($params->search)) {
+                $keyword = $this->db->escape_str($params->search);
+                $condition["(companies.name like '{$keyword}' OR leads.record_id like '{$keyword}' OR leads.email like '%{$keyword}%' OR leads.phone_number like '%{$keyword}%' OR leads.name like '%{$keyword}%' OR leads.location like '%{$keyword}%' OR lrh.reason like '%{$keyword}%' OR leads.message like '%{$keyword}%')"] = null;
+            }
+            $result = $this->lead->get_leads_return_history($condition, $params->limit, $params->order, TRUE);
+            if ($result->data->num_rows() > 0) {
+                $response['data'] = $this->showLeadReturnTableData($result->data->result());
+            } else {
+                $response['data'] = array();
+            }
+            $response['recordsFiltered'] = $response['recordsTotal'] = $result->num_rows;
+            $this->output->set_content_type('application/json')->set_output(json_encode($response))->_display();
+            exit();
+        }
+
+        $result = $this->lead->get_leads_return_history($condition, array('start' => 0, 'limit' => $this->per_page), '', TRUE);
+        if ($result->data->num_rows() > 0) {
+            $this->viewData['result'] = $this->showLeadReturnTableData($result->data->result());
+        }
+        $this->viewData['title'] = "Leads Return History";
+        if (isset($portalDetail->name)) {
+            $this->viewData['pageModule'] = 'Leads Manager (' . $portalDetail->name . ')';
+        } else {
+            $this->viewData['pageModule'] = 'Leads Manager';
+        }
+        $this->viewData['pageHeading'] = 'Leads Sent History';
+        $this->viewData['breadcrumb'] = array('Leads Manager' => 'admin/portals', 'Lead Return History' => '');
+        $this->viewData['datatable_asset'] = true;
+        $this->layout->view("admin/lead/leads_return_history", $this->viewData);
+    }
+
+    public function add_lead_return_request() {
+        $this->acl->has_permission('add-lead-return-request');
+        if ($this->input->post()) {
+            $this->load->library('form_validation');
+            if ($this->form_validation->run('add_lead_return_request') === TRUE) {
+                $data = array(
+                    'companies_id' => $this->input->post('company'),
+                    'leads_id' => $this->input->post('package'),
+                    'reason' => $this->input->post('reason'),
+                    'approve_status' => 0,
+                    'created' => date("Y-m-d H:i:s")
+                );
+                $this->db->insert("leads_return_history", $data);
+                $this->session->set_flashdata("success", __('LeadRequestRequestAddSuccess'));
+            }
+        }
+        $this->viewData['result'] = $result;
+        $this->viewData['title'] = "Manage Company Package";
+        $this->viewData['pageModule'] = 'Company Manager';
+        $this->viewData['pageHeading'] = 'Company Package';
+        $this->viewData['breadcrumb'] = array('Company Manager' => '');
+        $this->viewData['datatable_asset'] = true;
+        $this->viewData['packages_options'] = $this->package->packages_options();
+        $this->viewData['company_options'] = $this->company->company_options(true);
+        $this->layout->view("admin/company/manage_package", $this->viewData);
+    }
+
+    function resend_lead($lead_id = "") {
+        if (is_numeric($lead_id) && $lead_id > 0) {
+            $this->session->set_flashdata("success", __('LeadResendSuccess'));
+            redirect('admin/leads/leads_sent_history');
+        }
+    }
+
+    function approve_return_lead($lead_reaturn_history_id = "") {
+        if (is_numeric($lead_reaturn_history_id) && $lead_reaturn_history_id > 0) {
+            $has_permission = $this->acl->has_permission('approve-return-lead', FALSE);
+            if ($has_permission === TRUE) {
+                $lead_reaturn_history_sql = $this->db->select('id')->get_where('leads_return_history', array('id' => $lead_reaturn_history_id, 'approve_status' => 0));
+                if ($lead_reaturn_history_sql->num_rows() > 0) {
+                    if ($this->db->update("leads_return_history", array('approve_status' => 1, 'approve_by' => $this->ion_auth->get_user_id()), array("id" => $lead_reaturn_history_id))) {
+                        $this->session->set_flashdata("success", __('LeadReturnApproveSuccess'));
+                    }
+                } else {
+                    $this->session->set_flashdata("error", __('LinkExpired'));
+                }
+            }
+
+            redirect('admin/leads/leads_return_history');
+        }
+    }
+
+    private function showLeadSentTableData($data) {
         $resultData = array();
         if ($data != "") {
             foreach ($data as $key => $row) {
                 $rowData = array();
                 $rowData[0] = getPageSerial($this->input->get('length'), $this->input->get('start'), $key);
-                $rowData[1] = $row->portal_name;
-                $rowData[2] = $row->record_id;
-                $rowData[3] = $row->name;
-                $rowData[4] = $row->email;
-                $rowData[5] = $row->phone_number;
-                $rowData[6] = $this->layout->element('admin/element/_module_status', array('status' => $row->is_active, 'id' => $row->id, 'url' => "admin/leads/changestatus", 'permissionKey' => "lead-status"), true);
-                $editUrl = 'admin/leads/manage/' . $row->id;
-                $viewUrl = 'admin/leads/view/' . $row->id;
-                $deleteUrl = 'admin/leads/delete';
-                $rowData[7] = $this->layout->element('admin/element/_module_action', array('id' => $row->id, 'editUrl' => $editUrl, 'deleteUrl' => $deleteUrl, 'viewUrl' => $viewUrl, 'editPermissionKey' => 'lead-edit', 'deletePermissionKey' => 'lead-delete'), true);
+                $rowData[1] = $row->company_name;
+                $rowData[2] = $row->lead_name;
+                $rowData[3] = $row->phone_number;
+                $rowData[4] = $row->message;
+                $rowData[5] = date(DATETIME_FORMATE, strtotime($row->created));
+                $rowData[6] = '';
+                if ($row->lead_sent_status == 1) {
+                    $rowData[6] = '<span class="text-green">Sent<span>';
+                    $rowData[7] = '<a class="label label-success resend-lead" href="' . site_url("admin/leads/resend_lead/{$row->leads_id}") . '">Resend</a>';
+                } else if ($row->lead_sent_status == 2) {
+                    $rowData[6] = '<span class="text-red">Return<span>';
+                    $rowData[7] = '-';
+                }
+                $resultData[] = $rowData;
+            }
+        }
+        return $resultData;
+    }
+
+    private function showLeadReturnTableData($data) {
+        $resultData = array();
+        if ($data != "") {
+            foreach ($data as $key => $row) {
+                $rowData = array();
+                $rowData[0] = getPageSerial($this->input->get('length'), $this->input->get('start'), $key);
+                $rowData[1] = $row->company_name;
+                $rowData[2] = $row->lead_name;
+                $rowData[3] = $row->phone_number;
+                $rowData[4] = $row->reason;
+                $rowData[5] = $row->approve_date != "" ? date(DATETIME_FORMATE, strtotime($row->approve_date)) : '-';
+                $approve_by = $this->common->getUserName($row->approve_by);
+                $rowData[6] = $approve_by != "" ? $approve_by : '-';
+                $rowData[7] = '';
+                if ($row->approve_status == 1) {
+                    $rowData[7] = '<span class="text-green">Approved<span>';
+                } else {
+                    $rowData[7] = '<div class="text-yellow text-sm">Pending</div><a class="label label-danger approve-return-lead" href="' . site_url("admin/leads/approve_return_lead/{$row->lead_reaturn_history_id}") . '">Approve</a>';
+                }
                 $resultData[] = $rowData;
             }
         }

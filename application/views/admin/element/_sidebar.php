@@ -109,16 +109,13 @@ $user_permissions = $this->session->userdata('_subadmin_module_permissions');
                 </li>
             <?php } ?>
 
-
-            <?php if (is_allow_module('lead')) { ?>    
-                <li class="<?php echo $segment_cntr == 'leads' ? 'active' : ''; ?>">
-                    <a href="<?php echo site_url('admin/leads'); ?>">
-                        <i class="fa fa-inbox"></i> <span>Lead Inbox</span> 
+            <?php if (is_allow_module('lead') && is_allow_module('portal')) { ?>    
+                <li class="<?php echo in_array($segment_cntr, array('leads', 'portals')) ? 'active' : ''; ?>">
+                    <a href="<?php echo site_url('admin/portals'); ?>">
+                        <i class="fa fa-inbox"></i> <span>Manage Leads</span> 
                     </a>
                 </li>
-            <?php } ?>
-
-
+            <?php } ?> 
 
             <?php if (is_allow_module('email templates')) { ?>    
                 <li class="<?php echo $segment_cntr == 'email_templates' ? 'active' : ''; ?>">

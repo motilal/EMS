@@ -67,6 +67,13 @@ $config = array(
             'rules' => "trim|required|max_length[255]"
         )
     ),
+    'portals/manage' => array(
+        array(
+            'field' => 'name',
+            'label' => 'Name',
+            'rules' => "trim|required|max_length[255]"
+        )
+    ),
     'leads/manage' => array(
         array(
             'field' => 'name',

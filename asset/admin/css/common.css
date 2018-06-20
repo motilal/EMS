@@ -23,6 +23,9 @@
 .add_new_item{
     margin-right: 5px;
 }
+.add_new_tab_item{
+    margin: 3px 2px 0 0;
+}
 .box-header{
     border-bottom: 1px solid #eaf0ea;
 }
