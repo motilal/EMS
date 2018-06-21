@@ -1,0 +1,33 @@
+LEad manage
+
+ 
+
+source url - 
+
+Service type - ref 
+City 
+date
+
+package dynamic 
+
+email 
+portal  
+
+
+city 
+service
+no duplicate 
+
+company phone
+
+ref url - portal
+
+Company change 
+Company Name 
+Company owner - inside 
+city service phone bahar 
+pakcage inavtie date phone
+
+phone number mandatory 
+service mendaty 
+limit per day
