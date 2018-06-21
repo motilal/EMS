@@ -10,7 +10,7 @@
                 <?php if (is_allow_action('add-lead')) { ?>
                     <div style="width: 100%;">
                         <div class="btn-group" data-toggle="btn-toggle">
-                            <a href="#<?php //echo site_url('admin/leads/add_lead_return_request'); ?>" class="btn btn-primary btn-sm add_new_tab_item"><i class="fa fa-plus"></i> Add New Lead</a>
+                            <a href="#<?php //echo site_url('admin/leads/add_lead_return_request');   ?>" class="btn btn-primary btn-sm add_new_tab_item"><i class="fa fa-plus"></i> Add New Lead</a>
                         </div>
                     </div> 
                 <?php } ?> 
@@ -20,7 +20,7 @@
                 <?php if (is_allow_action('send-lead')) { ?>
                     <div style="width: 100%;">
                         <div class="btn-group" data-toggle="btn-toggle">
-                            <a href="#<?php //echo site_url('admin/leads/add_lead_return_request'); ?>" class="btn btn-primary btn-sm add_new_tab_item"><i class="fa fa-plus"></i> Send Lead Manual</a>
+                            <a href="#<?php //echo site_url('admin/leads/add_lead_return_request');   ?>" class="btn btn-primary btn-sm add_new_tab_item"><i class="fa fa-plus"></i> Send Lead Manual</a>
                         </div>
                     </div> 
                 <?php } ?> 
@@ -34,11 +34,11 @@
                     <thead>
                         <tr> 
                             <td>Sr.</td>
-                            <th>Portal</th>
-                            <th>Ref Id</th>
                             <th>Name</th>
-                            <th>Email</th>
                             <th>Phone Number</th>
+                            <th>Service Type</th>  
+                            <th>City</th> 
+                            <th>Date</th>
                             <th>Sent Status</th>
                             <th>Approve Status</th>
                             <th>Action</th>

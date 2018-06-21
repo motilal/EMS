@@ -34,7 +34,7 @@ class Leads extends CI_Controller {
         $this->viewData['type'] = $type;
         $this->viewData['portal_id'] = isset($portal_id) ? $portal_id : '';
         if ($this->input->is_ajax_request()) {
-            $orderColomn = array(1 => 'portal_name', 2 => 'record_id', 3 => 'led.name', 4 => 'led.email', 5 => 'led.phone_number', 6 => 'led.is_active');
+            $orderColomn = array(1 => 'led.name', 2 => 'led.phone_number', 3 => 'service_name', 4 => 'led.city', 5 => 'led.date', 6 => 'led.status', 7 => 'led.is_active');
             $params = dataTableGetRequest($this->input->get(), $orderColomn);
             if (!empty($params->search)) {
                 $keyword = $this->db->escape_str($params->search);
@@ -73,11 +73,11 @@ class Leads extends CI_Controller {
             foreach ($data as $key => $row) {
                 $rowData = array();
                 $rowData[0] = getPageSerial($this->input->get('length'), $this->input->get('start'), $key);
-                $rowData[1] = $row->portal_name;
-                $rowData[2] = $row->record_id;
-                $rowData[3] = $row->name;
-                $rowData[4] = $row->email;
-                $rowData[5] = $row->phone_number;
+                $rowData[1] = $row->name;
+                $rowData[2] = $row->phone_number;
+                $rowData[3] = $row->service_name;
+                $rowData[4] = $row->city;                
+                $rowData[5] = $row->date;
                 $rowData[6] = $row->status == 0 ? '<span class="text-red">Pending<span>' : '<span class="text-green">Sent</span>';
                 $rowData[7] = $this->layout->element('admin/element/_module_status', array('status' => $row->is_active, 'id' => $row->id, 'url' => "admin/leads/changestatus", 'permissionKey' => "lead-status"), true);
                 $editUrl = 'admin/leads/manage/' . $row->id;

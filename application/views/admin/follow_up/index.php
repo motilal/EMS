@@ -69,5 +69,5 @@
      3 default paging
      4 show sr. number or not
      */
-    var datatbl = datatable_init([0, 9], [[1, 'asc']], DEFAULT_PAGING, 1);
+    var datatbl = datatable_init([0, 8], [[1, 'asc']], DEFAULT_PAGING, 1);
 </script>

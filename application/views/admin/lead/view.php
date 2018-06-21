@@ -10,6 +10,12 @@
                                 <th>Portal Name</th>
                                 <td colspan="4"><?php echo $data->portal_name; ?></td>
                             </tr>
+                            <?php if (!empty($data->record_id)): ?>
+                                <tr>
+                                    <th>Reference Id</th>
+                                    <td colspan="4"><?php echo $data->record_id; ?></td>
+                                </tr>
+                            <?php endif; ?>
                             <?php if (!empty($data->service_name)): ?>
                                 <tr>
                                     <th>Service Type</th>
