@@ -26,7 +26,7 @@ class Leads extends CI_Controller {
             $condition['led.portals_id'] = $portal_id;
             $portalDetail = $this->portal->getById($portal_id);
         }
-        if ($type == 'remaining') {
+        if ($type == 'pending') {
             $condition['led.status'] = 0;
         } else if ($type == 'sent') {
             $condition['led.status'] = 1;
@@ -125,7 +125,7 @@ class Leads extends CI_Controller {
                 $this->db->insert("leads", $data);
                 $this->session->set_flashdata("success", __('LeadAddSuccess'));
             }
-            redirect("admin/leads");
+            redirect("admin/leads/index/inbox/" . $this->input->post('portals_id'));
         }
 
         $this->viewData['ckeditor_asset'] = true;
@@ -278,33 +278,43 @@ class Leads extends CI_Controller {
     }
 
     public function add_lead_return_request() {
-        $this->acl->has_permission('add-lead-return-request');
+        $has_permission = $this->acl->has_permission('add-lead-return-request', FALSE);
+        if ($has_permission === TRUE) {
         if ($this->input->post()) {
             $this->load->library('form_validation');
             if ($this->form_validation->run('add_lead_return_request') === TRUE) {
+                    $lead_sent_history_sql = $this->db->select('id,leads_id,companies_id')->get_where('leads_sent_history', array('id' => (int) $this->input->post('id'), 'status' => 1));
+                    if ($lead_sent_history_sql->num_rows() > 0) {
+                        $lead_sent_history_row = $lead_sent_history_sql->row();
                 $data = array(
-                    'companies_id' => $this->input->post('company'),
-                    'leads_id' => $this->input->post('package'),
+                            'companies_id' => $lead_sent_history_row->companies_id,
+                            'leads_id' => $lead_sent_history_row->leads_id,
+                            'leads_sent_history_id' => $lead_sent_history_row->id,
                     'reason' => $this->input->post('reason'),
                     'approve_status' => 0,
                     'created' => date("Y-m-d H:i:s")
                 );
                 $this->db->insert("leads_return_history", $data);
-                $this->session->set_flashdata("success", __('LeadRequestRequestAddSuccess'));
+                        if ($this->db->update("leads_sent_history", array('status' => 2), array("id" => $lead_sent_history_row->id))) {
+                            $response['success'] = true;
+                            $response['msg'] = __('LeadRequestRequestAddSuccess');
             }
+                    } else {
+                        $response['error'] = 'Something error.';
         }
-        $this->viewData['result'] = $result;
-        $this->viewData['title'] = "Manage Company Package";
-        $this->viewData['pageModule'] = 'Company Manager';
-        $this->viewData['pageHeading'] = 'Company Package';
-        $this->viewData['breadcrumb'] = array('Company Manager' => '');
-        $this->viewData['datatable_asset'] = true;
-        $this->viewData['packages_options'] = $this->package->packages_options();
-        $this->viewData['company_options'] = $this->company->company_options(true);
-        $this->layout->view("admin/company/manage_package", $this->viewData);
+                } else {
+                    $response['validation_error'] = $this->form_validation->error_array();
+    }
+            }
+        } else {
+            $response['error'] = $has_permission;
+        }
+        $this->output->set_content_type('application/json')
+                ->set_output(json_encode($response))->_display();
+        exit();
     }
 
-    function resend_lead($lead_id = "") {
+    function resend_lead($leads_sent_history_id = "") {
         if (is_numeric($lead_id) && $lead_id > 0) {
             $this->session->set_flashdata("success", __('LeadResendSuccess'));
             redirect('admin/leads/leads_sent_history');
@@ -315,9 +325,13 @@ class Leads extends CI_Controller {
         if (is_numeric($lead_reaturn_history_id) && $lead_reaturn_history_id > 0) {
             $has_permission = $this->acl->has_permission('approve-return-lead', FALSE);
             if ($has_permission === TRUE) {
-                $lead_reaturn_history_sql = $this->db->select('id')->get_where('leads_return_history', array('id' => $lead_reaturn_history_id, 'approve_status' => 0));
+                $lead_reaturn_history_sql = $this->db->select('id,leads_sent_history_id')->get_where('leads_return_history', array('id' => $lead_reaturn_history_id, 'approve_status' => 0));
                 if ($lead_reaturn_history_sql->num_rows() > 0) {
-                    if ($this->db->update("leads_return_history", array('approve_status' => 1, 'approve_by' => $this->ion_auth->get_user_id()), array("id" => $lead_reaturn_history_id))) {
+                    if ($this->db->update("leads_return_history", array('approve_status' => 1, 'approve_by' => $this->ion_auth->get_user_id(), 'approve_date' => date('Y-m-d H:i:s')), array("id" => $lead_reaturn_history_id))) {
+                        $lead_reaturn_history_row = $lead_reaturn_history_sql->row();
+                        /* decrement package lead counter */
+                        $companies_package_id = $this->db->select('companies_package_id')->where(array('id' => $lead_reaturn_history_row->leads_sent_history_id))->get('leads_sent_history')->row()->companies_package_id;
+                        $this->db->where(array("id" => $companies_package_id))->set('total_leads', 'total_leads-1', FALSE)->update("companies_package");
                         $this->session->set_flashdata("success", __('LeadReturnApproveSuccess'));
                     }
                 } else {
@@ -343,7 +357,8 @@ class Leads extends CI_Controller {
                 $rowData[6] = '';
                 if ($row->lead_sent_status == 1) {
                     $rowData[6] = '<span class="text-green">Sent<span>';
-                    $rowData[7] = '<a class="label label-success resend-lead" href="' . site_url("admin/leads/resend_lead/{$row->leads_id}") . '">Resend</a>';
+                    $rowData[7] = '<a class="label label-success resend-lead" href="' . site_url("admin/leads/resend_lead/{$row->leads_sent_history_id}") . '">Resend</a>&nbsp'
+                            . '<a class="label label-danger return-lead" href="#" data-id="' . $row->leads_sent_history_id . '" data-toggle="modal" data-target="#modal-return-lead">Return</a>';
                 } else if ($row->lead_sent_status == 2) {
                     $rowData[6] = '<span class="text-red">Return<span>';
                     $rowData[7] = '-';

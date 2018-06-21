@@ -47,6 +47,37 @@
     <!-- /.col -->
 </div> 
 
+<div class="modal fade" id="modal-return-lead">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <?php echo form_open('admin/leads/add_lead_return_request', array("id" => "manage-form", "method" => "post")); ?>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Generate Lead Return Request</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label class="control-label" for="name">Reason <em>*</em></label>
+                            <?php echo form_textarea("reason", '', "id='reason' class='form-control' style='height:100px;'"); ?>
+                        </div>  
+                        <?php echo form_hidden('id'); ?> 
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer"> 
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            <?php echo form_close(); ?> 
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 <script>
     var current_url = '<?php echo current_url(); ?>';
     /*
@@ -62,4 +93,53 @@
         }
         e.preventDefault();
     });
+
+
+    $('#manage-form').submit(function (e) {
+        var _this = $(this);
+        _this.find("[type='submit']").prop('disabled', true);
+        $('.form-group .help-block').remove();
+        $('.form-group').removeClass('has-error');
+        e.preventDefault();
+        $.ajax({
+            url: _this.attr('action'),
+            type: "POST",
+            data: $('#manage-form').serialize(),
+            success: function (res)
+            {
+                _this.find("[type='submit']").prop('disabled', false);
+                if (res.validation_error) {
+                    $.each(res.validation_error, function (index, value) {
+                        var elem = _this.find('[name="' + index + '"]');
+                        var error = '<div class="help-block">' + value + '</div>';
+                        elem.closest('.form-group').append(error);
+                        elem.closest('.form-group').addClass('has-error');
+                    });
+                } else if (res.success && res.msg) {
+                    showMessage('success', {message: res.msg});
+                    $('#modal-manage').modal('hide');
+                    location.reload();
+                } else if (res.error) {
+                    showMessage('error', {message: res.error});
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                _this.find("[type='submit']").prop('disabled', false);
+                showMessage('error', 'Internal error: ' + jqXHR.responseText);
+            }
+        });
+    });
+    $('#modal-manage').on('hidden.bs.modal', function (e) {
+        $('.form-group .help-block').remove();
+        $('.form-group').removeClass('has-error');
+        $('#manage-form')[0].reset();
+        $('#manage-form').find('[name="id"]').val('');
+    });
+    $(document).on('click', 'a.return-lead', function (e) {
+        e.preventDefault();
+        var id = $(this).data('id');
+        $('#manage-form').find('[name="id"]').val(id);
+        $('#modal-manage').modal('show');
+    });
+
 </script>
