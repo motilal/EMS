@@ -5,6 +5,9 @@ $segment_fun = $this->uri->segment(3);
 $companyIndex = ($segment_cntr == 'companies' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
 $companyManagePackage = ($segment_cntr == 'companies' && $segment_fun == 'manage_package') ? 'active' : '';
 
+$packageIndex = ($segment_cntr == 'packages' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
+$packagetypeIndex = ($segment_cntr == 'package_types' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
+
 $settingIndex = ($segment_cntr == 'settings' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
 $settingProfile = ($segment_cntr == 'settings' && $segment_fun == 'profile') ? 'active' : '';
 $logIndex = ($segment_cntr == 'logs') ? 'active' : '';
@@ -68,14 +71,21 @@ $user_permissions = $this->session->userdata('_subadmin_module_permissions');
                 </li>
             <?php } ?>  
 
-            <?php if (is_allow_module('package')) { ?>    
-                <li class="<?php echo $segment_cntr == 'packages' ? 'active' : ''; ?>">
-                    <a href="<?php echo site_url('admin/packages'); ?>">
-                        <i class="fa fa-shopping-cart"></i> <span>Package</span> 
+            <?php if (is_allow_module('package') || is_allow_module('package_type')) { ?>  
+                <li class="treeview <?php echo in_array($segment_cntr, array('packages', 'package_types')) ? 'active menu-open' : ''; ?>">
+                    <a href="#">
+                        <i class="fa fa-building"></i>
+                        <span>Package Manager</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
                     </a>
+                    <ul class="treeview-menu" style="display:<?php echo in_array($segment_cntr, array('packages', 'package_types')) ? 'block' : 'none'; ?>;">
+                        <li class="<?php echo $packageIndex; ?>"><a href="<?php echo site_url('admin/packages'); ?>"><i class="fa fa-shopping-cart"></i> Manage Package</a></li>
+                        <li class="<?php echo $packagetypeIndex; ?>"><a href="<?php echo site_url('admin/package_types'); ?>"><i class="fa fa-th-large"></i> Package Type</a></li> 
+                    </ul>
                 </li>
             <?php } ?>
-
 
             <?php if (is_allow_module('service')) { ?>    
                 <li class="<?php echo $segment_cntr == 'servicetypes' ? 'active' : ''; ?>">

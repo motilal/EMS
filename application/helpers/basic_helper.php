@@ -128,6 +128,25 @@ if (!function_exists('create_unique_slug')) {
 
 }
 
+if (!function_exists('validate_is_unique')) {
+
+    function validate_is_unique($table = "", $condition = []) {
+        $CI = & get_instance();
+        if ($table == "")
+            return FALSE;
+        $CI->db->select('id');
+        if (!empty($condition) || $condition != "") {
+            $CI->db->where($condition);
+        }
+        $data = $CI->db->get($table);
+        if ($data->num_rows() > 0)
+            return TRUE;
+        else
+            return FALSE;
+    }
+
+}
+
 /**
  * 
  * @param type $string

@@ -7,7 +7,17 @@ $config = array(
         array(
             'field' => 'name',
             'label' => 'Company Name',
-            'rules' => "trim|required|max_length[255]"
+            'rules' => "trim|required|max_length[255]|callback__is_unique_company_name"
+        ),
+        array(
+            'field' => 'phone1',
+            'label' => 'Phone Number',
+            'rules' => "trim|required|max_length[20]|callback__is_unique_company_phone"
+        ),
+        array(
+            'field' => 'servicetypes_id',
+            'label' => 'Service',
+            'rules' => "trim|required"
         )
     ),
     'groups/manage' => array(
@@ -64,7 +74,14 @@ $config = array(
         array(
             'field' => 'name',
             'label' => 'Name',
-            'rules' => "trim|required|max_length[255]"
+            'rules' => "trim|required|max_length[255]|callback__is_unique_city_name"
+        )
+    ),
+    'package_types/manage' => array(
+        array(
+            'field' => 'name',
+            'label' => 'Name',
+            'rules' => "trim|required|max_length[255]|callback__is_unique_package_type_name"
         )
     ),
     'portals/manage' => array(
@@ -95,6 +112,18 @@ $config = array(
         array(
             'field' => 'company',
             'label' => 'Company',
+            'rules' => "trim|required"
+        )
+    ),
+    'add_lead_return_request' => array(
+        array(
+            'field' => 'reason',
+            'label' => 'Reason',
+            'rules' => "trim|required"
+        ),
+        array(
+            'field' => 'id',
+            'label' => 'leads sent history id',
             'rules' => "trim|required"
         )
     ),

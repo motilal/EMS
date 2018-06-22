@@ -397,4 +397,30 @@ class Companies extends CI_Controller {
         $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
 
+    function _is_unique_company_name($str) {
+        $condition = array('is_delete' => '0', 'name' => $str);
+        if ($this->input->post('id') != "") {
+            $condition['id !='] = $this->input->post('id');
+}
+        if (validate_is_unique('companies', $condition)) {
+            $this->form_validation->set_message('_is_unique_company_name', 'The Company name already exist.');
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    }
+
+    function _is_unique_company_phone($str) {
+        $condition = array('is_delete' => '0', 'phone1' => $str);
+        if ($this->input->post('id') != "") {
+            $condition['id !='] = $this->input->post('id');
+        }
+        if (validate_is_unique('companies', $condition)) {
+            $this->form_validation->set_message('_is_unique_company_phone', 'The Phone number already exist.');
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    }
+
 }

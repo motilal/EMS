@@ -46,7 +46,7 @@
                                         <td><?php echo $row->duration; ?></td>
                                         <td><?php echo $row->amount; ?></td>
                                         <td><?php echo $row->no_of_leads; ?></td>
-                                        <td><?php echo isset($package_type[$row->package_type]) ? $package_type[$row->package_type] : ''; ?></td>
+                                        <td><?php echo $row->package_type_name; ?></td>
                                         <td>
                                             <?php echo $this->layout->element('admin/element/_module_status', array('status' => $row->is_active, 'id' => $row->id, 'url' => "admin/packages/changestatus", 'permissionKey' => "package-status"), true); ?>
                                         </td>

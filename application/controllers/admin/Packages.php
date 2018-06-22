@@ -16,7 +16,7 @@ class Packages extends CI_Controller {
         parent::__construct();
         $this->site_santry->redirect = "admin";
         $this->site_santry->allow(array());
-        $this->load->model(array('package_model' => 'package'));
+        $this->load->model(array('package_model' => 'package', 'package_type_model' => 'package_type'));
         $this->layout->set_layout("admin/layout/layout_admin");
         $this->viewData['pageModule'] = 'Package Manager';
     }
@@ -55,7 +55,7 @@ class Packages extends CI_Controller {
         if ($this->form_validation->run() === TRUE) {
             $saveData = array(
                 "name" => $this->input->post('name'),
-                "package_type" => $this->input->post('package_type'),
+                "package_types_id" => $this->input->post('package_type'),
                 "duration" => $this->input->post('duration'),
                 "amount" => $this->input->post('amount'),
                 "no_of_leads" => $this->input->post('no_of_leads'),
@@ -114,6 +114,7 @@ class Packages extends CI_Controller {
         if ($id > 0 && !empty($detail->servicetypes_id)) {
             $this->viewData['services_options'] = $this->service->services_options($detail->servicetypes_id);
         }
+        $this->viewData['package_types_options'] = $this->package_type->package_types_options();
         $this->viewData['pageModule'] = 'Add New Package';
         $this->viewData['breadcrumb'] = array('Package Manager' => 'admin/packages', $this->viewData['title'] => '');
         $this->layout->view("admin/package/manage", $this->viewData);
@@ -159,13 +160,10 @@ class Packages extends CI_Controller {
     }
 
     public function view($id = null) {
-        $this->viewData['data'] = $data = $this->package->getById($id);
+        $this->viewData['data'] = $data = $this->package->getById($id, $join = true);
         if (empty($data)) {
             show_404();
         }
-        $this->load->model('servicetype_model', 'servicetype');
-        $serviceDetail = $this->servicetype->getById($data->servicetypes_id);
-        $data->service_name = isset($serviceDetail->name) ? $serviceDetail->name : '';
         $this->viewData['package_services'] = $this->package->get_package_services($id);
         $this->viewData['title'] = "Package Detail";
         $this->viewData['pageModule'] = 'Package Detail';

@@ -9,7 +9,7 @@
                             <?php $package_types = $this->config->item('package_type'); ?>
                             <tr>
                                 <th>Package Type</th>
-                                <td colspan="4"><?php echo isset($package_types[$data->package_type]) ? $package_types[$data->package_type] : ''; ?></td>
+                                <td colspan="4"><?php echo $data->package_type_name; ?></td>
                             </tr>
 
                             <tr>

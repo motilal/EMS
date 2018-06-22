@@ -10,10 +10,9 @@
                     <div class="col-lg-12 padding0">
 
                         <div class="col-lg-7">
-                            <?php $package_types = $this->config->item('package_type'); ?>
                             <div class="form-group <?php echo form_error('package_type') != "" ? 'has-error' : ''; ?>">
                                 <label class="control-label" for="package_type">Package Type <em>*</em></label> 
-                                <?php echo form_dropdown('package_type', $package_types, set_value("package_type", isset($data->package_type) ? $data->package_type : "", false), 'class="form-control select2dropdown" id="package_type" style="width:100%;"'); ?> 
+                                <?php echo form_dropdown('package_type', $package_types_options, set_value("package_type", isset($data->package_types_id) ? $data->package_types_id : "", false), 'class="form-control select2dropdown" id="package_type" style="width:100%;"'); ?> 
                                 <?php echo form_error('package_type'); ?>
                             </div>
                         </div> 
@@ -37,6 +36,7 @@
                             </div>
                             <?php echo form_error('duration'); ?>
                         </div> 
+                        
                         <div class="col-lg-7">
                             <div class="form-group <?php echo form_error('no_of_leads') != "" ? 'has-error' : ''; ?>">
                                 <label class="control-label" for="no_of_leads">Number of Leads <em>*</em></label>
@@ -44,6 +44,7 @@
                                 <?php echo form_error('no_of_leads'); ?>
                             </div>
                         </div> 
+                        
                         <div class="col-lg-7"> 
                             <h5><strong class="<?php echo form_error('amount') != "" ? 'text-red' : ''; ?>">Package Amount  <em>*</em></strong></h5>
                             <div class="form-group input-group <?php echo form_error('amount') != "" ? 'has-error' : ''; ?>"> 
@@ -54,8 +55,6 @@
                             </div>
                             <?php echo form_error('amount'); ?>
                         </div> 
-
-
 
                         <div class="col-lg-7">
                             <div class="form-group <?php echo form_error('servicetypes_id') != "" ? 'has-error' : ''; ?>">
