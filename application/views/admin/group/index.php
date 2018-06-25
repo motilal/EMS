@@ -82,9 +82,9 @@
                             <?php echo form_dropdown('company[]', $company_options, '', 'class="form-control" multiple="multiple" id="company" style="width:100%;"'); ?>  
                         </div>     
 
-                        <div class="form-group <?php echo form_error('city') != "" ? 'has-error' : ''; ?>">
+                        <div class="form-group">
                             <label class="control-label" for="city">City</label> 
-                            <?php echo form_dropdown('city', $city_options, set_value("city", isset($data->city) ? $data->city : "", false), 'class="form-control select2dropdown" id="city" style="width:100%;"'); ?> 
+                            <?php echo form_dropdown('city', $city_options, '', 'class="form-control select2dropdown" id="city" style="width:100%;"'); ?> 
                             <?php echo form_error('city'); ?>
                         </div>
 
@@ -180,7 +180,7 @@
         $('.modal-title').text('Edit Subject');
         if (companies_selected != "") {
             $('#company').val(JSON.parse(companies_selected)).trigger('change.select2');
-        } 
+        }
         if (city_selected != "") {
             $('#city').val(city_selected).trigger('change.select2');
         }

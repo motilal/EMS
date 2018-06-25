@@ -18,6 +18,11 @@ $config = array(
             'field' => 'servicetypes_id',
             'label' => 'Service',
             'rules' => "trim|required"
+        ),
+        array(
+            'field' => 'lead_limit',
+            'label' => 'Lead Limit',
+            'rules' => "trim|numeric"
         )
     ),
     'groups/manage' => array(
@@ -101,6 +106,16 @@ $config = array(
             'field' => 'portals_id',
             'label' => 'Portal',
             'rules' => "trim|required"
+        ),
+        array(
+            'field' => 'phone_number',
+            'label' => 'Phone Number',
+            'rules' => "trim|required"
+        ),
+        array(
+            'field' => 'email',
+            'label' => 'Email',
+            'rules' => "trim|valid_email"
         )
     ),
     'manage_package' => array(
@@ -124,6 +139,13 @@ $config = array(
         array(
             'field' => 'id',
             'label' => 'leads sent history id',
+            'rules' => "trim|required"
+        )
+    ),
+    'send_lead' => array(
+        array(
+            'field' => 'company[]',
+            'label' => 'Company',
             'rules' => "trim|required"
         )
     ),

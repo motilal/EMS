@@ -24,10 +24,13 @@ class City_model extends CI_Model {
         return $data;
     }
 
-    public function cities_options() {
+    public function cities_options($empty_element = false) {
         $sql = $this->db->select('name,id')->order_by('name', 'ASC')->where(array("is_active" => 1, 'is_delete' => '0'))->get('cities');
         if ($sql->num_rows() > 0) {
             $array = array();
+            if ($empty_element) {
+                $array[''] = 'Select City';
+            }
             foreach ($sql->result() as $row) {
                 $array[$row->id] = $row->name;
             }

@@ -525,12 +525,12 @@ $config['proxy_ips'] = '';
 
 $config['mail_smtp'] = array(
     'protocol' => 'smtp',
-    'smtp_host' => 'ssl://smtp.googlemail.com',
+    'smtp_host' => 'ssl://mail.easymysearch.com',
     'smtp_port' => 465,
     'crlf' => "\n",
     'newline' => "\r\n",
-    'smtp_user' => 'motilalsonics@gmail.com',
-    'smtp_pass' => 'test@gmail',
+    'smtp_user' => 'info@easymysearch.com',
+    'smtp_pass' => 'motilal@123',
     'mailtype' => 'html',
     'charset' => 'utf-8'
 );

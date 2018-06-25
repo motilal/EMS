@@ -1,4 +1,5 @@
 <?php
+
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
@@ -345,6 +346,33 @@ if (!function_exists('human_filesize')) {
         $size = array('B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
         $factor = floor((strlen($bytes) - 1) / 3);
         return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$size[$factor];
+    }
+
+}
+
+if (!function_exists('getSubadminPermission')) {
+
+    function getSubadminPermission() {
+        $CI = & get_instance();
+        if ($CI->ion_auth->is_subadmin() === TRUE) {
+            $CI->load->model(array('user_model' => 'user'));
+            $user_id = $CI->ion_auth->get_user_id();
+            $upkeys = $CI->user->get_userpermission_keys(array('user_id' => $user_id));
+            if ($upkeys) {
+                $actions = array();
+                $group = array();
+                foreach ($upkeys as $ukey) {
+                    $actions[] = $ukey->key;
+                    $group[] = $ukey->group;
+                }
+                if (!empty($group)) {
+                    $group = array_unique($group);
+                    $group = array_map('strtolower', $group);
+                }
+                $CI->session->set_userdata('_subadmin_allow_actions', $actions);
+                $CI->session->set_userdata('_subadmin_allow_module', $group);
+            }
+        }
     }
 
 }

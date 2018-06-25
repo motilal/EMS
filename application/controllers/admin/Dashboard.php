@@ -16,6 +16,7 @@ class Dashboard extends CI_Controller {
 
     public function index($flag = "") {
         $this->viewData['title'] = "Dashboard";
+        getSubadminPermission();
         $this->layout->view('admin/dashboard/index', $this->viewData);
     }
 

@@ -13,10 +13,11 @@ class Company_model extends CI_Model {
     }
 
     public function get_list($condition = array()) {
-        $this->db->select("companies.*");
+        $this->db->select("companies.*,servicetypes.name as service_name");
         if (!empty($condition) || $condition != "") {
             $this->db->where($condition);
         }
+        $this->db->join('servicetypes', 'servicetypes.id=companies.servicetypes_id', 'LEFT');
         $data = $this->db->get("companies");
         return $data;
     }
@@ -124,6 +125,17 @@ class Company_model extends CI_Model {
                 ->join('packages', 'packages.id=cp.packages_id', 'LEFT')
                 ->get("companies_package as cp");
         return $result;
+    }
+
+    public function get_company_active_package($companies_id) {
+        if (is_numeric($companies_id) && $companies_id > 0) {
+            $sql = $this->db->select('id')->where(array('companies_id' => $companies_id, 'total_leads > used_leads' => NULL, 'is_active' => '1'))->get('companies_package');
+            if ($sql->num_rows() > 0) {
+                return $sql->row()->id;
+            } else {
+                return FALSE;
+            }
+        }
     }
 
 }

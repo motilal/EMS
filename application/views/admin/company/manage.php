@@ -1,4 +1,4 @@
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJic7-q6o3yYoNc2xilhSxVSIc33U-6j0&libraries=places&callback=initAutocomplete" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<?php echo GOOGLE_MAP_KEY; ?>&libraries=places&callback=initAutocomplete" async defer></script>
 <div class="row">
     <div class="col-xs-12"> 
         <div class="box box-info"> 
@@ -85,6 +85,13 @@
                                 <label class="control-label" for="gst_no">GST No.</label>
                                 <?php echo form_input("gst_no", set_value("gst_no", isset($data->gst_no) ? $data->gst_no : "", false), "id='gst_no' class='form-control'"); ?>
                                 <?php echo form_error('gst_no'); ?>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group <?php echo form_error('lead_limit') != "" ? 'has-error' : ''; ?>">
+                                <label class="control-label" for="lead_limit">Lead Limit(Per Day)</label>
+                                <?php echo form_input("lead_limit", set_value("lead_limit", isset($data->lead_limit) ? $data->lead_limit : "", false), "id='lead_limit' class='form-control'"); ?>
+                                <?php echo form_error('lead_limit'); ?>
                             </div>
                         </div>
                     </div> 

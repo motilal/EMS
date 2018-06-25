@@ -16,7 +16,10 @@
         <a href="<?php echo site_url($downloadUrl); ?>" class="btn btn-block btn-primary btn-xs"  data-toggle="tooltip" title="" data-original-title="Download"> <span class="fa fa-download"></span> </a>
     <?php } ?>
     <?php if (isset($addPackageUrl)) { ?>
-        <a href="<?php echo site_url($addPackageUrl); ?>" class="btn btn-block btn-warning btn-xs"  data-toggle="tooltip" title="" data-original-title="Manage Package"> <span class="fa fa-shopping-cart"></span> </a>
+        <a href="<?php echo site_url($addPackageUrl); ?>" class="btn btn-block btn-warning btn-xs<?php echo (is_allow_action('manage-company-package') === FALSE) ? ' disabled' : ''; ?>" data-toggle="tooltip" title="" data-original-title="Manage Package"> <span class="fa fa-shopping-cart"></span> </a>
+    <?php } ?>
+    <?php if (!empty($sendLeadUrl)) { ?>
+        <a href="#" data-action="<?php echo site_url($sendLeadUrl); ?>" class="btn btn-block bg-aqua btn-xs send-lead" href="#" data-toggle="modal" data-target="#modal-send-lead" title="Send Lead"> <span class="fa fa-send"></span> </a>
     <?php } ?>
 
 </div> 

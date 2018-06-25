@@ -1,7 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
 *
-* Last Updated:  19-06-2018 07:44:38 by Super Admin
+* Last Updated:  24-06-2018 21:18:00 by Super Admin
 *
 * Description: language file for falsh messages
 *
@@ -99,4 +99,14 @@ $lang['FollowUpAddSuccess'] = "FollowUp added successfully.";
 $lang['FollowUpDeleteSuccess'] = "FollowUp deleted successfully.";
 $lang['FollowUpActiveSuccess'] = "FollowUp Active Successfully.";
 $lang['FollowUpInactiveSuccess'] = "FollowUp Inactive Successfully.";
+
+/* Lead Group Messages */
+$lang['LeadInactiveSuccess'] = "Lead Inactive successfully.";
+$lang['LeadAddSuccess'] = "Lead added successfully.";
+$lang['LeadUpdateSuccess'] = "Lead Update successfully.";
+$lang['LeadDeleteSuccess'] = "Lead deleted successfully.";
+$lang['LeadActiveSuccess'] = "Lead active sucessfully.";
+$lang['LeadReturnRequestAddSuccess'] = "Lead return request generated successfully.";
+$lang['LeadResendSuccess'] = "Lead resend successfully.";
+$lang['LeadReturnApproveSuccess'] = "Lead return request approved successfully.";
 

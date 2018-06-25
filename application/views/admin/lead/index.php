@@ -10,22 +10,13 @@
                 <?php if (is_allow_action('add-lead')) { ?>
                     <div style="width: 100%;">
                         <div class="btn-group" data-toggle="btn-toggle">
-                            <a href="#<?php //echo site_url('admin/leads/add_lead_return_request');   ?>" class="btn btn-primary btn-sm add_new_tab_item"><i class="fa fa-plus"></i> Add New Lead</a>
+                            <a href="<?php echo site_url('admin/leads/manage'); ?>" class="btn btn-primary btn-sm add_new_tab_item"><i class="fa fa-plus"></i> Add New Lead</a>
                         </div>
                     </div> 
                 <?php } ?> 
             </li>
-        <?php } else if ($type == 'pending') { ?>
-            <li class="pull-right"> 
-                <?php if (is_allow_action('send-lead')) { ?>
-                    <div style="width: 100%;">
-                        <div class="btn-group" data-toggle="btn-toggle">
-                            <a href="#<?php //echo site_url('admin/leads/add_lead_return_request');   ?>" class="btn btn-primary btn-sm add_new_tab_item"><i class="fa fa-plus"></i> Send Lead Manual</a>
-                        </div>
-                    </div> 
-                <?php } ?> 
-            </li>
-        <?php } ?> 
+        <?php } ?>
+
     </ul>
     <div class="tab-content">
         <div class="tab-pane active"> 
@@ -66,6 +57,35 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="modal-send-lead">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <?php echo form_open('admin/leads/send_lead', array("id" => "send-lead-form", "method" => "post")); ?>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Manual Send Request</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label class="control-label" for="company">Company(s)</label> 
+                            <?php echo form_dropdown('company[]', $company_options, '', 'class="form-control" multiple="multiple" id="company" style="width:100%;"'); ?>  
+                        </div>  
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer"> 
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            <?php echo form_close(); ?> 
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
 <script>
     var current_url = '<?php echo current_url(); ?>';
     /*
@@ -75,4 +95,54 @@
      3 default paging 
      */
     var datatbl = dynamic_datatable_init(current_url, [0, 8], [], DEFAULT_PAGING);
+    $('#send-lead-form').submit(function (e) {
+        var _this = $(this);
+        _this.find("[type='submit']").prop('disabled', true);
+        $('.form-group .help-block').remove();
+        $('.form-group').removeClass('has-error');
+        e.preventDefault();
+        $.ajax({
+            url: _this.attr('action'),
+            type: "POST",
+            data: $('#send-lead-form').serialize(),
+            success: function (res)
+            {
+                _this.find("[type='submit']").prop('disabled', false);
+                if (res.validation_error) {
+                    $.each(res.validation_error, function (index, value) {
+                        var elem = _this.find('[name="' + index + '"]');
+                        var error = '<div class="help-block">' + value + '</div>';
+                        elem.closest('.form-group').append(error);
+                        elem.closest('.form-group').addClass('has-error');
+                    });
+                } else if (res.success && res.msg) {
+                    showMessage('success', {message: res.msg});
+                    $('#send-lead-form').modal('hide');
+                    location.reload();
+                } else if (res.error) {
+                    showMessage('error', {message: res.error});
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                _this.find("[type='submit']").prop('disabled', false);
+                showMessage('error', 'Internal error: ' + jqXHR.responseText);
+            }
+        });
+    });
+    $('#modal-send-lead').on('hidden.bs.modal', function (e) {
+        $('.form-group .help-block').remove();
+        $('.form-group').removeClass('has-error');
+        $('#send-lead-form')[0].reset();
+        $('#send-lead-form').find('[name="id"]').val('');
+        $('#company').val('').trigger('change.select2');
+    });
+    $(document).on('click', 'a.send-lead', function (e) {
+        e.preventDefault();
+        var action = $(this).data('action');
+        $('#send-lead-form').attr('action', action);
+        $('#modal-send-lead').modal('show');
+    });
+    $("#company").select2({
+        tags: false
+    });
 </script>

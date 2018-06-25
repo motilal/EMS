@@ -96,5 +96,6 @@ defined('ENV_HOST') OR define('ENV_HOST', 'localhost');
 
 define('TEMP_IMG_PATH', 'uploads/temp/');
 define('COMPANY_DOC_PATH', 'uploads/company_doc/');
+define('GOOGLE_MAP_KEY', 'AIzaSyBJic7-q6o3yYoNc2xilhSxVSIc33U-6j0');
 
 

@@ -57,8 +57,12 @@ $user_permissions = $this->session->userdata('_subadmin_module_permissions');
                         </span>
                     </a>
                     <ul class="treeview-menu" style="display:<?php echo $segment_cntr == 'companies' ? 'block' : 'none'; ?>;">
-                        <li class="<?php echo $companyIndex; ?>"><a href="<?php echo site_url('admin/companies'); ?>"><i class="fa fa-th-list"></i> Manage Company</a></li>
-                        <li class="<?php echo $companyManagePackage; ?>"><a href="<?php echo site_url('admin/companies/manage_package'); ?>"><i class="fa fa-shopping-cart"></i> Company Package</a></li> 
+                        <?php if (is_allow_action('company-index')) { ?>
+                            <li class="<?php echo $companyIndex; ?>"><a href="<?php echo site_url('admin/companies'); ?>"><i class="fa fa-th-list"></i> Manage Company</a></li>
+                        <?php } ?>
+                        <?php if (is_allow_action('company-package-manage')) { ?>
+                            <li class="<?php echo $companyManagePackage; ?>"><a href="<?php echo site_url('admin/companies/manage_package'); ?>"><i class="fa fa-shopping-cart"></i> Company Package</a></li> 
+                        <?php } ?>
                     </ul>
                 </li>
             <?php } ?>

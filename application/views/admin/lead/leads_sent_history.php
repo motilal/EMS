@@ -117,7 +117,7 @@
                     });
                 } else if (res.success && res.msg) {
                     showMessage('success', {message: res.msg});
-                    $('#modal-manage').modal('hide');
+                    $('#modal-return-lead').modal('hide');
                     location.reload();
                 } else if (res.error) {
                     showMessage('error', {message: res.error});
@@ -129,7 +129,7 @@
             }
         });
     });
-    $('#modal-manage').on('hidden.bs.modal', function (e) {
+    $('#modal-return-lead').on('hidden.bs.modal', function (e) {
         $('.form-group .help-block').remove();
         $('.form-group').removeClass('has-error');
         $('#manage-form')[0].reset();
@@ -139,7 +139,7 @@
         e.preventDefault();
         var id = $(this).data('id');
         $('#manage-form').find('[name="id"]').val(id);
-        $('#modal-manage').modal('show');
+        $('#modal-return-lead').modal('show');
     });
 
 </script>

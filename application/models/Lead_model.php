@@ -13,7 +13,7 @@ class lead_model extends CI_Model {
     }
 
     public function get_list($condition = array(), $limit = array(), $order = array(), $with_num_rows = false) {
-        $this->db->select("led.*,prtl.name as portal_name");
+        $this->db->select("led.*,prtl.name as portal_name,servicetypes.name as service_name,cities.name as city_name");
         if (!empty($condition) || $condition != "") {
             $this->db->where($condition);
         }
@@ -25,6 +25,8 @@ class lead_model extends CI_Model {
         } else {
             $this->db->order_by('led.created', 'DESC');
         }
+        $this->db->join('servicetypes', 'servicetypes.id=led.servicetypes_id', 'LEFT');
+        $this->db->join('cities', 'cities.id=led.cities_id', 'LEFT');
         $data = $this->db->join('portals as prtl', 'prtl.id=led.portals_id', 'LEFT')->get("leads as led");
         if ($with_num_rows == true) {
             $num_rows = $this->db->select('led.id')->where(!empty($condition) ? $condition : 1, TRUE)->join('portals as prtl', 'prtl.id=led.portals_id', 'LEFT')->count_all_results("leads as led");
@@ -75,10 +77,18 @@ class lead_model extends CI_Model {
         return $data;
     }
 
-    public function getById($id) {
+    public function getById($id, $join = false) {
         if (is_numeric($id) && $id > 0) {
-            $result = $this->db->select("leads.*")
-                    ->get_where("leads", array("id" => $id));
+            if ($join == false) {
+                $result = $this->db->select("leads.*")
+                        ->get_where("leads", array("id" => $id, 'is_delete' => '0'));
+            } else {
+                $this->db->select("led.*,prtl.name as portal_name,servicetypes.name as service_name,cities.name as city_name");
+                $this->db->where(array("led.id" => $id, 'led.is_delete' => '0'));
+                $this->db->join('servicetypes', 'servicetypes.id=led.servicetypes_id', 'LEFT');
+                $this->db->join('cities', 'cities.id=led.cities_id', 'LEFT');
+                $result = $this->db->join('portals as prtl', 'prtl.id=led.portals_id', 'LEFT')->get("leads as led");
+            }
             return $result->num_rows() > 0 ? $result->row() : null;
         }
         return false;

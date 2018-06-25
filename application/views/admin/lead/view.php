@@ -15,18 +15,12 @@
                                     <th>Reference Id</th>
                                     <td colspan="4"><?php echo $data->record_id; ?></td>
                                 </tr>
-                            <?php endif; ?>
-                            <?php if (!empty($data->service_name)): ?>
-                                <tr>
-                                    <th>Service Type</th>
-                                    <td colspan="4"><?php echo $data->service_name; ?></td>
-                                </tr>
-                            <?php endif; ?>
+                            <?php endif; ?> 
 
-                            <?php if (!empty($data->service_from)): ?>
+                            <?php if (!empty($data->location)): ?>
                                 <tr>
-                                    <th>Service From</th>
-                                    <td colspan="4"><?php echo $data->service_from; ?></td>
+                                    <th>Location From</th>
+                                    <td colspan="4"><?php echo $data->location; ?></td>
                                 </tr>
                             <?php endif; ?>
 
@@ -37,6 +31,10 @@
                                 </tr> 
                             <?php endif; ?>
                             <tr>
+                                <th>Service</th>
+                                <td colspan="4"><?php echo $data->service_name; ?></td>
+                            </tr>
+                            <tr>
                                 <th>Name</th>
                                 <td colspan="4"><?php echo $data->name; ?></td>
                             </tr>
@@ -45,8 +43,8 @@
                                 <td colspan="4"><?php echo $data->email; ?></td>
                             </tr>
                             <tr>
-                                <th>Location</th>
-                                <td colspan="4"><?php echo $data->location; ?></td>
+                                <th>City</th>
+                                <td colspan="4"><?php echo $data->city_name; ?></td>
                             </tr>
 
                             <tr>

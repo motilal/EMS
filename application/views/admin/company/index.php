@@ -19,8 +19,9 @@
                         <tr> 
                             <td>Sr.</td>
                             <th>Name</th>
-                            <th>Owner</th>
-                            <th>Address</th> 
+                            <th>Phone</th> 
+                            <th>Service</th>  
+                            <th>Cities</th> 
                             <th>Created</th>
                             <th>Status</th>
                             <th>Action</th>
@@ -32,10 +33,16 @@
                                 <tr>  
                                     <td><?php echo $key + 1; ?></td>
                                     <td><?php echo $row->name; ?></td>
-                                    <td><?php echo $row->company_owner; ?></td>
                                     <td>
-                                        <?php echo $row->company_address; ?>
+                                        <?php echo $row->phone1; ?>
                                         <div class="hide"><?php echo json_encode($row); ?></div>
+                                    </td> 
+                                    <td><?php echo $row->service_name; ?></td>
+                                    <td>
+                                        <?php
+                                        $cities = $this->company->get_company_cities($row->id);
+                                        echo empty($cities) ? '' : implode(',', $cities);
+                                        ?> 
                                     </td>
                                     <td><?php echo date(DATE_FORMATE, strtotime($row->created)); ?></td>
                                     <td>

@@ -6,7 +6,7 @@
                 <h3 class="box-title"><?php echo isset($pageHeading) ? $pageHeading : '&nbsp;'; ?></h3>
                 <div class="box-tools pull-right">
                     <div class="btn-group" data-toggle="btn-toggle">
-                        <?php if (is_allow_action('city-add')) { ?>
+                        <?php if (is_allow_action('company-package-add')) { ?>
                             <a href="#" data-toggle="modal" data-target="#modal-manage" class="btn btn-primary btn-sm add_new_item"><i class="fa fa-plus"></i> Add New Package </a>
                         <?php } ?> 
                     </div>
@@ -39,10 +39,10 @@
                                         <td><?php echo $row->used_leads; ?></td>  
                                         <td><?php echo date(DATE_FORMATE, strtotime($row->created)); ?></td> 
                                         <td>
-                                            <?php echo $this->layout->element('admin/element/_module_status', array('status' => $row->is_active, 'id' => $row->id, 'url' => "admin/companies/change_comapany_package_status", 'permissionKey' => "comapny-package-status"), true); ?>
+                                            <?php echo $this->layout->element('admin/element/_module_status', array('status' => $row->is_active, 'id' => $row->id, 'url' => "admin/companies/change_comapany_package_status", 'permissionKey' => "company-package-status"), true); ?>
                                         </td>
                                         <td>  
-                                            <?php echo $this->layout->element('admin/element/_module_action', array('id' => $row->id, 'deleteUrl' => 'admin/companies/delete_company_package', 'deletePermissionKey' => 'comapny-package-delete'), true); ?>
+                                            <?php echo $this->layout->element('admin/element/_module_action', array('id' => $row->id, 'deleteUrl' => 'admin/companies/delete_company_package', 'deletePermissionKey' => 'company-package-delete'), true); ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

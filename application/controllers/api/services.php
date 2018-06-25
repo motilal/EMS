@@ -11,11 +11,11 @@ class Services extends Rest_server {
     }
 
     public function savelead_post() {
+        $services_id = $this->getServiceId($this->post('service_name'));
         $data = array('name' => $this->post('name'),
             'email' => $this->post('email'),
             'location' => $this->post('location'),
-            'service_name' => $this->post('service_name'),
-            'service_from' => $this->post('service_from'),
+            'servicetypes_id' => $services_id,
             'service_to' => $this->post('service_to'),
             'phone_number' => $this->post('phone'),
             'date' => !empty($this->post('date')) ? date('Y-m-d', strtotime($this->post('date'))) : NULL,
@@ -39,6 +39,15 @@ class Services extends Rest_server {
             ];
         }
         $this->set_response($message, Rest_server::HTTP_CREATED);
+    }
+
+    private function getServiceId($service_name = '') {
+        $sql = $this->db->select('id')->get_where('servicetypes', array('name' => $service_name, 'is_delete' => 0));
+        if ($sql->num_rows() > 0) {
+            return $sql->row()->id;
+        } else {
+            return NULL;
+        }
     }
 
 }

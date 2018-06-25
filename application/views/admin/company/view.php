@@ -33,7 +33,7 @@
                             </tr>
                             <tr>
                                 <th>Service</th>
-                                <td colspan="4"><?php echo $data->servicetypes_id; ?></td>
+                                <td colspan="4"><?php echo $data->service_name; ?></td>
                             </tr>
                             <tr>
                                 <th>Sub Service(s)</th>

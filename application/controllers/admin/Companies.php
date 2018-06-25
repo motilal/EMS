@@ -20,7 +20,7 @@ class Companies extends CI_Controller {
 
     public function index() {
         $this->acl->has_permission('company-index');
-        $condition = array('is_delete' => '0');
+        $condition = array('companies.is_delete' => '0');
         $result = $this->company->get_list($condition);
         $this->viewData['result'] = $result;
         $this->viewData['title'] = "Manage Company";
@@ -35,6 +35,13 @@ class Companies extends CI_Controller {
         $this->viewData['data'] = $data = $this->company->getById($id);
         if (empty($data)) {
             show_404();
+        }
+        $data->service_name = '';
+        if ($data->servicetypes_id > 0) {
+            $service_sql = $this->db->select('name')->get_where('servicetypes', array('id' => $data->servicetypes_id));
+            if ($service_sql->num_rows() > 0) {
+                $data->service_name = $service_sql->row()->name;
+            }
         }
         $this->viewData['company_services'] = $this->company->get_company_services($id);
         $this->viewData['company_cities'] = $this->company->get_company_cities($id);
@@ -81,7 +88,8 @@ class Companies extends CI_Controller {
                 "country" => $this->input->post("country"),
                 "zip_code" => $this->input->post("zip_code"),
                 "latitude" => $this->input->post("latitude"),
-                "logitude" => $this->input->post("logitude")
+                "logitude" => $this->input->post("logitude"),
+                "lead_limit" => $this->input->post("lead_limit")
             );
             $saveData = filterPostData($saveData);
             if (isset($_FILES['aadhar_doc']['name']) && $_FILES['aadhar_doc']['name'] != "") {
@@ -306,7 +314,7 @@ class Companies extends CI_Controller {
                         'created' => date("Y-m-d H:i:s"),
                         'is_active' => 1
                     );
-                    $has_permission = $this->acl->has_permission('company-add-package', FALSE);
+                    $has_permission = $this->acl->has_permission('company-package-add', FALSE);
                     if ($has_permission === TRUE) {
                         $this->db->insert("companies_package", $data);
                         $response['success'] = true;
@@ -322,7 +330,7 @@ class Companies extends CI_Controller {
                     ->set_output(json_encode($response))->_display();
             exit();
         }
-        $this->acl->has_permission('company-manage-package');
+        $this->acl->has_permission('company-package-manage');
         $condition = array();
         if ($company_id != "") {
             $condition['cp.companies_id'] = $company_id;
@@ -356,7 +364,7 @@ class Companies extends CI_Controller {
     public function change_comapany_package_status() {
         $response = array();
         if ($this->input->is_ajax_request()) {
-            $has_permission = $this->acl->has_permission('comapny-package-status', FALSE);
+            $has_permission = $this->acl->has_permission('company-package-status', FALSE);
             if ($has_permission === TRUE) {
                 $id = $this->input->post('id');
                 $status = $this->input->post('status');
@@ -401,7 +409,7 @@ class Companies extends CI_Controller {
         $condition = array('is_delete' => '0', 'name' => $str);
         if ($this->input->post('id') != "") {
             $condition['id !='] = $this->input->post('id');
-}
+        }
         if (validate_is_unique('companies', $condition)) {
             $this->form_validation->set_message('_is_unique_company_name', 'The Company name already exist.');
             return FALSE;
