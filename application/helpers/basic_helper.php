@@ -244,7 +244,7 @@ if (!function_exists('is_allow_admin')) {
         } else {
             if ($redirect) {
                 $CI->session->set_flashdata("error", 'You dont have permission.');
-                redirect('admin/dashboard');
+                redirect('dashboard');
             }
             return false;
         }
@@ -290,7 +290,7 @@ if (!function_exists('is_allow_module')) {
 if (!function_exists('gravatar_url')) {
 
     function gravatar_url($email = "", $size = 160) {
-        $default = base_url('asset/admin/images/theme/no-user.jpg');
+        $default = base_url('asset/images/theme/no-user.jpg');
         if (ENV_HOST == 'localhost') {
             return $default;
         }
@@ -350,9 +350,9 @@ if (!function_exists('human_filesize')) {
 
 }
 
-if (!function_exists('getSubadminPermission')) {
+if (!function_exists('updateSubadminPermission')) {
 
-    function getSubadminPermission() {
+    function updateSubadminPermission() {
         $CI = & get_instance();
         if ($CI->ion_auth->is_subadmin() === TRUE) {
             $CI->load->model(array('user_model' => 'user'));
