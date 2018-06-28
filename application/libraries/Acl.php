@@ -11,7 +11,7 @@ if (!defined('BASEPATH'))
 class Acl {
 
     var $ci_obj = null;
-    var $redirect = "admin/dashboard";
+    var $redirect = "/";
 
     //put your code here
     /**

@@ -123,7 +123,7 @@ $user_permissions = $this->session->userdata('_subadmin_module_permissions');
                 </li>
             <?php } ?>
 
-            <?php if (is_allow_module('lead') && is_allow_module('portal')) { ?>    
+            <?php if (is_allow_module('lead') || is_allow_module('portal')) { ?>    
                 <li class="<?php echo in_array($segment_cntr, array('leads', 'portals')) ? 'active' : ''; ?>">
                     <a href="<?php echo site_url('portals'); ?>">
                         <i class="fa fa-inbox"></i> <span>Manage Leads</span> 
@@ -138,6 +138,14 @@ $user_permissions = $this->session->userdata('_subadmin_module_permissions');
                     </a>
                 </li>
             <?php } ?>
+
+            <?php if (is_allow_module('sms')) { ?>    
+                <li class="<?php echo $segment_cntr == 'sms' ? 'active' : ''; ?>">
+                    <a href="<?php echo site_url('sms'); ?>">
+                        <i class="fa fa-fax"></i> <span>SMS Manager</span> 
+                    </a>
+                </li>
+            <?php } ?> 
 
 
             <li class="treeview <?php echo in_array($segment_cntr, array('settings', 'logs')) ? 'active menu-open' : ''; ?>">

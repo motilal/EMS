@@ -16,7 +16,7 @@ class Auth extends CI_Controller {
     }
 
     public function login() {
-        if ($this->ion_auth->is_admin()) {
+        if ($this->ion_auth->is_admin() || $this->ion_auth->is_subadmin()) {
             redirect('dashboard');
         }
         if ($this->input->post()) {

@@ -24,7 +24,7 @@ class Config_loader {
             $this->viewData['_UserAuth'] = $userAuth = $this->CI->ion_auth->user()->row();
             if (empty($userAuth) || $userAuth->active == 0) {
                 $this->CI->ion_auth->logout();
-                redirect('admin', 'refresh');
+                redirect('/', 'refresh');
             } 
             /* Update subadmin permission if live change on their permission */
             if (isset($userAuth->update_setting_flag) && $userAuth->update_setting_flag == 1 && $this->CI->ion_auth->is_subadmin() === TRUE) {
