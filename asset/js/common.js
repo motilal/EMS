@@ -76,6 +76,10 @@ $(document).ready(function () {
         }
     });
 
+    $('.check-all').click(function () { 
+        $(this).closest('table').find("input[type=checkbox]").prop('checked', $(this).is(':checked'));
+    });
+
 });
 
 function datatable_init(notsortable, defaultorder, displaylength, showsr) {

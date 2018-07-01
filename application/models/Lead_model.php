@@ -107,4 +107,33 @@ class lead_model extends CI_Model {
         }
     }
 
+    public function get_lead_percent($lead_id) {
+        if (is_numeric($lead_id) && $lead_id > 0) {
+            $sql = $this->db->select('count(id) as total_sent', false)->where(['leads_id' => $lead_id])->get('leads_sent_history');
+            if ($sql->num_rows() > 0) {
+                $total_sent = $sql->row()->total_sent;
+                if ($total_sent > 0 && MAX_LEAD_SENT_TO_COMPANY > 0) {
+                    $percent = ($total_sent / MAX_LEAD_SENT_TO_COMPANY) * 100;
+                    return $percent;
+                }
+            }
+        }
+        return 0;
+    }
+
+    public function lead_approve($lead_reaturn_history_id = "") {
+        if (empty($lead_reaturn_history_id))
+            return false;
+        $lead_reaturn_history_sql = $this->db->select('id,leads_sent_history_id')->get_where('leads_return_history', array('id' => $lead_reaturn_history_id, 'approve_status' => 0));
+        if ($lead_reaturn_history_sql->num_rows() > 0) {
+            if ($this->db->update("leads_return_history", array('approve_status' => 1, 'approve_by' => $this->ion_auth->get_user_id(), 'approve_date' => date('Y-m-d H:i:s')), array("id" => $lead_reaturn_history_id))) {
+                $lead_reaturn_history_row = $lead_reaturn_history_sql->row();
+                /* decrement package lead counter */
+                $companies_package_id = $this->db->select('companies_package_id')->where(array('id' => $lead_reaturn_history_row->leads_sent_history_id))->get('leads_sent_history')->row()->companies_package_id;
+                $this->db->where(array("id" => $companies_package_id))->set('total_leads', 'total_leads+1', FALSE)->set('used_leads', 'used_leads-1', FALSE)->update("companies_package");
+                return true;
+            }
+        }
+    }
+
 }

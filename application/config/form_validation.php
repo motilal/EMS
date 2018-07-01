@@ -128,11 +128,21 @@ $config = array(
             'field' => 'company',
             'label' => 'Company',
             'rules' => "trim|required"
+        ),
+        array(
+            'field' => 'amount_paid',
+            'label' => 'Amount Paid',
+            'rules' => "trim|required|numeric"
         )
     ),
     'add_lead_return_request' => array(
         array(
             'field' => 'reason',
+            'label' => 'Comment',
+            'rules' => "trim|required"
+        ),
+        array(
+            'field' => 'reason_id',
             'label' => 'Reason',
             'rules' => "trim|required"
         ),
@@ -147,6 +157,13 @@ $config = array(
             'field' => 'company[]',
             'label' => 'Company',
             'rules' => "trim|required"
+        )
+    ),
+    'reasons/manage' => array(
+        array(
+            'field' => 'name',
+            'label' => 'Reason',
+            'rules' => "trim|required|max_length[255]|callback__is_unique_reason_name"
         )
     ),
     'email_templates/manage' => array(
@@ -333,6 +350,18 @@ $config = array(
             'field' => 'phone',
             'label' => 'Phone',
             'rules' => "trim|max_length[20]"
+        )
+    ),
+    'multi_action' => array(
+        array(
+            'field' => 'ids[]',
+            'label' => 'Select checkbox',
+            'rules' => 'trim|required'
+        ),
+        array(
+            'field' => 'actions',
+            'label' => 'Actions',
+            'rules' => 'trim|required'
         )
     )
 );

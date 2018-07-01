@@ -2,12 +2,12 @@
     <div class="col-xs-12"> 
         <div class="box">
             <div class="box-header">
-                <i class="fa fa-shopping-cart"></i> 
+                <i class="fa fa-comment"></i> 
                 <h3 class="box-title"><?php echo isset($pageHeading) ? $pageHeading : '&nbsp;'; ?></h3>
                 <div class="box-tools pull-right">
                     <div class="btn-group" data-toggle="btn-toggle">
-                        <?php if (is_allow_action('company-package-add')) { ?>
-                            <a href="#" data-toggle="modal" data-target="#modal-manage" class="btn btn-primary btn-sm add_new_item"><i class="fa fa-plus"></i> Add New Package </a>
+                        <?php if (is_allow_action('reason-add')) { ?>
+                            <a href="#" data-toggle="modal" data-target="#modal-manage" class="btn btn-primary btn-sm add_new_item"><i class="fa fa-plus"></i> Add New Reason </a>
                         <?php } ?> 
                     </div>
                 </div>
@@ -19,11 +19,7 @@
                         <thead>
                             <tr>
                                 <td>Sr.</td> 
-                                <th>Company Name</th> 
-                                <th>Package Name</th> 
-                                <th>Total Leads</th> 
-                                <th>Used Leads</th> 
-                                <th>Amount Paid(&#8377;)</th> 
+                                <th>Name</th> 
                                 <th>Created</th> 
                                 <th>Status</th>
                                 <th>Action</th>
@@ -34,24 +30,14 @@
                                 <?php foreach ($result->result() as $key => $row): ?> 
                                     <tr id="row_<?php echo $row->id; ?>">
                                         <td><?php echo $key + 1; ?></td> 
-                                        <td><?php echo $row->company_name; ?></td> 
-                                        <td><?php echo $row->package_name; ?></td> 
-                                        <td><?php echo $row->total_leads; ?></td> 
-                                        <td><?php echo $row->used_leads; ?></td>  
-                                        <td><?php echo $row->amount_paid; ?></td> 
-                                        <td><?php echo date(DATE_FORMATE, strtotime($row->created)); ?></td> 
+                                        <td><?php echo $row->name; ?></td> 
+                                        <td><?php echo date(DATE_FORMATE, strtotime($row->created)); ?></td>
                                         <td>
-                                            <?php if ($row->total_leads <= $row->used_leads) { ?>
-                                                <label class="label label-default">Expired</label>
-                                                <?php
-                                            } else {
-                                                echo $this->layout->element('element/_module_status', array('status' => $row->is_active, 'id' => $row->id, 'url' => "companies/change_comapany_package_status", 'permissionKey' => "company-package-status"), true);
-                                            }
-                                            ?>
+                                            <?php echo $this->layout->element('element/_module_status', array('status' => $row->is_active, 'id' => $row->id, 'url' => "reasons/changestatus", 'permissionKey' => "reason-status"), true); ?>
                                         </td>
                                         <td>  
-                                            <?php echo $this->layout->element('element/_module_action', array('id' => $row->id, 'deleteUrl' => 'companies/delete_company_package', 'deletePermissionKey' => 'company-package-delete'), true); ?>
-                                        </td>
+                                            <?php echo $this->layout->element('element/_module_action', array('id' => $row->id, 'editUrl' => "reasons/manage", 'deleteUrl' => 'reasons/delete', 'editPermissionKey' => 'reason-edit', 'deletePermissionKey' => 'reason-delete'), true); ?>
+                                        </td>  
                                     </tr>
                                 <?php endforeach; ?>
                             <?php } ?> 
@@ -64,31 +50,25 @@
         <!-- /.box -->
     </div>
     <!-- /.col -->
-</div>  
+</div> 
+
 <div class="modal fade" id="modal-manage">
     <div class="modal-dialog">
-        <div class="modal-content"> 
-            <?php echo form_open('companies/manage_package', array("id" => "manage-form", "method" => "post")); ?>
+        <div class="modal-content">
+            <?php echo form_open('reasons/manage', array("id" => "manage-form", "method" => "post")); ?>
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Add New Package</h4>
+                <h4 class="modal-title">Add New Reason</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-lg-12"> 
-                        <div class="form-group <?php echo isset($company_id) ? '' : ''; ?>"> 
-                            <label class="control-label" for="company">Company <em>*</em></label>  
-                            <?php echo form_dropdown('company', $company_options, isset($company_id) ? $company_id : '', 'class="form-control select2dropdown" id="company" style="width:100%;"'); ?>  
-                        </div> 
+                    <div class="col-lg-12">
                         <div class="form-group">
-                            <label class="control-label" for="package">Package <em>*</em></label>  
-                            <?php echo form_dropdown('package', $packages_options, '', 'class="form-control select2dropdown" id="package" style="width:100%;"'); ?>  
-                        </div>   
-                        <div class="form-group">
-                            <label class="control-label" for="amount_paid">Amount Paid <em>*</em></label>
-                            <?php echo form_input("amount_paid", '', "id='amount_paid' class='form-control'"); ?>
+                            <label class="control-label" for="name">Reason <em>*</em></label>
+                            <?php echo form_input("name", '', "id='name' class='form-control'"); ?>
                         </div>  
+                        <?php echo form_hidden('id'); ?> 
                     </div>
                 </div>
             </div>
@@ -113,7 +93,8 @@
      3 default paging
      4 show sr. number or not
      */
-    var datatbl = datatable_init([0, 7], [[2, 'asc']], DEFAULT_PAGING, 1);
+    var datatbl = datatable_init([0, 4], [[2, 'asc']], DEFAULT_PAGING, 1);
+
     $('#manage-form').submit(function (e) {
         var _this = $(this);
         _this.find("[type='submit']").prop('disabled', true);
@@ -134,10 +115,15 @@
                         elem.closest('.form-group').append(error);
                         elem.closest('.form-group').addClass('has-error');
                     });
-                } else if (res.success && res.msg) {
+                } else if (res.success && res.msg && res.data) {
+                    if (res.mode == 'add') {
+                        datatbl.row.add([0, res.data.name, res.data.created, res.data.statusButtons, res.data.actionButtons]).draw();
+                        $('.changestatus[data-id="' + res.data.id + '"]').closest('tr').attr('id', 'row_' + res.data.id);
+                    } else if (res.mode == 'edit') {
+                        $('#row_' + res.data.id).find('td:nth-child(2)').text(res.data.name);
+                    }
                     showMessage('success', {message: res.msg});
                     $('#modal-manage').modal('hide');
-                    location.reload();
                 } else if (res.error) {
                     showMessage('error', {message: res.error});
                 }
@@ -154,6 +140,17 @@
         $('.form-group').removeClass('has-error');
         $('#manage-form')[0].reset();
         $('#manage-form').find('[name="id"]').val('');
-        $('.modal-title').text('Add New Package');
+        $('.modal-title').text('Add New Reason');
     });
+
+    $(document).on('click', 'a.edit-row', function (e) {
+        e.preventDefault();
+        var id = $(this).data('id');
+        var name = $.trim($(this).closest('tr').find('td:nth-child(2)').text());
+        $('#manage-form').find('[name="name"]').val(name);
+        $('#manage-form').find('[name="id"]').val(id);
+        $('.modal-title').text('Edit Reason');
+        $('#modal-manage').modal('show');
+    });
+
 </script>

@@ -3,8 +3,12 @@
         <li><a href="<?php echo site_url('leads/index/inbox/' . $portal_id); ?>">Lead Inbox</a></li>
         <li><a href="<?php echo site_url('leads/index/sent/' . $portal_id); ?>">Lead Sent</a></li>
         <li><a href="<?php echo site_url('leads/index/pending/' . $portal_id); ?>">Lead Remaining</a></li>
-        <li class="active"><a href="<?php echo site_url('leads/leads_sent_history/' . $portal_id); ?>">Lead Sent History</a></li>
-        <li class=""><a href="<?php echo site_url('leads/leads_return_history/' . $portal_id); ?>">Lead Return History</a></li>
+        <?php if (is_allow_action('lead-sent-history') === TRUE) { ?>
+            <li class="active"><a href="<?php echo site_url('leads/leads_sent_history/' . $portal_id); ?>">Companies Lead Sent History</a></li>
+        <?php } ?>
+        <?php if (is_allow_action('lead-return-history') === TRUE) { ?>
+            <li class=""><a href="<?php echo site_url('leads/leads_return_history/' . $portal_id); ?>">Companies Lead Return History</a></li>
+        <?php } ?>
     </ul>
     <div class="tab-content">
         <div class="tab-pane active">
@@ -14,9 +18,9 @@
                         <tr> 
                             <td>Sr.</td>
                             <th>Company Name</th>
-                            <th>User Name</th>
-                            <th>User Phone</th>
-                            <th>User Message</th>
+                            <th>Customer Name</th>
+                            <th>Customer Phone</th>
+                            <th>Customer Message</th>
                             <th>Sent On</th>
                             <th>Status</th>
                             <th>Action</th>
@@ -60,9 +64,13 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <label class="control-label" for="name">Reason <em>*</em></label>
+                            <label class="control-label" for="reason_id">Reason <em>*</em></label> 
+                            <?php echo form_dropdown('reason_id', $reason_options, '', 'class="form-control select2dropdown" id="reason_id" style="width:100%;"'); ?> 
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="reason">Comment <em>*</em></label>
                             <?php echo form_textarea("reason", '', "id='reason' class='form-control' style='height:100px;'"); ?>
-                        </div>  
+                        </div> 
                         <?php echo form_hidden('id'); ?> 
                     </div>
                 </div>

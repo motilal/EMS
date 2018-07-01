@@ -3,8 +3,12 @@
         <li class="<?php echo $type == '' || $type == 'inbox' ? 'active' : ''; ?>"><a href="<?php echo site_url('leads/index/inbox/' . $portal_id); ?>">Lead Inbox</a></li>
         <li class="<?php echo $type == 'sent' ? 'active' : ''; ?>"><a href="<?php echo site_url('leads/index/sent/' . $portal_id); ?>">Lead Sent</a></li>
         <li class="<?php echo $type == 'pending' ? 'active' : ''; ?>"><a href="<?php echo site_url('leads/index/pending/' . $portal_id); ?>">Lead Remaining</a></li>
-        <li class=""><a href="<?php echo site_url('leads/leads_sent_history/' . $portal_id); ?>">Lead Sent History</a></li>
-        <li class=""><a href="<?php echo site_url('leads/leads_return_history/' . $portal_id); ?>">Lead Return History</a></li>
+        <?php if (is_allow_action('lead-sent-history') === TRUE) { ?>
+            <li class=""><a href="<?php echo site_url('leads/leads_sent_history/' . $portal_id); ?>">Companies Lead Sent History</a></li>
+        <?php } ?>
+        <?php if (is_allow_action('lead-return-history') === TRUE) { ?>
+            <li class=""><a href="<?php echo site_url('leads/leads_return_history/' . $portal_id); ?>">Companies Lead Return History</a></li>
+        <?php } ?>
         <?php if ($type == 'inbox') { ?>
             <li class="pull-right"> 
                 <?php if (is_allow_action('add-lead')) { ?>
@@ -25,13 +29,13 @@
                     <thead>
                         <tr> 
                             <td>Sr.</td>
-                            <th>Name</th>
-                            <th>Phone Number</th>
+                            <th>Customer Name</th>
+                            <th>Customer Phone</th>
                             <th>Service Type</th>  
                             <th>City</th> 
-                            <th>Date</th>
+                            <th>Received</th> 
                             <th>Sent Status</th>
-                            <th>Approve Status</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -46,7 +50,7 @@
                                     <td><?php echo $row[4]; ?></td> 
                                     <td><?php echo $row[5]; ?></td>
                                     <td><?php echo $row[6]; ?></td>
-                                    <td><?php echo $row[7]; ?></td>
+                                    <td><?php echo $row[7]; ?></td> 
                                 </tr>
                             <?php endforeach; ?>
                         <?php } ?>

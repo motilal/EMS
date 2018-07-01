@@ -1,6 +1,6 @@
 .list-action{
     float: left;
-    width: 70%; 
+    width: auto; 
 }
 .action-link a{
     float:left;

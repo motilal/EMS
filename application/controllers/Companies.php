@@ -11,7 +11,7 @@ class Companies extends CI_Controller {
     var $viewData = array();
 
     public function __construct() {
-        parent::__construct(); 
+        parent::__construct();
         $this->site_santry->allow(array());
         $this->layout->set_layout("layout/layout_admin");
         $this->load->model(array("company_model" => 'company'));
@@ -310,6 +310,7 @@ class Companies extends CI_Controller {
                         "packages_id" => $this->input->post('package'),
                         "total_leads" => $packageDetail->no_of_leads,
                         'used_leads' => 0,
+                        'amount_paid' => $this->input->post('amount_paid'),
                         'created' => date("Y-m-d H:i:s"),
                         'is_active' => 1
                     );
@@ -334,7 +335,7 @@ class Companies extends CI_Controller {
         if ($company_id != "") {
             $condition['cp.companies_id'] = $company_id;
             $this->viewData['company_id'] = $company_id;
-        }
+        } 
         $result = $this->company->get_company_packages($condition);
         $this->viewData['result'] = $result;
         $this->viewData['title'] = "Manage Company Package";
@@ -348,6 +349,7 @@ class Companies extends CI_Controller {
     }
 
     function _validate_package($package_id) {
+        return TRUE;
         $company_id = $this->input->post('company');
         if (!empty($package_id) && !empty($company_id)) {
             $checkpackage = $this->db->select('id')->where(array('packages_id' => $package_id, 'companies_id' => $company_id, '`total_leads` > `used_leads`' => NULL))->get('companies_package');

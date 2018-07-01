@@ -90,12 +90,16 @@ defined('EXIT__AUTO_MAX') OR define('EXIT__AUTO_MAX', 125); // highest automatic
 defined('SITE_TITLE') OR define('SITE_TITLE', 'Easy My Search');
 defined('PROJECT_VERSION') OR define('PROJECT_VERSION', '1.0.0');
 defined('DEFAULT_PAGING') OR define('DEFAULT_PAGING', '10');
-defined('DATE_FORMATE') OR define('DATE_FORMATE', 'd-M-Y');
-defined('DATETIME_FORMATE') OR define('DATETIME_FORMATE', 'd-M-Y H:i');
+defined('DATE_FORMATE') OR define('DATE_FORMATE', 'd-m-Y');
+defined('DATETIME_FORMATE') OR define('DATETIME_FORMATE', 'd-m-Y H:i');
 defined('ENV_HOST') OR define('ENV_HOST', 'localhost');
 
 define('TEMP_IMG_PATH', 'uploads/temp/');
 define('COMPANY_DOC_PATH', 'uploads/company_doc/');
 define('GOOGLE_MAP_KEY', 'AIzaSyBJic7-q6o3yYoNc2xilhSxVSIc33U-6j0');
+define('MAX_LEAD_SENT_TO_COMPANY', '2');
+define('TEXT_LOCAL_SENDER', 'BMTMPO');
+define('TEXT_LOCAL_APIKEY', 'pFn1aqBql5k-yXzvvQ5UwEs6ImeGwYQsQK7fN7wqTe');
+
 
 

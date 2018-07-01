@@ -138,4 +138,25 @@ class Company_model extends CI_Model {
         }
     }
 
+    public function get_companies_by_city_service($service_type_id, $city_id) {
+        $condition = array('c.is_delete' => '0', 'c.is_active' => '1', 'companies_city.cities_id' => $city_id, 'c.servicetypes_id' => $service_type_id, 'cp.total_leads > cp.used_leads' => NULL, 'cp.is_active' => 1);
+        $this->db->select("c.*");
+        if (!empty($condition) || $condition != "") {
+            $this->db->where($condition);
+        }
+        $this->db->join('companies_city', 'companies_city.companies_id=c.id', 'INNER');
+        $this->db->join('companies_package as cp', 'cp.companies_id=c.id', 'INNER');
+        $this->db->group_by('c.id');
+        $data = $this->db->get("companies as c");
+        return $data;
+    }
+
+    public function total_lead_sent_today($company_id) {
+        $sql = $this->db->select('count(id) as total')->where(['companies_id' => $company_id, 'DATE(created)' => date('Y-m-d')])->group_by('companies_id')->get('leads_sent_history');
+        if ($sql->num_rows() > 0) {
+            return $sql->rows()->total;
+        }
+        return 0;
+    }
+
 }

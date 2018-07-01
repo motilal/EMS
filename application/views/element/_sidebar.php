@@ -131,6 +131,14 @@ $user_permissions = $this->session->userdata('_subadmin_module_permissions');
                 </li>
             <?php } ?> 
 
+            <?php if (is_allow_module('reason')) { ?>    
+                <li class="<?php echo $segment_cntr == 'reasons' ? 'active' : ''; ?>">
+                    <a href="<?php echo site_url('reasons'); ?>">
+                        <i class="fa fa-comment"></i> <span>Lead Return Reasons</span> 
+                    </a>
+                </li>
+            <?php } ?>
+
             <?php if (is_allow_module('email templates')) { ?>    
                 <li class="<?php echo $segment_cntr == 'email_templates' ? 'active' : ''; ?>">
                     <a href="<?php echo site_url('email_templates'); ?>">

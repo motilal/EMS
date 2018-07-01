@@ -7,7 +7,7 @@ require APPPATH . 'libraries/Rest_server.php';
 class Services extends Rest_server {
 
     function __construct() {
-        parent::__construct();  
+        parent::__construct();
     }
 
     public function savelead_post() {
@@ -66,6 +66,10 @@ class Services extends Rest_server {
 
     private function getCityId($city_name = '') {
         $sql = $this->db->select('id')->get_where('cities', array('name' => $city_name, 'is_delete' => 0));
+        if ($sql->num_rows() == 0) {
+            $city_name = str_replace(' ', '|', $city_name);
+            $sql = $this->db->select('id')->where(array('is_delete' => 0, "name REGEXP '$city_name'" => NULL))->limit(1)->get('cities');
+        }
         if ($sql->num_rows() > 0) {
             return $sql->row()->id;
         } else {
@@ -75,6 +79,7 @@ class Services extends Rest_server {
 
     private function getCityByAddress($address = "") {
         if (!empty($address)) {
+            $address = urlencode($address);
             $geocode = file_get_contents("https://maps.googleapis.com/maps/api/geocode/json?address=$address&components=country:IN&key=" . GOOGLE_MAP_KEY);
             $output = json_decode($geocode);
             if (isset($output->results[0]->geometry->location->lat)) {
@@ -95,6 +100,66 @@ class Services extends Rest_server {
             }
         }
         return NULL;
+    }
+
+    public function send_lead_get() {
+        $this->load->model(array('lead_model' => 'lead', 'company_model' => 'company'));
+        $lead_id = '7';
+        $leadDetail = $this->lead->getById($lead_id, true);
+        if (isset($leadDetail->status) && $leadDetail->status == 0 && $leadDetail->servicetypes_id > 0 && $leadDetail->cities_id) {
+            $companies = $this->company->get_companies_by_city_service($leadDetail->servicetypes_id, $leadDetail->cities_id);
+            $sentCounter = 0;
+            if ($companies->num_rows() > 0) {
+                $companies_result = $companies->result();
+                foreach ($companies_result as $key => $row) {
+                    $row->todaySentLead = $this->company->total_lead_sent_today($row->id);
+                    if ($row->lead_sent_flag == 0 && $sentCounter < MAX_LEAD_SENT_TO_COMPANY) {
+                        if ($row->lead_limit >= $row->todaySentLead || is_null($row->lead_limit) || $row->lead_limit == "") {
+                            //set sent flag for company
+                            if ($this->send_message($row, $leadDetail)) {
+                                $sentCounter++;
+                                $this->db->where('id', $row->id)->set('lead_sent_flag', 1)->update('companies');
+                                $companies_result[$key]->lead_sent_flag = 1;
+                            }
+                        }
+                    }
+                }
+                if ($sentCounter < MAX_LEAD_SENT_TO_COMPANY && $companies->num_rows() >= MAX_LEAD_SENT_TO_COMPANY) {
+                    foreach ($companies_result as $key => $row) {
+                        $this->db->where('id', $row->id)->set('lead_sent_flag', 0)->update('companies');
+                        $companies_result[$key]->lead_sent_flag = 0;
+                    }
+                    foreach ($companies_result as $key => $row) {
+                        if ($row->lead_sent_flag == 0 && $sentCounter < MAX_LEAD_SENT_TO_COMPANY) {
+                            if ($row->lead_limit >= $row->todaySentLead || is_null($row->lead_limit) || $row->lead_limit == "") {
+                                //set sent flag for company 
+                                if ($this->send_message($row, $leadDetail)) {
+                                    $sentCounter++;
+                                    $this->db->where('id', $row->id)->set('lead_sent_flag', 1)->update('companies');
+                                    $companies_result[$key]->lead_sent_flag = 1;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private function send_message($company_detail, $lead_detail) {
+//        $message = "Hello,\n"
+//                . "Please give $lead_detail->service_name quotation to the following customer: {$lead_detail->name}($lead_detail->phone_number),\n\n"
+//                . "BookMyTempo";
+//
+//        $message = "Hello,"
+//                . "Please give $lead_detail->service_name quotation to the following customer:"
+//                . "{$lead_detail->name},"
+//                . "BookMyTempo";
+//                
+                  
+        $message = "Hello,%nPlease give test quotation to the following customer:%nSssss,%n%nBookMyTempo";
+        $this->load->helper('email_helper');
+        sendsms(array($company_detail->phone1), $message);
     }
 
 }

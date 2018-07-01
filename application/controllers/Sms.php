@@ -36,7 +36,6 @@ class Sms extends CI_Controller {
             exit();
         }
         $result = $this->get_list(array('start' => 0, 'limit' => $this->per_page), '');
-        pr($result); die;
         if ($result->status == 'success' && $result->total > 0) {
             $this->viewData['result'] = $this->showTableData($result->messages);
         }
@@ -49,9 +48,9 @@ class Sms extends CI_Controller {
     }
 
     private function get_list($limit = array(), $order = array()) {
-        $apiKey = urlencode('pFn1aqBql5k-yXzvvQ5UwEs6ImeGwYQsQK7fN7wqTe');
+        $apiKey = urlencode(TEXT_LOCAL_APIKEY);
         $data = array('apikey' => $apiKey, 'start' => $limit['start'], 'limit' => $limit['limit'], 'sort_order' => isset($order[1]) ? $order[1] : 'DESC');
-        $ch = curl_init('https://api.textlocal.in/get_history_api/');
+        $ch = curl_init('https://api.textlocal.in/get_history_single/');
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

@@ -12,7 +12,7 @@ class Leads extends CI_Controller {
     var $per_page = DEFAULT_PAGING;
 
     public function __construct() {
-        parent::__construct(); 
+        parent::__construct();
         $this->site_santry->allow(array());
         $this->layout->set_layout("layout/layout_admin");
         $this->load->model(array("lead_model" => 'lead', 'portal_model' => 'portal'));
@@ -78,8 +78,9 @@ class Leads extends CI_Controller {
                 $rowData[2] = $row->phone_number;
                 $rowData[3] = $row->service_name;
                 $rowData[4] = $row->city_name;
-                $rowData[5] = $row->date;
-                $rowData[6] = $row->status == 0 ? '<span class="text-red">Pending<span>' : '<span class="text-green">Sent</span>';
+                $rowData[5] = date(DATETIME_FORMATE, strtotime($row->created));
+                $leadPercent = $this->lead->get_lead_percent($row->id);
+                $rowData[6] = $row->status == 0 ? '<span class="text-red">Pending<span>' : '<span class="text-green">Sent (' . $leadPercent . '%)</span>';
                 $rowData[7] = $this->layout->element('element/_module_status', array('status' => $row->is_active, 'id' => $row->id, 'url' => "leads/changestatus", 'permissionKey' => "lead-status"), true);
                 $editUrl = 'leads/manage/' . $row->id;
                 $viewUrl = 'leads/view/' . $row->id;
@@ -234,6 +235,8 @@ class Leads extends CI_Controller {
         $this->viewData['pageHeading'] = 'Leads Sent History';
         $this->viewData['breadcrumb'] = array('Leads Manager' => 'portals', 'Lead Sent History' => '');
         $this->viewData['datatable_asset'] = true;
+        $this->load->model('reason_model', 'reason');
+        $this->viewData['reason_options'] = $this->reason->reasons_options(true);
         $this->layout->view("lead/leads_sent_history", $this->viewData);
     }
 
@@ -281,6 +284,7 @@ class Leads extends CI_Controller {
 
     public function add_lead_return_request() {
         $has_permission = $this->acl->has_permission('add-lead-return-request', FALSE);
+        $response = array();
         if ($has_permission === TRUE) {
             if ($this->input->post()) {
                 $this->load->library('form_validation');
@@ -293,6 +297,7 @@ class Leads extends CI_Controller {
                             'leads_id' => $lead_sent_history_row->leads_id,
                             'leads_sent_history_id' => $lead_sent_history_row->id,
                             'reason' => $this->input->post('reason'),
+                            'reasons_id' => $this->input->post('reason_id'),
                             'approve_status' => 0,
                             'created' => date("Y-m-d H:i:s")
                         );
@@ -362,27 +367,45 @@ class Leads extends CI_Controller {
         if (is_numeric($lead_reaturn_history_id) && $lead_reaturn_history_id > 0) {
             $has_permission = $this->acl->has_permission('approve-return-lead', FALSE);
             if ($has_permission === TRUE) {
-                $lead_reaturn_history_sql = $this->db->select('id,leads_sent_history_id')->get_where('leads_return_history', array('id' => $lead_reaturn_history_id, 'approve_status' => 0));
-                if ($lead_reaturn_history_sql->num_rows() > 0) {
-                    if ($this->db->update("leads_return_history", array('approve_status' => 1, 'approve_by' => $this->ion_auth->get_user_id(), 'approve_date' => date('Y-m-d H:i:s')), array("id" => $lead_reaturn_history_id))) {
-                        $lead_reaturn_history_row = $lead_reaturn_history_sql->row();
-                        /* decrement package lead counter */
-                        $companies_package_id = $this->db->select('companies_package_id')->where(array('id' => $lead_reaturn_history_row->leads_sent_history_id))->get('leads_sent_history')->row()->companies_package_id;
-                        $this->db->where(array("id" => $companies_package_id))->set('total_leads', 'total_leads+1', FALSE)->set('used_leads', 'used_leads-1', FALSE)->update("companies_package");
-                        $this->session->set_flashdata("success", __('LeadReturnApproveSuccess'));
-                    }
+                if ($this->lead->lead_approve($lead_reaturn_history_id)) {
+                    $this->session->set_flashdata("success", __('LeadReturnApproveSuccess'));
                 } else {
                     $this->session->set_flashdata("error", __('LinkExpired'));
                 }
+            } else {
+                $this->session->set_flashdata("error", $has_permission);
             }
-
             redirect('leads/leads_return_history');
         }
+    }
+
+    public function actions() {
+        $this->load->library('form_validation');
+        if ($this->form_validation->run('multi_action') === TRUE) {
+            if ($this->input->post("actions") == "return_approve") {
+                $has_permission = $this->acl->has_permission('approve-return-lead', FALSE);
+                if ($has_permission === TRUE) {
+                    $ids = $this->input->post('ids');
+                    if (!empty($ids)) {
+                        foreach ($ids as $lead_reaturn_history_id) {
+                            $this->lead->lead_approve($lead_reaturn_history_id);
+                        }
+                    }
+                    $this->session->set_flashdata("success", __('LeadReturnApproveSuccess'));
+                } else {
+                    $this->session->set_flashdata("error", $has_permission);
+                }
+            }
+        }
+        $current_url = $this->input->post("current_url") != "" ? $this->input->post("current_url") : '/';
+        redirect($current_url);
     }
 
     private function showLeadSentTableData($data) {
         $resultData = array();
         if ($data != "") {
+            $add_lead_return_has_permission = $this->acl->has_permission('add-lead-return-request', FALSE);
+            $resend_lead_has_permission = $this->acl->has_permission('resend-lead', FALSE);
             foreach ($data as $key => $row) {
                 $rowData = array();
                 $rowData[0] = getPageSerial($this->input->get('length'), $this->input->get('start'), $key);
@@ -394,8 +417,15 @@ class Leads extends CI_Controller {
                 $rowData[6] = '';
                 if ($row->lead_sent_status == 1) {
                     $rowData[6] = '<span class="text-green">Sent<span>';
-                    $rowData[7] = '<a class="label label-success resend-lead" href="' . site_url("leads/resend_lead/{$row->leads_sent_history_id}") . '">Resend</a>&nbsp'
-                            . '<a class="label label-danger return-lead" href="#" data-id="' . $row->leads_sent_history_id . '" data-toggle="modal" data-target="#modal-return-lead">Return</a>';
+                    $return_lead_btn = '';
+                    if ($add_lead_return_has_permission === true) {
+                        $return_lead_btn = '<a class="label label-danger return-lead" href="#" data-id="' . $row->leads_sent_history_id . '" data-toggle="modal" data-target="#modal-return-lead">Return</a>';
+                    }
+                    $resend_lead_btn = '';
+                    if ($resend_lead_has_permission === true) {
+                        $resend_lead_btn = '<a class="label label-success resend-lead" href="' . site_url("leads/resend_lead/{$row->leads_sent_history_id}") . '">Resend</a>&nbsp';
+                    }
+                    $rowData[7] = $resend_lead_btn . $return_lead_btn;
                 } else if ($row->lead_sent_status == 2) {
                     $rowData[6] = '<span class="text-red">Return<span>';
                     $rowData[7] = '-';
@@ -409,9 +439,10 @@ class Leads extends CI_Controller {
     private function showLeadReturnTableData($data) {
         $resultData = array();
         if ($data != "") {
+            $has_permission = $this->acl->has_permission('approve-return-lead', FALSE);
             foreach ($data as $key => $row) {
                 $rowData = array();
-                $rowData[0] = getPageSerial($this->input->get('length'), $this->input->get('start'), $key);
+                $rowData[0] = form_checkbox("ids[]", $row->lead_reaturn_history_id, in_array($row->lead_reaturn_history_id, (array) set_value("ids")) ? true : false, "id=\"ids_{$row->lead_reaturn_history_id}\"");
                 $rowData[1] = $row->company_name;
                 $rowData[2] = $row->lead_name;
                 $rowData[3] = $row->phone_number;
@@ -423,7 +454,11 @@ class Leads extends CI_Controller {
                 if ($row->approve_status == 1) {
                     $rowData[7] = '<span class="text-green">Approved<span>';
                 } else {
-                    $rowData[7] = '<div class="text-yellow text-sm">Pending</div><a class="label label-danger approve-return-lead" href="' . site_url("leads/approve_return_lead/{$row->lead_reaturn_history_id}") . '">Approve</a>';
+                    if ($has_permission === true) {
+                        $rowData[7] = '<div class="text-yellow text-sm">Pending</div><a class="label label-danger approve-return-lead" href="' . site_url("leads/approve_return_lead/{$row->lead_reaturn_history_id}") . '">Approve</a>';
+                    } else {
+                        $rowData[7] = '<div class="text-yellow text-sm">Pending</div>';
+                    }
                 }
                 $resultData[] = $rowData;
             }
