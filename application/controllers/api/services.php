@@ -46,7 +46,7 @@ class Services extends Rest_server {
     }
 
     public function users_get() {
-        // Users from a data store e.g. database
+        // Users from a data store e.g. database 
         $users = [
             ['id' => 1, 'name' => 'John', 'email' => 'john@example.com', 'fact' => 'Loves coding', 'city' => $this->getCityByAddress('chandni chowk delhi')],
             ['id' => 2, 'name' => 'Jim', 'email' => 'jim@example.com', 'fact' => 'Developed on CodeIgniter'],
@@ -104,7 +104,7 @@ class Services extends Rest_server {
 
     public function send_lead_get() {
         $this->load->model(array('lead_model' => 'lead', 'company_model' => 'company'));
-        $lead_id = '7';
+        $lead_id = '18';
         $leadDetail = $this->lead->getById($lead_id, true);
         if (isset($leadDetail->status) && $leadDetail->status == 0 && $leadDetail->servicetypes_id > 0 && $leadDetail->cities_id) {
             $companies = $this->company->get_companies_by_city_service($leadDetail->servicetypes_id, $leadDetail->cities_id);
@@ -146,20 +146,30 @@ class Services extends Rest_server {
         }
     }
 
-    private function send_message($company_detail, $lead_detail) {
-//        $message = "Hello,\n"
-//                . "Please give $lead_detail->service_name quotation to the following customer: {$lead_detail->name}($lead_detail->phone_number),\n\n"
-//                . "BookMyTempo";
-//
-//        $message = "Hello,"
-//                . "Please give $lead_detail->service_name quotation to the following customer:"
-//                . "{$lead_detail->name},"
-//                . "BookMyTempo";
-//                
-                  
-        $message = "Hello,%nPlease give test quotation to the following customer:%nSssss,%n%nBookMyTempo";
+    private function send_sms($company_detail, $lead_detail) {
+        /* Send Lead to company via sms */
+        $message = "Hello, %nPlease give $lead_detail->service_name quotation to the following customer:%n$lead_detail->name($lead_detail->phone_number),%n %nBookMyTempo";
         $this->load->helper('email_helper');
-        sendsms(array($company_detail->phone1), $message);
+
+        $contacts = [$company_detail->phone1];
+        if ($company_detail->phone2 != "") {
+            array_push($contacts, $company_detail->phone2);
+        }
+        pr($contacts);
+        die;
+        //sendsms(array($contacts), $message);
+        /* Send company */
+    }
+
+    private function send_email($company_detail, $lead_detail) {
+        /* Send Lead to company via email */
+        $this->load->helper('email_helper');
+        $email = $company_detail->email;
+        $code = $forgotten['forgotten_password_code'];
+        $this->load->helper('email_helper');
+        $replaceFrom = array('{service}', '{customer_detail}');
+        $replaceTo = array($lead_detail->service_name, $lead_detail->name($lead_detail->phone_number));
+        sendMailByTemplate('forgot-password', $replaceFrom, $replaceTo, $email);
     }
 
 }

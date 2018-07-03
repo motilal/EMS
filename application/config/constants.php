@@ -97,7 +97,7 @@ defined('ENV_HOST') OR define('ENV_HOST', 'localhost');
 define('TEMP_IMG_PATH', 'uploads/temp/');
 define('COMPANY_DOC_PATH', 'uploads/company_doc/');
 define('GOOGLE_MAP_KEY', 'AIzaSyBJic7-q6o3yYoNc2xilhSxVSIc33U-6j0');
-define('MAX_LEAD_SENT_TO_COMPANY', '2');
+define('MAX_LEAD_SENT_TO_COMPANY', '4');
 define('TEXT_LOCAL_SENDER', 'BMTMPO');
 define('TEXT_LOCAL_APIKEY', 'pFn1aqBql5k-yXzvvQ5UwEs6ImeGwYQsQK7fN7wqTe');
 

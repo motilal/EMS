@@ -29,7 +29,7 @@ class Auth extends CI_Controller {
                     redirect($this->input->post('request') ? $this->input->post('request') : "/dashboard/?auth=verify");
                 } else {
                     $this->session->set_flashdata('error', $this->ion_auth->errors());
-                    redirect('admin');
+                    redirect('/');
                 }
             }
         }
@@ -56,11 +56,11 @@ class Auth extends CI_Controller {
                     redirect("/dashboard/?auth=verify");
                 } else {
                     $this->session->set_flashdata('error', $this->ion_auth->errors());
-                    redirect('admin');
+                    redirect('/');
                 }
             }
         } else {
-            redirect("admin");
+            redirect("/");
         }
     }
 

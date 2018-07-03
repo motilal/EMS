@@ -286,6 +286,24 @@ class Companies extends CI_Controller {
         }
     }
 
+    public function ajax_getPackageAmount() {
+        if ($this->input->is_ajax_request()) {
+            $response = array();
+            $response['amount'] = array();
+            $this->load->model(array('package_model' => 'package'));
+            if ($this->input->post('package_id') != "" && is_numeric($this->input->post('package_id'))) {
+                $result = $this->package->getById($this->input->post('package_id'));
+                if (!empty($result)) {
+                    $response['row'] = $result;
+                    $response['success'] = true;
+                }
+            }
+            $this->output->set_content_type('application/json')->set_output(json_encode($response));
+        } else {
+            show_404();
+        }
+    }
+
     public function download_doc($filename = '') {
         if (!empty($filename)) {
             $filepath = COMPANY_DOC_PATH . $filename;
@@ -308,15 +326,17 @@ class Companies extends CI_Controller {
                     $data = array(
                         "companies_id" => $this->input->post('company'),
                         "packages_id" => $this->input->post('package'),
-                        "total_leads" => $packageDetail->no_of_leads,
+                        "total_leads" => $this->input->post('lead_balance'),
                         'used_leads' => 0,
-                        'amount_paid' => $this->input->post('amount_paid'),
+                        'package_amount' => $this->input->post('package_amount'),
                         'created' => date("Y-m-d H:i:s"),
                         'is_active' => 1
-                    );
+                    ); 
                     $has_permission = $this->acl->has_permission('company-package-add', FALSE);
                     if ($has_permission === TRUE) {
                         $this->db->insert("companies_package", $data);
+                        $companies_package_id = $this->db->insert_id();
+                        $this->db->insert('companies_package_payment', ['companies_package_id' => $companies_package_id, 'amount' => $this->input->post('amount_paid'), 'created' => date('Y-m-d H:i:s')]);
                         $response['success'] = true;
                         $response['msg'] = __('CompanyPackageAddSuccess');
                     } else {
@@ -335,7 +355,7 @@ class Companies extends CI_Controller {
         if ($company_id != "") {
             $condition['cp.companies_id'] = $company_id;
             $this->viewData['company_id'] = $company_id;
-        } 
+        }
         $result = $this->company->get_company_packages($condition);
         $this->viewData['result'] = $result;
         $this->viewData['title'] = "Manage Company Package";
@@ -359,6 +379,17 @@ class Companies extends CI_Controller {
             } else {
                 return TRUE;
             }
+        }
+    }
+
+    function _validate_amount_paid($package_id) {
+        $amount_paid = $this->input->post('amount_paid');
+        $package_amount = $this->input->post('package_amount');
+        if ($amount_paid > $package_amount) {
+            $this->form_validation->set_message('_validate_amount_paid', 'Amount paid will not greater than package amount.');
+            return FALSE;
+        } else {
+            return TRUE;
         }
     }
 

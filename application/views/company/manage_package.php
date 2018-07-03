@@ -23,6 +23,7 @@
                                 <th>Package Name</th> 
                                 <th>Total Leads</th> 
                                 <th>Used Leads</th> 
+                                <th>Package Amount(&#8377;)</th>
                                 <th>Amount Paid(&#8377;)</th> 
                                 <th>Created</th> 
                                 <th>Status</th>
@@ -38,7 +39,8 @@
                                         <td><?php echo $row->package_name; ?></td> 
                                         <td><?php echo $row->total_leads; ?></td> 
                                         <td><?php echo $row->used_leads; ?></td>  
-                                        <td><?php echo $row->amount_paid; ?></td> 
+                                        <td><?php echo $row->package_amount; ?></td> 
+                                        <td><?php echo $row->total_paid_amount; ?></td> 
                                         <td><?php echo date(DATE_FORMATE, strtotime($row->created)); ?></td> 
                                         <td>
                                             <?php if ($row->total_leads <= $row->used_leads) { ?>
@@ -84,10 +86,15 @@
                         <div class="form-group">
                             <label class="control-label" for="package">Package <em>*</em></label>  
                             <?php echo form_dropdown('package', $packages_options, '', 'class="form-control select2dropdown" id="package" style="width:100%;"'); ?>  
-                        </div>   
+                            <div class="pull-right text-info" id="package_amount"></div>
+                        </div>  
+                        <?php echo form_hidden('package_amount'); ?>
+                        <?php echo form_hidden('total_lead'); ?>
+                        <?php echo form_hidden('lead_balance'); ?>
                         <div class="form-group">
                             <label class="control-label" for="amount_paid">Amount Paid <em>*</em></label>
-                            <?php echo form_input("amount_paid", '', "id='amount_paid' class='form-control'"); ?>
+                            <?php echo form_input("amount_paid", '', "id='amount_paid' autocomplete='off' class='form-control'"); ?>
+                            <div class="pull-right text-info" id="lead_balance"></div>
                         </div>  
                     </div>
                 </div>
@@ -113,7 +120,7 @@
      3 default paging
      4 show sr. number or not
      */
-    var datatbl = datatable_init([0, 7], [[2, 'asc']], DEFAULT_PAGING, 1);
+    var datatbl = datatable_init([0, 9], [[1, 'asc']], DEFAULT_PAGING, 1);
     $('#manage-form').submit(function (e) {
         var _this = $(this);
         _this.find("[type='submit']").prop('disabled', true);
@@ -153,7 +160,50 @@
         $('.form-group .help-block').remove();
         $('.form-group').removeClass('has-error');
         $('#manage-form')[0].reset();
-        $('#manage-form').find('[name="id"]').val('');
+        $('#package').val('').trigger('change.select2');
+        $('#package_amount,#lead_balance').empty();
         $('.modal-title').text('Add New Package');
+    });
+
+    $('#amount_paid').on('keyup', function () {
+        var amount_paid = parseFloat($(this).val());
+        var package_amount = parseFloat($('[name="package_amount"]').val());
+        var total_lead = parseInt($('[name="total_lead"]').val());
+        var calculate_lead = (total_lead / package_amount) * amount_paid;
+        if (amount_paid > 0 && package_amount > 0 && total_lead > 0) {
+            $('#lead_balance').html('Lead Balance: ' + Math.floor(calculate_lead));
+            $('[name="lead_balance"]').val(Math.floor(calculate_lead));
+        } else {
+            $('[name="lead_balance"]').val('');
+            $('#lead_balance').empty();
+        }
+    });
+
+    $('#package').on('select2:select', function (e) {
+        var _this = $(this);
+        if (_this.val() == "") {
+            $('#package_amount').empty();
+            $('[name="package_amount"]').val('');
+            $('[name="total_lead"]').val('');
+            $('#amount_paid').keyup();
+            return;
+        }
+        $.ajax({
+            url: '<?php echo site_url('companies/ajax_getPackageAmount'); ?>',
+            type: "POST",
+            dataType: "json",
+            data: {package_id: _this.val()},
+            success: function (response) {
+                if (response.success && response.row) {
+                    $('#package_amount').html('Package Amount : ' + response.row.amount + ' | Total Lead : ' + response.row.no_of_leads);
+                    $('[name="package_amount"]').val(response.row.amount);
+                    $('[name="total_lead"]').val(response.row.no_of_leads);
+                    $('#amount_paid').keyup();
+                }
+            },
+            error: function (jqXHR, exception) {
+                showMessage('error', {message: 'Uncaught Error.\n' + jqXHR.responseText});
+            }
+        });
     });
 </script>

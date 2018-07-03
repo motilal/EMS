@@ -119,11 +119,12 @@ class Company_model extends CI_Model {
     }
 
     public function get_company_packages($condition) {
-        $result = $this->db->select("cp.*,companies.name as company_name,packages.name as package_name")
+        $count_amount = '(SELECT SUM(amount) FROM companies_package_payment WHERE companies_package_payment.companies_package_id=cp.id) as total_paid_amount';
+        $result = $this->db->select("cp.*,companies.name as company_name,packages.name as package_name,$count_amount")
                 ->where($condition)
                 ->join('companies', 'companies.id=cp.companies_id', 'LEFT')
                 ->join('packages', 'packages.id=cp.packages_id', 'LEFT')
-                ->get("companies_package as cp");
+                ->get("companies_package as cp"); 
         return $result;
     }
 
