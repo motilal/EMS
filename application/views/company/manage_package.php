@@ -229,6 +229,7 @@
     $('.package-payment-history').on('click', function (e) {
         $('#packagePaymentHistoryModal .modal-body').load($(this).attr('data-href'), function () {
             $('#packagePaymentHistoryModal').modal({show: true});
+            $('#packagePaymentHistoryModal .modal-title').text('Package Payment History');
         });
         e.preventDefault();
     });

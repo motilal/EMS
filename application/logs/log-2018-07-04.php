@@ -37,3 +37,4 @@
 {"lavel":"ERROR","date":"2018-07-04 08:08:01","message":"Query error: Unknown column 'total_lead' in 'field list' - Invalid query: UPDATE `companies_package` SET `total_lead` = 60\nWHERE `id` = '1'"}
 {"lavel":"ERROR","date":"2018-07-04 08:08:10","message":"Query error: Unknown column 'total_lead' in 'field list' - Invalid query: UPDATE `companies_package` SET `total_lead` = 60\nWHERE `id` = '1'"}
 {"lavel":"ERROR","date":"2018-07-04 08:09:25","message":"404 Page Not Found: Asset\/plugin"}
+{"lavel":"ERROR","date":"2018-07-04 08:19:08","message":"404 Page Not Found: Asset\/plugin"}
