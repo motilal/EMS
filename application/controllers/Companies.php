@@ -329,9 +329,10 @@ class Companies extends CI_Controller {
                         "total_leads" => $this->input->post('lead_balance'),
                         'used_leads' => 0,
                         'package_amount' => $this->input->post('package_amount'),
+                        'package_lead' => $this->input->post('total_lead'),
                         'created' => date("Y-m-d H:i:s"),
                         'is_active' => 1
-                    ); 
+                    );
                     $has_permission = $this->acl->has_permission('company-package-add', FALSE);
                     if ($has_permission === TRUE) {
                         $this->db->insert("companies_package", $data);
@@ -460,6 +461,46 @@ class Companies extends CI_Controller {
             return FALSE;
         } else {
             return TRUE;
+        }
+    }
+
+    function getPackagePaymentHistory($companies_package_id) {
+        if (empty($companies_package_id))
+            echo 'no data found';
+        $sql = $this->db->where(['companies_package_id' => $companies_package_id])->order_by('created', 'DESC')->get('companies_package_payment');
+        $c_package_sql = $this->db->where(['id' => $companies_package_id])->get('companies_package');
+        $this->viewData['result'] = $sql->result();
+        $this->viewData['company_package'] = $c_package_sql->row();
+        echo $this->load->view("company/get_package_payment_history", $this->viewData, true);
+    }
+
+    public function pay_package_amount() {
+        if ($this->input->is_ajax_request()) {
+            $this->load->library('form_validation');
+            $response = array();
+            if ($this->form_validation->run('pay_package_amount') === TRUE) {
+                $amount_paid = $this->input->post('amount');
+                $due_amount = $this->input->post('due_amount');
+                $package_amount = $this->input->post('package_amount');
+                $package_lead = $this->input->post('package_lead');
+                $companies_package_id = $this->input->post('companies_package_id');
+                if ($amount_paid > $due_amount) {
+                    $response['error'] = 'The amount will not greater than due amount.';
+                } else {
+                    $calculate_lead = ($package_lead / $package_amount) * $amount_paid;
+                    $calculate_lead = floor($calculate_lead);
+                    if ($this->db->where('id', $companies_package_id)->set('total_leads', "total_leads + $calculate_lead", FALSE)->update('companies_package')) {
+                        $this->db->insert('companies_package_payment', ['companies_package_id' => $companies_package_id, 'amount' => $amount_paid, 'created' => date('Y-m-d H:i:s')]);
+                        $response['success'] = true;
+                        $response['msg'] = 'Package amount recharge successfully.';
+                    }
+                }
+            } else {
+                $response['validation_error'] = $this->form_validation->error_array();
+            }
+            $this->output->set_content_type('application/json')
+                    ->set_output(json_encode($response))->_display();
+            exit();
         }
     }
 

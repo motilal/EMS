@@ -19,7 +19,10 @@
         <a href="<?php echo site_url($addPackageUrl); ?>" class="btn btn-block btn-warning btn-xs<?php echo (is_allow_action('manage-company-package') === FALSE) ? ' disabled' : ''; ?>" data-toggle="tooltip" title="" data-original-title="Manage Package"> <span class="fa fa-shopping-cart"></span> </a>
     <?php } ?>
     <?php if (!empty($sendLeadUrl) && is_allow_action('send-lead') === TRUE) { ?>
-        <a href="#" data-action="<?php echo site_url($sendLeadUrl); ?>" class="btn btn-block bg-aqua btn-xs send-lead" href="#" data-toggle="modal" data-target="#modal-send-lead" title="Send Lead"> <span class="fa fa-send"></span> </a>
+        <a href="#" data-action="<?php echo site_url($sendLeadUrl); ?>" class="btn btn-block bg-aqua btn-xs send-lead" data-toggle="modal" data-target="#modal-send-lead" title="Send Lead"> <span class="fa fa-send"></span> </a>
+    <?php } ?>
+    <?php if (!empty($packagePaymentHistoryUrl)) { ?>
+        <a href="#" data-href="<?php echo site_url($packagePaymentHistoryUrl); ?>" class="btn btn-block bg-aqua btn-xs package-payment-history" data-toggle="tooltip" title="Payment Hostory"> <span class="fa fa-money"></span> </a>
     <?php } ?>
 
 </div> 

@@ -130,9 +130,14 @@ $config = array(
             'rules' => "trim|required"
         ),
         array(
+            'field' => 'lead_balance',
+            'label' => 'Company',
+            'rules' => "trim|required"
+        ),
+        array(
             'field' => 'amount_paid',
             'label' => 'Amount Paid',
-            'rules' => "trim|required|numeric"
+            'rules' => "trim|required|numeric|callback__validate_amount_paid"
         )
     ),
     'add_lead_return_request' => array(
@@ -164,6 +169,13 @@ $config = array(
             'field' => 'name',
             'label' => 'Reason',
             'rules' => "trim|required|max_length[255]|callback__is_unique_reason_name"
+        )
+    ),
+    'pay_package_amount' => array(
+        array(
+            'field' => 'amount',
+            'label' => 'Amount',
+            'rules' => "trim|required|numeric|max_length[11]"
         )
     ),
     'email_templates/manage' => array(

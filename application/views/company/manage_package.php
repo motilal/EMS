@@ -52,7 +52,7 @@
                                             ?>
                                         </td>
                                         <td>  
-                                            <?php echo $this->layout->element('element/_module_action', array('id' => $row->id, 'deleteUrl' => 'companies/delete_company_package', 'deletePermissionKey' => 'company-package-delete'), true); ?>
+                                            <?php echo $this->layout->element('element/_module_action', array('id' => $row->id, 'deleteUrl' => 'companies/delete_company_package', 'deletePermissionKey' => 'company-package-delete', 'packagePaymentHistoryUrl' => 'companies/getPackagePaymentHistory/' . $row->id), true); ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -66,8 +66,26 @@
         <!-- /.box -->
     </div>
     <!-- /.col -->
-</div>  
-<div class="modal fade" id="modal-manage">
+</div>   
+
+<!-- Modal -->
+<div class="modal fade" id="packagePaymentHistoryModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Package Payment History</h4>
+            </div>
+            <div class="modal-body">
+
+            </div> 
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modal-manage" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content"> 
             <?php echo form_open('companies/manage_package', array("id" => "manage-form", "method" => "post")); ?>
@@ -203,6 +221,44 @@
             },
             error: function (jqXHR, exception) {
                 showMessage('error', {message: 'Uncaught Error.\n' + jqXHR.responseText});
+            }
+        });
+    });
+
+
+    $('.package-payment-history').on('click', function (e) {
+        $('#packagePaymentHistoryModal .modal-body').load($(this).attr('data-href'), function () {
+            $('#packagePaymentHistoryModal').modal({show: true});
+        });
+        e.preventDefault();
+    });
+
+    $(document).on('submit', '#pay-package-amount-form', function (e) {
+        var _this = $(this);
+        _this.find("[type='submit']").prop('disabled', true);
+        e.preventDefault();
+        $.ajax({
+            url: _this.attr('action'),
+            type: "POST",
+            data: $('#pay-package-amount-form').serialize(),
+            success: function (res)
+            {
+                _this.find("[type='submit']").prop('disabled', false);
+                if (res.validation_error) {
+                    $.each(res.validation_error, function (index, value) {
+                        showMessage('error', {message: value});
+                    });
+                } else if (res.success && res.msg) {
+                    showMessage('success', {message: res.msg});
+                    $('#packagePaymentHistoryModal').modal('hide');
+                    location.reload();
+                } else if (res.error) {
+                    showMessage('error', {message: res.error});
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                _this.find("[type='submit']").prop('disabled', false);
+                showMessage('error', 'Internal error: ' + jqXHR.responseText);
             }
         });
     });
