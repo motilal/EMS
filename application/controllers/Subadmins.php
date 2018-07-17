@@ -123,7 +123,7 @@ class Subadmins extends CI_Controller {
         $this->viewData['pageHeading'] = $this->viewData['title'];
         $this->viewData['breadcrumb'] = array(
             'SubAdmin Manager' => 'subadmins', $this->viewData['title'] => '');
-        $this->layout->view("subedit", $this->viewData);
+        $this->layout->view("subadmin/edit", $this->viewData);
     }
 
     public function delete() {

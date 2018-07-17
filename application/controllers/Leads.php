@@ -64,7 +64,7 @@ class Leads extends CI_Controller {
         $this->viewData['breadcrumb'] = array('Leads Manager' => 'portals', 'Lead ' . ucfirst($type) => '');
         $this->viewData['datatable_asset'] = true;
         $this->load->model('company_model', 'company');
-        $this->viewData['company_options'] = $this->company->company_options();
+        $this->viewData['company_options'] = $this->company->get_active_companies(TRUE);
         $this->layout->view("lead/index", $this->viewData);
     }
 
@@ -85,7 +85,7 @@ class Leads extends CI_Controller {
                 $editUrl = 'leads/manage/' . $row->id;
                 $viewUrl = 'leads/view/' . $row->id;
                 $deleteUrl = 'leads/delete';
-                $sendLeadUrl = $row->status == '0' ? 'leads/send_lead/' . $row->id : '';
+                $sendLeadUrl = ($row->status == 0 || $leadPercent < 100) ? 'leads/send_lead/' . $row->id : '';
                 $rowData[8] = $this->layout->element('element/_module_action', array('id' => $row->id, 'editUrl' => $editUrl, 'sendLeadUrl' => $sendLeadUrl, 'deleteUrl' => $deleteUrl, 'viewUrl' => $viewUrl, 'editPermissionKey' => 'lead-edit', 'deletePermissionKey' => 'lead-delete'), true);
                 $resultData[] = $rowData;
             }
@@ -337,19 +337,15 @@ class Leads extends CI_Controller {
                 if ($this->input->post()) {
                     $this->load->library('form_validation');
                     if ($this->form_validation->run('send_lead') === TRUE) {
-                        $companies = $this->input->post('company');
-                        $current_date = date('Y-m-d H:i:s');
-                        foreach ($companies as $company_id) {
-                            $companies_package_id = $this->company->get_company_active_package($company_id);
-                            if ($companies_package_id) {
-                                $array = array('leads_id' => $leads_id, 'companies_package_id' => $companies_package_id, 'companies_id' => $company_id, 'status' => '1', 'created' => $current_date);
-                                $this->db->insert('leads_sent_history', $array);
-                                $this->db->where(array("id" => $companies_package_id))->set('total_leads', 'total_leads-1', FALSE)->set('used_leads', 'used_leads+1', FALSE)->update("companies_package");
-                            }
+                        $company_id = $this->input->post('company_id');
+                        $this->load->library('send_lead');
+                        $sendLead = $this->send_lead->send_manual($leads_id, $company_id);
+                        if ($sendLead === TRUE) {
+                            $response['success'] = true;
+                            $response['msg'] = __('LeadSendSuccess');
+                        } else {
+                            $response['error'] = isset($sendLead['message']) ? $sendLead['message'] : 'Something error';
                         }
-                        $this->db->where('id', $leads_id)->set('status', '1')->update('leads');
-                        $response['success'] = true;
-                        $response['msg'] = __('LeadSendSuccess');
                     } else {
                         $response['validation_error'] = $this->form_validation->error_array();
                     }

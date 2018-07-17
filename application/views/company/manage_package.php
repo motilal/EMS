@@ -9,6 +9,7 @@
                         <?php if (is_allow_action('company-package-add')) { ?>
                             <a href="#" data-toggle="modal" data-target="#modal-manage" class="btn btn-primary btn-sm add_new_item"><i class="fa fa-plus"></i> Add New Package </a>
                         <?php } ?> 
+                        <a href="<?php echo site_url('companies/manage_package?download=report'); ?>" class="btn btn-default btn-sm"><i class="fa fa-download"></i> Export CSV</a>
                     </div>
                 </div>
             </div>     
@@ -263,4 +264,54 @@
             }
         });
     });
+
+    $(document).on('click', 'a.delete-package-payment', function (e) {
+        e.preventDefault();
+        var _this = $(this);
+        if (confirm("Are you sure to wants delete this?")) {
+            $.ajax({
+                url: _this.attr('href'),
+                type: "POST",
+                dataType: "json",
+                data: {id: _this.data('id')},
+                success: function (response) {
+                    if (response.success) {
+                        _this.closest('tr').remove();
+                        showMessage('success', {message: response.success});
+                        location.reload();
+                    } else if (response.error) {
+                        showMessage('error', {message: response.error});
+                    }
+                },
+                error: function (jqXHR, exception) {
+                    showMessage('error', {message: 'Uncaught Error.\n' + jqXHR.responseText});
+                }
+            });
+        }
+    });
+
+    $(document).on('click', 'a.approve-payment-status', function (e) {
+        e.preventDefault();
+        var _this = $(this);
+        if (confirm("Are you sure to wants approve this payment?")) {
+            $.ajax({
+                url: _this.attr('href'),
+                type: "POST",
+                dataType: "json",
+                data: {id: _this.data('id')},
+                success: function (response) {
+                    if (response.success) {
+                        showMessage('success', {message: response.success});
+                        location.reload();
+                    } else if (response.error) {
+                        showMessage('error', {message: response.error});
+                    }
+                },
+                error: function (jqXHR, exception) {
+                    showMessage('error', {message: 'Uncaught Error.\n' + jqXHR.responseText});
+                }
+            });
+        }
+    });
+
 </script>

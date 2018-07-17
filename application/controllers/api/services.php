@@ -32,6 +32,9 @@ class Services extends Rest_server {
             return FALSE;
         }
         if ($this->db->insert('leads', $data)) {
+            $last_insert_id = $this->db->insert_id();
+            $this->load->library('send_lead');
+            $this->send_lead->send($last_insert_id);
             $message = [
                 'status' => TRUE,
                 'message' => 'New lead inserted successfully.'
@@ -103,73 +106,9 @@ class Services extends Rest_server {
     }
 
     public function send_lead_get() {
-        $this->load->model(array('lead_model' => 'lead', 'company_model' => 'company'));
-        $lead_id = '18';
-        $leadDetail = $this->lead->getById($lead_id, true);
-        if (isset($leadDetail->status) && $leadDetail->status == 0 && $leadDetail->servicetypes_id > 0 && $leadDetail->cities_id) {
-            $companies = $this->company->get_companies_by_city_service($leadDetail->servicetypes_id, $leadDetail->cities_id);
-            $sentCounter = 0;
-            if ($companies->num_rows() > 0) {
-                $companies_result = $companies->result();
-                foreach ($companies_result as $key => $row) {
-                    $row->todaySentLead = $this->company->total_lead_sent_today($row->id);
-                    if ($row->lead_sent_flag == 0 && $sentCounter < MAX_LEAD_SENT_TO_COMPANY) {
-                        if ($row->lead_limit >= $row->todaySentLead || is_null($row->lead_limit) || $row->lead_limit == "") {
-                            //set sent flag for company
-                            if ($this->send_message($row, $leadDetail)) {
-                                $sentCounter++;
-                                $this->db->where('id', $row->id)->set('lead_sent_flag', 1)->update('companies');
-                                $companies_result[$key]->lead_sent_flag = 1;
-                            }
-                        }
-                    }
-                }
-                if ($sentCounter < MAX_LEAD_SENT_TO_COMPANY && $companies->num_rows() >= MAX_LEAD_SENT_TO_COMPANY) {
-                    foreach ($companies_result as $key => $row) {
-                        $this->db->where('id', $row->id)->set('lead_sent_flag', 0)->update('companies');
-                        $companies_result[$key]->lead_sent_flag = 0;
-                    }
-                    foreach ($companies_result as $key => $row) {
-                        if ($row->lead_sent_flag == 0 && $sentCounter < MAX_LEAD_SENT_TO_COMPANY) {
-                            if ($row->lead_limit >= $row->todaySentLead || is_null($row->lead_limit) || $row->lead_limit == "") {
-                                //set sent flag for company 
-                                if ($this->send_message($row, $leadDetail)) {
-                                    $sentCounter++;
-                                    $this->db->where('id', $row->id)->set('lead_sent_flag', 1)->update('companies');
-                                    $companies_result[$key]->lead_sent_flag = 1;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private function send_sms($company_detail, $lead_detail) {
-        /* Send Lead to company via sms */
-        $message = "Hello, %nPlease give $lead_detail->service_name quotation to the following customer:%n$lead_detail->name($lead_detail->phone_number),%n %nBookMyTempo";
-        $this->load->helper('email_helper');
-
-        $contacts = [$company_detail->phone1];
-        if ($company_detail->phone2 != "") {
-            array_push($contacts, $company_detail->phone2);
-        }
-        pr($contacts);
-        die;
-        //sendsms(array($contacts), $message);
-        /* Send company */
-    }
-
-    private function send_email($company_detail, $lead_detail) {
-        /* Send Lead to company via email */
-        $this->load->helper('email_helper');
-        $email = $company_detail->email;
-        $code = $forgotten['forgotten_password_code'];
-        $this->load->helper('email_helper');
-        $replaceFrom = array('{service}', '{customer_detail}');
-        $replaceTo = array($lead_detail->service_name, $lead_detail->name($lead_detail->phone_number));
-        sendMailByTemplate('forgot-password', $replaceFrom, $replaceTo, $email);
+        $this->load->library('send_lead');
+        $this->send_lead->customer_sms_test();
+        //$this->send_lead->send(18);
     }
 
 }

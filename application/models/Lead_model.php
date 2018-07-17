@@ -36,7 +36,7 @@ class lead_model extends CI_Model {
     }
 
     public function get_leads_sent_history($condition = array(), $limit = array(), $order = array(), $with_num_rows = false) {
-        $this->db->select("companies.name as company_name,leads.name as lead_name,leads.phone_number,leads.message,leads.created,lsh.status as lead_sent_status,lsh.leads_id,lsh.id as leads_sent_history_id");
+        $this->db->select("companies.name as company_name,leads.name as lead_name,leads.phone_number,leads.message,lsh.created,lsh.status as lead_sent_status,lsh.leads_id,lsh.id as leads_sent_history_id");
         if (!empty($condition) || $condition != "") {
             $this->db->where($condition);
         }

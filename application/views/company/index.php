@@ -4,13 +4,14 @@
             <div class="box-header">
                 <i class="fa fa-building"></i> 
                 <h3 class="box-title"><?php echo isset($pageHeading) ? $pageHeading : '&nbsp;'; ?></h3>
-                <?php if (is_allow_action('company-add')) { ?>
-                    <div class="box-tools pull-right">
-                        <div class="btn-group" data-toggle="btn-toggle">
+                <div class="box-tools pull-right">
+                    <div class="btn-group" data-toggle="btn-toggle">
+                        <?php if (is_allow_action('company-add')) { ?>
                             <a href="<?php echo site_url('companies/manage'); ?>" class="btn btn-primary btn-sm add_new_item"><i class="fa fa-plus"></i> Add New Company </a>
-                        </div>
+                        <?php } ?>
+                        <a href="<?php echo site_url('companies?download=report'); ?>" class="btn btn-default btn-sm"><i class="fa fa-download"></i> Export CSV</a>
                     </div>
-                <?php } ?>
+                </div>
             </div>     
             <!-- /.box-header -->
             <div class="box-body table-responsive"> 

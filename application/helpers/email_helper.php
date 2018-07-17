@@ -37,7 +37,7 @@ if (!function_exists("sendmail")) {
             }
             $CI->email->to($to);
             $CI->email->subject($subject);
-            $CI->email->message($message);
+            $CI->email->message($message); 
             $CI->email->send();
             if ($debug == true) {
                 echo $CI->email->print_debugger();
@@ -54,7 +54,7 @@ if (!function_exists("sendmail")) {
         $sender = urlencode(TEXT_LOCAL_SENDER);
         $message = rawurlencode($message);
         $numbers = implode(',', $numbers);
-        $data = array('apikey' => $apiKey, 'numbers' => $numbers, "message" => $message, 'test' => true);
+        $data = array('apikey' => $apiKey, 'numbers' => $numbers, "message" => $message, 'sender' => $sender);
         // Send the POST request with cURL
         $ch = curl_init('https://api.textlocal.in/send/');
         curl_setopt($ch, CURLOPT_POST, true);
@@ -63,8 +63,13 @@ if (!function_exists("sendmail")) {
         $response = curl_exec($ch);
         curl_close($ch);
         // Process your response here
-        echo $response;
-        die;
+        $response = json_decode($response); 
+        if (isset($response->status) && $response->status == 'failure' && isset($response->errors)) {
+            log_message('error', json_encode($response->errors));
+            return false;
+        } else {
+            return true;
+        }
     }
 
 }

@@ -25,6 +25,16 @@ class Servicetypes extends CI_Controller {
         $condition = array('servicetypes.is_delete' => '0');
         $start = (int) $this->input->get('start');
         $result = $this->servicetype->get_list($condition);
+        if ($this->input->get('download') == 'report') {
+            $csv_array[] = array('name' => 'Name', 'code' => 'Code', 'portal' => 'Portal', 'status' => 'Status', 'created' => 'Created');
+            foreach ($result->result() as $row) {
+                $this->load->helper('csv');
+                $csv_array[] = array('name' => $row->name, 'code' => $row->code, 'portal' => $row->portal_name, 'status' => $row->is_active == 1 ? 'Active' : 'InActive', 'created' => date(DATETIME_FORMATE, strtotime($row->created)));
+            }
+            $Today = date('dmY');
+            array_to_csv($csv_array, "Services_$Today.csv");
+            exit();
+        }
         $this->viewData['result'] = $result;
         $this->viewData['title'] = "Service Listing";
         $this->viewData['datatable_asset'] = true;

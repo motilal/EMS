@@ -9,6 +9,7 @@
                         <?php if (is_allow_action('service-add')) { ?>
                             <a href="#" data-toggle="modal" data-target="#modal-manage" class="btn btn-primary btn-sm add_new_item"><i class="fa fa-plus"></i> Add New Sub Service </a>
                         <?php } ?> 
+                        <a href="<?php echo site_url('services?download=report'); ?>" class="btn btn-default btn-sm"><i class="fa fa-download"></i> Export CSV</a>
                     </div>
                 </div>
             </div>     
@@ -133,7 +134,7 @@
                     if (res.mode == 'add') {
                         datatbl.row.add([0, res.data.name, res.data.code, res.data.servicetype_name, res.data.statusButtons, res.data.actionButtons]).draw();
                         $('.changestatus[data-id="' + res.data.id + '"]').closest('tr').attr('id', 'row_' + res.data.id);
-                    } else if (res.mode == 'edit') { 
+                    } else if (res.mode == 'edit') {
                         $('#row_' + res.data.id).find('td:nth-child(3)').text(res.data.name);
                         $('#row_' + res.data.id).find('td:nth-child(3)').text(res.data.code);
                         $('#row_' + res.data.id).find('td:nth-child(4)').html(res.data.servicetype_name);
@@ -173,7 +174,7 @@
                 if (res.result) {
                     $('#manage-form').find('[name="name"]').val(res.result.name);
                     $('#manage-form').find('[name="code"]').val(res.result.code);
-                    $('#manage-form').find('[name="id"]').val(res.result.id); 
+                    $('#manage-form').find('[name="id"]').val(res.result.id);
                     $('#servicetype').val(res.result.servicetypes_id).trigger('change');
                     $('.modal-title').text('Edit Sub Service');
                     $('#modal-manage').modal('show');

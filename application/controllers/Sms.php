@@ -48,9 +48,9 @@ class Sms extends CI_Controller {
     }
 
     private function get_list($limit = array(), $order = array()) {
-        $apiKey = urlencode(TEXT_LOCAL_APIKEY);
+        $apiKey = urlencode('pFn1aqBql5k-yXzvvQ5UwEs6ImeGwYQsQK7fN7wqTe');
         $data = array('apikey' => $apiKey, 'start' => $limit['start'], 'limit' => $limit['limit'], 'sort_order' => isset($order[1]) ? $order[1] : 'DESC');
-        $ch = curl_init('https://api.textlocal.in/get_history_single/');
+        $ch = curl_init('https://api.textlocal.in/get_history_api/');
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -74,23 +74,6 @@ class Sms extends CI_Controller {
             }
         }
         return $resultData;
-    }
-
-    public function test() {
-        $apiKey = urlencode('pFn1aqBql5k-yXzvvQ5UwEs6ImeGwYQsQK7fN7wqTe');
-        // Prepare data for POST request
-        $data = array('apikey' => $apiKey);
-
-        // Send the POST request with cURL
-        $ch = curl_init('https://api.textlocal.in/get_history_group/');
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $response = curl_exec($ch);
-        curl_close($ch);
-
-        // Process your response here
-        echo $response;
     }
 
 }

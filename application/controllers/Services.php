@@ -13,7 +13,7 @@ class Services extends CI_Controller {
     var $viewData = array();
 
     public function __construct() {
-        parent::__construct(); 
+        parent::__construct();
         $this->site_santry->allow(array());
         $this->load->model(array('service_model' => 'service', 'servicetype_model' => 'servicetype'));
         $this->layout->set_layout("layout/layout_admin");
@@ -25,6 +25,16 @@ class Services extends CI_Controller {
         $condition = array('services.is_delete' => '0');
         $start = (int) $this->input->get('start');
         $result = $this->service->get_list($condition);
+        if ($this->input->get('download') == 'report') {
+            $csv_array[] = array('name' => 'Name', 'code' => 'Code', 'service' => 'Service', 'status' => 'Status', 'created' => 'Created');
+            foreach ($result->result() as $row) {
+                $this->load->helper('csv');
+                $csv_array[] = array('name' => $row->name, 'code' => $row->code, 'service' => $row->service_name, 'status' => $row->is_active == 1 ? 'Active' : 'InActive', 'created' => date(DATETIME_FORMATE, strtotime($row->created)));
+            }
+            $Today = date('dmY');
+            array_to_csv($csv_array, "Subservices_$Today.csv");
+            exit();
+        }
         $this->viewData['result'] = $result;
         $this->viewData['title'] = "Sub Service Listing";
         $this->viewData['datatable_asset'] = true;

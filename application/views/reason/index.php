@@ -9,6 +9,7 @@
                         <?php if (is_allow_action('reason-add')) { ?>
                             <a href="#" data-toggle="modal" data-target="#modal-manage" class="btn btn-primary btn-sm add_new_item"><i class="fa fa-plus"></i> Add New Reason </a>
                         <?php } ?> 
+                        <a href="<?php echo site_url('reasons?download=report'); ?>" class="btn btn-default btn-sm"><i class="fa fa-download"></i> Export CSV</a>
                     </div>
                 </div>
             </div>     

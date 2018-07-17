@@ -159,7 +159,7 @@ $config = array(
     ),
     'send_lead' => array(
         array(
-            'field' => 'company[]',
+            'field' => 'company_id',
             'label' => 'Company',
             'rules' => "trim|required"
         )

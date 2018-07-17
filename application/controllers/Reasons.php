@@ -24,6 +24,16 @@ class Reasons extends CI_Controller {
         $condition = array('is_delete' => '0');
         $start = (int) $this->input->get('start');
         $result = $this->reason->get_list($condition);
+        if ($this->input->get('download') == 'report') {
+            $csv_array[] = array('name' => 'Name', 'status' => 'Status', 'created' => 'Created');
+            foreach ($result->result() as $row) {
+                $this->load->helper('csv');
+                $csv_array[] = array('name' => $row->name, 'status' => $row->is_active == 1 ? 'Active' : 'InActive', 'created' => date(DATETIME_FORMATE, strtotime($row->created)));
+            }
+            $Today = date('dmY');
+            array_to_csv($csv_array, "LeadReturnReasons_$Today.csv");
+            exit();
+        }
         $this->viewData['result'] = $result;
         $this->viewData['title'] = "Reason Listing";
         $this->viewData['datatable_asset'] = true;

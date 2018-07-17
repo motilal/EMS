@@ -9,6 +9,7 @@
                         <?php if (is_allow_action('servicetype-add')) { ?>
                             <a href="#" data-toggle="modal" data-target="#modal-manage" class="btn btn-primary btn-sm add_new_item"><i class="fa fa-plus"></i> Add New Service </a>
                         <?php } ?> 
+                        <a href="<?php echo site_url('servicetypes?download=report'); ?>" class="btn btn-default btn-sm"><i class="fa fa-download"></i> Export CSV</a>
                     </div>
                 </div>
             </div>     
@@ -125,7 +126,7 @@
                     });
                 } else if (res.success && res.msg && res.data) {
                     if (res.mode == 'add') {
-                        datatbl.row.add([0, res.data.name,res.data.code, res.data.portal_name, res.data.statusButtons, res.data.actionButtons]).draw();
+                        datatbl.row.add([0, res.data.name, res.data.code, res.data.portal_name, res.data.statusButtons, res.data.actionButtons]).draw();
                         $('.changestatus[data-id="' + res.data.id + '"]').closest('tr').attr('id', 'row_' + res.data.id);
                     } else if (res.mode == 'edit') {
                         $('#row_' + res.data.id).find('td:nth-child(2)').html(res.data.name);

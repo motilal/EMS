@@ -124,7 +124,7 @@ class Company_model extends CI_Model {
                 ->where($condition)
                 ->join('companies', 'companies.id=cp.companies_id', 'LEFT')
                 ->join('packages', 'packages.id=cp.packages_id', 'LEFT')
-                ->get("companies_package as cp"); 
+                ->get("companies_package as cp");
         return $result;
     }
 
@@ -155,9 +155,52 @@ class Company_model extends CI_Model {
     public function total_lead_sent_today($company_id) {
         $sql = $this->db->select('count(id) as total')->where(['companies_id' => $company_id, 'DATE(created)' => date('Y-m-d')])->group_by('companies_id')->get('leads_sent_history');
         if ($sql->num_rows() > 0) {
-            return $sql->rows()->total;
+            return $sql->row()->total;
         }
         return 0;
+    }
+
+    public function get_active_companies($first_element = false) {
+        $sql = $this->db->select('name,id,lead_limit')->where(array('is_active' => 1, 'is_delete' => '0'))->order_by('name', 'ASC')->get('companies');
+        if ($sql->num_rows() > 0) {
+            $array = [];
+            $ids = [];
+            if ($first_element) {
+                $array = ['' => 'Select Company'];
+            }
+            foreach ($sql->result() as $row) {
+                $array[$row->id] = $row->name;
+                $ids[] = $row->id;
+            }
+            if (!empty($array)) {
+                /*$leadSentTodayQuery = $this->db->select('companies_id,count(id) as lead_sent_today')
+                        ->where_in('companies_id', $ids)
+                        ->where(['DATE(created)' => date('Y-m-d')])
+                        ->having('lead_sent_today >=', $row->lead_limit)
+                        ->group_by('companies_id')
+                        ->get('leads_sent_history');
+                if ($leadSentTodayQuery->num_rows() > 0) {
+                    foreach ($leadSentTodayQuery->result() as $val) {
+                        unset($array[$val->companies_id]);
+                    }
+                }*/
+                $companyPackageQuery = $this->db->select('id,companies_id')->where_in('companies_id', $ids)->where(['total_leads > used_leads' => NULL, 'is_active' => '1'])->get('companies_package');
+                $validPackageCompaniesId = [];
+                if ($companyPackageQuery->num_rows() > 0) {
+                    foreach ($companyPackageQuery->result() as $val1) {
+                        $validPackageCompaniesId[] = $val1->companies_id;
+                    }
+                }
+                foreach ($array as $key => $value) {
+                    if (!in_array($key, $validPackageCompaniesId) && isset($array[$key])) {
+                        unset($array[$key]);
+                    }
+                }
+            }
+            return $array;
+        } else {
+            return false;
+        }
     }
 
 }

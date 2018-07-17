@@ -75,7 +75,7 @@
                     <div class="col-lg-12">
                         <div class="form-group">
                             <label class="control-label" for="company">Company(s)</label> 
-                            <?php echo form_dropdown('company[]', $company_options, '', 'class="form-control" multiple="multiple" id="company" style="width:100%;"'); ?>  
+                            <?php echo form_dropdown('company_id', $company_options, '', 'class="form-control" id="company" style="width:100%;"'); ?>  
                         </div>  
                     </div>
                     <?php echo form_hidden('flag'); ?>

@@ -9,6 +9,7 @@
                         <?php if (is_allow_action('package-add')) { ?>
                             <a href="<?php echo site_url('packages/manage'); ?>" class="btn btn-primary btn-sm add_new_item"><i class="fa fa-plus"></i> Add New Package </a>
                         <?php } ?> 
+                        <a href="<?php echo site_url('packages?download=report'); ?>" class="btn btn-default btn-sm"><i class="fa fa-download"></i> Export CSV</a>
                     </div>
                 </div>
             </div>     

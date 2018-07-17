@@ -147,13 +147,13 @@ $user_permissions = $this->session->userdata('_subadmin_module_permissions');
                 </li>
             <?php } ?>
 
-            <?php if (is_allow_module('sms')) { ?>    
+            <?php /* if (is_allow_module('sms')) { ?>    
                 <li class="<?php echo $segment_cntr == 'sms' ? 'active' : ''; ?>">
                     <a href="<?php echo site_url('sms'); ?>">
                         <i class="fa fa-fax"></i> <span>SMS Manager</span> 
                     </a>
                 </li>
-            <?php } ?> 
+            <?php } */?> 
 
 
             <li class="treeview <?php echo in_array($segment_cntr, array('settings', 'logs')) ? 'active menu-open' : ''; ?>">
