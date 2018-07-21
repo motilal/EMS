@@ -323,7 +323,11 @@ class Leads extends CI_Controller {
 
     function resend_lead($leads_sent_history_id = "") {
         if (is_numeric($leads_sent_history_id) && $leads_sent_history_id > 0) {
-            $this->session->set_flashdata("success", __('LeadResendSuccess'));
+            $this->load->library('send_lead');
+            $resendLead = $this->send_lead->resend_lead($leads_sent_history_id);
+            if ($resendLead === TRUE) {
+                $this->session->set_flashdata("success", __('LeadResendSuccess'));
+            }
             redirect('leads/leads_sent_history');
         }
     }
@@ -418,7 +422,11 @@ class Leads extends CI_Controller {
                         $return_lead_btn = '<a class="label label-danger return-lead" href="#" data-id="' . $row->leads_sent_history_id . '" data-toggle="modal" data-target="#modal-return-lead">Return</a>';
                     }
                     $resend_lead_btn = '';
-                    if ($resend_lead_has_permission === true) {
+                    $diff = abs(strtotime(date('Y-m-d')) - strtotime(date('Y-m-d', strtotime($row->created))));
+                    $years = floor($diff / (365 * 60 * 60 * 24));
+                    $months = floor(($diff - $years * 365 * 60 * 60 * 24) / (30 * 60 * 60 * 24));
+                    $daysDiff = floor(($diff - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24) / (60 * 60 * 24));
+                    if ($resend_lead_has_permission === true && $daysDiff <= 7) {
                         $resend_lead_btn = '<a class="label label-success resend-lead" href="' . site_url("leads/resend_lead/{$row->leads_sent_history_id}") . '">Resend</a>&nbsp';
                     }
                     $rowData[7] = $resend_lead_btn . $return_lead_btn;

@@ -403,4 +403,23 @@ if (!function_exists('clean_temp_dir')) {
         }
     }
 
-} 
+}
+
+
+if (!function_exists('date_difference')) {
+
+    function date_difference($date1, $date2, $return = 'days') {
+        $diff = abs(strtotime($date1) - strtotime($date2));
+        $years = floor($diff / (365 * 60 * 60 * 24));
+        $months = floor(($diff - $years * 365 * 60 * 60 * 24) / (30 * 60 * 60 * 24));
+        $daysDiff = floor(($diff - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24) / (60 * 60 * 24));
+        if ($return == 'years') {
+            return $years;
+        } else if ($return == 'months') {
+            return $months;
+        } else {
+            return $daysDiffl;
+        }
+    }
+
+}

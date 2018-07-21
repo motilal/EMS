@@ -93,3 +93,6 @@ a.add-cal-event:hover{
 .padding0{
     padding: 0;
 }
+a.text-white,a.text-white:hover{
+    color: #fff;
+} 

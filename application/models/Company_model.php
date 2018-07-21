@@ -173,17 +173,17 @@ class Company_model extends CI_Model {
                 $ids[] = $row->id;
             }
             if (!empty($array)) {
-                /*$leadSentTodayQuery = $this->db->select('companies_id,count(id) as lead_sent_today')
-                        ->where_in('companies_id', $ids)
-                        ->where(['DATE(created)' => date('Y-m-d')])
-                        ->having('lead_sent_today >=', $row->lead_limit)
-                        ->group_by('companies_id')
-                        ->get('leads_sent_history');
-                if ($leadSentTodayQuery->num_rows() > 0) {
-                    foreach ($leadSentTodayQuery->result() as $val) {
-                        unset($array[$val->companies_id]);
-                    }
-                }*/
+                /* $leadSentTodayQuery = $this->db->select('companies_id,count(id) as lead_sent_today')
+                  ->where_in('companies_id', $ids)
+                  ->where(['DATE(created)' => date('Y-m-d')])
+                  ->having('lead_sent_today >=', $row->lead_limit)
+                  ->group_by('companies_id')
+                  ->get('leads_sent_history');
+                  if ($leadSentTodayQuery->num_rows() > 0) {
+                  foreach ($leadSentTodayQuery->result() as $val) {
+                  unset($array[$val->companies_id]);
+                  }
+                  } */
                 $companyPackageQuery = $this->db->select('id,companies_id')->where_in('companies_id', $ids)->where(['total_leads > used_leads' => NULL, 'is_active' => '1'])->get('companies_package');
                 $validPackageCompaniesId = [];
                 if ($companyPackageQuery->num_rows() > 0) {
@@ -192,7 +192,7 @@ class Company_model extends CI_Model {
                     }
                 }
                 foreach ($array as $key => $value) {
-                    if (!in_array($key, $validPackageCompaniesId) && isset($array[$key])) {
+                    if (!in_array($key, $validPackageCompaniesId) && $key != "" && isset($array[$key])) {
                         unset($array[$key]);
                     }
                 }

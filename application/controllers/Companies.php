@@ -93,7 +93,6 @@ class Companies extends CI_Controller {
                 "gst_no" => $this->input->post("gst_no"),
                 "aadhar_no" => $this->input->post("aadhar_no"),
                 "pencard_no" => $this->input->post("pencard_no"),
-                "location" => $this->input->post("location"),
                 "city" => $this->input->post("city"),
                 "state" => $this->input->post("state"),
                 "country" => $this->input->post("country"),
@@ -103,6 +102,52 @@ class Companies extends CI_Controller {
                 "lead_limit" => $this->input->post("lead_limit")
             );
             $saveData = filterPostData($saveData);
+
+
+            if (isset($_FILES['other_documents']['name']) && $_FILES['other_documents']['name'] != "") {
+                $other_documents = [];
+                if (!empty($detail->other_documents)) {
+                    $other_documents = explode(',', $detail->other_documents);
+                }
+                foreach ($_FILES['other_documents'] as $key => $row) {
+                    foreach ($row as $key1 => $row1) {
+                        $_FILES['other_documents_' . $key1][$key] = $row1;
+                    }
+                }
+                foreach ($_FILES['other_documents']['name'] as $key => $val) {
+                    $fileUpload = $this->do_upload('other_documents_' . $key);
+                    if (!isset($fileUpload['error']) && !empty($fileUpload['upload_data']['file_name'])) {
+                        $other_documents[] = $fileUpload['upload_data']['file_name'];
+                    }
+                }
+                if (!empty($other_documents)) {
+                    $saveData['other_documents'] = implode(',', $other_documents);
+                }
+            }
+
+            if (isset($_FILES['photo']['name']) && $_FILES['photo']['name'] != "") {
+                $fileUpload = $this->do_upload('photo');
+                if (isset($fileUpload['error']) && $fileUpload['error'] != "") {
+                    $this->session->set_flashdata("error", $fileUpload['error']);
+                } else {
+                    if (!empty($detail->photo)) {
+                        @unlink(COMPANY_DOC_PATH . $detail->photo);
+                    }
+                    $saveData['photo'] = $fileUpload['upload_data']['file_name'];
+                }
+            }
+            if (isset($_FILES['driving_license']['name']) && $_FILES['driving_license']['name'] != "") {
+                $fileUpload = $this->do_upload('driving_license');
+                if (isset($fileUpload['error']) && $fileUpload['error'] != "") {
+                    $this->session->set_flashdata("error", $fileUpload['error']);
+                } else {
+                    if (!empty($detail->driving_license)) {
+                        @unlink(COMPANY_DOC_PATH . $detail->driving_license);
+                    }
+                    $saveData['driving_license'] = $fileUpload['upload_data']['file_name'];
+                }
+            }
+
             if (isset($_FILES['aadhar_doc']['name']) && $_FILES['aadhar_doc']['name'] != "") {
                 $fileUpload = $this->do_upload('aadhar_doc');
                 if (isset($fileUpload['error']) && $fileUpload['error'] != "") {
