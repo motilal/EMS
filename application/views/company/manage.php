@@ -208,12 +208,12 @@
                                             $other_documents = explode(',', $data->other_documents);
                                             foreach ($other_documents as $doc) {
                                                 ?>
-                                                <small class="label label-danger">
+                                                <small class="label label-danger other-doc-label">
                                                     <a href="<?php echo site_url('companies/download_doc/' . $doc); ?>" class="text-white">
                                                         <i class="fa fa-file-image-o"></i> <?php echo $doc; ?> 
                                                     </a> 
-                                                    <a href="" class="text-white"><i class="fa fa-remove"></i></a>
-                                                </small>
+                                                    <a href="<?php echo site_url('companies/delete_doc/' . $doc); ?>" data-id="<?php echo $data->id; ?>" class="text-white delete_doc"><i class="fa fa-remove"></i></a>
+                                                </small>&nbsp;
                                                 <?php
                                             }
                                         }
@@ -237,7 +237,15 @@
                 <!-- /.tab-pane -->
                 <div class="tab-pane" id="tab_3"> 
                     <div class="row"> 
-
+                        <div class="col-lg-12 padding0">
+                            <div class="col-lg-6">
+                                <div class="form-group <?php echo form_error('lead_limit') != "" ? 'has-error' : ''; ?>">
+                                    <label class="control-label" for="lead_limit">Lead Limit(Per Day)</label>
+                                    <?php echo form_input("lead_limit", set_value("lead_limit", isset($data->lead_limit) ? $data->lead_limit : "", false), "id='lead_limit' class='form-control'"); ?>
+                                    <?php echo form_error('lead_limit'); ?>
+                                </div>
+                            </div> 
+                        </div>
                         <div class="col-lg-12 padding0">
                             <div class="col-lg-6">
                                 <div class="form-group <?php echo form_error('servicetypes_id') != "" ? 'has-error' : ''; ?>">
@@ -254,26 +262,51 @@
                                     <?php echo form_error('services[]'); ?>
                                 </div>
                             </div>  
-                        </div>
-
-                        <div class="col-lg-12 padding0"> 
+                        </div> 
+                        <div class="col-lg-12 padding0 clonecities"> 
                             <div class="col-lg-6">
-                                <div class="form-group <?php echo form_error('cities[]') != "" ? 'has-error' : ''; ?>">
-                                    <label class="control-label" for="cities">Select City(s)</label> 
-                                    <?php echo form_dropdown('cities[]', $cities_options, set_value("cities[]", isset($company_cities) ? $company_cities : '', false), 'class="form-control" multiple="multiple" id="cities" style="width:100%;"'); ?> 
-                                    <?php echo form_error('cities[]'); ?>
+                                <div class="form-group <?php echo form_error('cities_id[0]') != "" ? 'has-error' : ''; ?>">
+                                    <label class="control-label" for="cities_id">Select City</label> 
+                                    <?php echo form_dropdown('cities_id[0]', $cities_options, set_value("cities_id[0]"), 'class="form-control select2dropdown cities_id" id="cities_id" style="width:100%;"'); ?> 
+                                    <?php echo form_error('cities_id[0]'); ?>
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                                <div class="form-group <?php echo form_error('lead_limit') != "" ? 'has-error' : ''; ?>">
-                                    <label class="control-label" for="lead_limit">Lead Limit(Per Day)</label>
-                                    <?php echo form_input("lead_limit", set_value("lead_limit", isset($data->lead_limit) ? $data->lead_limit : "", false), "id='lead_limit' class='form-control'"); ?>
-                                    <?php echo form_error('lead_limit'); ?>
+                                <div class="form-group sub_city_c <?php echo form_error('sub_cities[]') != "" ? 'has-error' : ''; ?>">
+                                    <label class="control-label" for="sub_cities">Sub Cities(s)</label> 
+                                    <?php echo form_dropdown('sub_cities[0][]', '', set_value("sub_cities[]"), 'class="form-control sub_cities" multiple="multiple" id="sub_cities" style="width:100%;"'); ?> 
+                                    <?php echo form_error('sub_cities[0][]'); ?> 
                                 </div>
-                            </div> 
-                        </div>    
-
-
+                                <button class="btn btn-success add-more-cities" type="button"><i class="fa fa-plus"></i> </button>
+                            </div>  
+                        </div>  
+                        <div class="more_cities">
+                            <?php if (!empty($company_cities)) { ?>
+                                <?php foreach ($company_cities as $key => $city_id): ?>
+                                    <div class="col-lg-12 padding0 clonecities"> 
+                                        <div class="col-lg-6">
+                                            <div class="form-group <?php echo form_error('cities_id[' . ($key + 1) . ']') != "" ? 'has-error' : ''; ?>">
+                                                <label class="control-label" for="cities_id_<?php echo $key; ?>">Select City</label> 
+                                                <?php echo form_dropdown('cities_id[' . ($key + 1) . ']', $cities_options, set_value('cities_id[' . ($key + 1) . ']', $city_id, false), 'class="form-control select2dropdown cities_id" id="cities_id_' . $key . '" style="width:100%;"'); ?> 
+                                                <?php echo form_error('cities_id[' . ($key + 1) . ']'); ?>
+                                            </div>
+                                        </div>
+                                        <?php
+                                        $sub_cities_options = $this->sub_city->sub_cities_options($city_id); 
+                                        $subcities = $this->company->get_company_sub_cities_ids($data->id, $city_id); 
+                                        ?> 
+                                        <div class="col-lg-6">
+                                            <div class="form-group sub_city_c <?php echo form_error('sub_cities[' . ($key + 1) . '][]') != "" ? 'has-error' : ''; ?>">
+                                                <label class="control-label" for="sub_cities_<?php echo $key; ?>">Sub Cities(s)</label> 
+                                                <?php echo form_dropdown('sub_cities[' . ($key + 1) . '][]', $sub_cities_options, set_value('sub_cities[' . ($key + 1) . '][]', isset($subcities) ? $subcities : '', false), 'class="form-control sub_cities" multiple="multiple" id="sub_cities_' . $key . '" style="width:100%;"'); ?> 
+                                                <?php echo form_error('sub_cities[' . ($key + 1) . '][]'); ?> 
+                                            </div>
+                                            <button class="btn btn-danger remove-cities" type="button"><i class="fa fa-minus"></i> </button>
+                                        </div>  
+                                    </div> 
+                                <?php endforeach; ?>
+                            <?php } ?>
+                        </div>
 
                         <div class="col-lg-12 padding0">
                             <div class="col-lg-12">
@@ -298,30 +331,100 @@
     <!-- /.col-lg-12 padding0 -->
 </div>
 <!-- /.row -->  
+
 <script type="text/javascript">
-    $("#cities,#services").select2({
-        tags: false
-    });
-    function show_tab(element) {
-        $(element).tab('show');
-    }
-    $('#servicetypes_id').on('select2:select', function (e) {
-        var _this = $(this);
-        $.ajax({
-            url: '<?php echo site_url('companies/ajax_getsubservices'); ?>',
-            type: "POST",
-            dataType: "json",
-            data: {servicetypes_id: _this.val()},
-            success: function (response) {
-                if (response.result) {
-                    $('#services').select2('destroy').empty().select2({data: response.result});
-                }
-            },
-            error: function (jqXHR, exception) {
-                showMessage('error', {message: 'Uncaught Error.\n' + jqXHR.responseText});
-            }
+    $(document).ready(function () {
+        var _key = parseInt($('.clonecities').length) - 1;
+        $('.add-more-cities').on('click', function () {
+            var clone = $(this).closest('.clonecities').clone();
+            clone.find('.add-more-cities').addClass('remove-cities').removeClass('add-more-cities');
+            clone.find('.fa-plus').addClass('fa-minus').removeClass('fa-plus');
+            clone.find('.btn-success').addClass('btn-danger').removeClass('btn-success');
+            clone.find('#cities_id').attr('id', 'cities_id_' + _key);
+            clone.find('#sub_cities').attr('id', 'sub_cities_' + _key);
+            clone.find('[for="cities_id"]').attr('for', 'cities_id_' + _key);
+            clone.find('[for="sub_cities"]').attr('for', 'sub_cities_' + _key);
+            clone.find('[name="cities_id[0]"]').attr('name', 'cities_id[' + (_key + 1) + ']');
+            clone.find('[name="sub_cities[0][]"]').attr('name', 'sub_cities[' + (_key + 1) + '][]');
+            clone.find('.select2-container').remove();
+            clone.appendTo('.more_cities');
+            $("#sub_cities_" + _key).select2({tags: false});
+            $('.select2dropdown').select2();
+            _key++;
+        });
+        $(document).on('click', '.remove-cities', function () {
+            $(this).closest('.clonecities').remove();
         });
 
+
+
+        $("#services,.sub_cities").select2({
+            tags: false
+        });
+        $('#company_tab li:nth-child(3) a').tab('show');
+        function show_tab(element) {
+            $(element).tab('show');
+        }
+        $('#servicetypes_id').on('select2:select', function (e) {
+            var _this = $(this);
+            $.ajax({
+                url: '<?php echo site_url('companies/ajax_getsubservices'); ?>',
+                type: "POST",
+                dataType: "json",
+                data: {servicetypes_id: _this.val()},
+                success: function (response) {
+                    if (response.result) {
+                        $('#services').select2('destroy').empty().select2({data: response.result});
+                    }
+                },
+                error: function (jqXHR, exception) {
+                    showMessage('error', {message: 'Uncaught Error.\n' + jqXHR.responseText});
+                }
+            });
+
+        });
+
+        $(document).on('select2:select', '.cities_id', function (e) {
+            var _this = $(this);
+            $.ajax({
+                url: '<?php echo site_url('companies/ajax_getsubcities'); ?>',
+                type: "POST",
+                dataType: "json",
+                data: {cities_id: _this.val()},
+                success: function (response) {
+                    if (response.result) {
+                        _this.closest('.clonecities').find('.sub_cities').select2('destroy').empty().select2({data: response.result});
+                    }
+                },
+                error: function (jqXHR, exception) {
+                    showMessage('error', {message: 'Uncaught Error.\n' + jqXHR.responseText});
+                }
+            });
+
+        });
+        $(document).on('click', 'a.delete_doc', function (e) {
+            e.preventDefault();
+            var _this = $(this);
+            if (confirm("Are you sure to wants delete this?")) {
+                $.ajax({
+                    url: _this.attr('href'),
+                    type: "POST",
+                    dataType: "json",
+                    data: {id: _this.data('id')},
+                    success: function (response) {
+                        if (response.success) {
+                            _this.closest('small').remove();
+                            showMessage('success', {message: response.success});
+                        } else if (response.error) {
+                            showMessage('error', {message: response.error});
+                        }
+                    },
+                    error: function (jqXHR, exception) {
+                        showMessage('error', {message: 'Uncaught Error.\n' + jqXHR.responseText});
+                    }
+                });
+            }
+        });
     });
 
     var placeSearch, autocomplete;

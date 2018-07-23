@@ -55,7 +55,7 @@ class Companies extends CI_Controller {
             }
         }
         $this->viewData['company_services'] = $this->company->get_company_services($id);
-        $this->viewData['company_cities'] = $this->company->get_company_cities($id);
+        $this->viewData['company_cities'] = $this->company->get_company_sub_cities_group($id);
         $this->viewData['title'] = "Company Detail";
         $this->viewData['pageModule'] = 'Company Detail';
         $this->viewData['breadcrumb'] = array('Company Manager' => 'companies', 'View Detail' => '');
@@ -64,7 +64,7 @@ class Companies extends CI_Controller {
 
     public function manage($id = null) {
         $this->load->library('form_validation');
-        $this->load->model(array('service_model' => 'service', 'servicetype_model' => 'servicetype', 'city_model' => 'city'));
+        $this->load->model(array('service_model' => 'service', 'servicetype_model' => 'servicetype', 'city_model' => 'city', 'sub_city_model' => 'sub_city'));
         $this->form_validation->set_rules('manage');
         $this->viewData['title'] = "Add Company";
         if ($id > 0) {
@@ -180,19 +180,23 @@ class Companies extends CI_Controller {
                 $this->db->update("companies", $saveData, array("id" => $this->input->post('id')));
                 $comp_id = $this->input->post('id');
                 /* update cities data */
-                $cities_array = $this->input->post('cities');
+                $cities_array = $this->input->post('cities_id');
+                $cities_array = array_filter($cities_array);
+                $cities_array = array_unique($cities_array);
                 if (!empty($cities_array)) {
                     $this->db->where('companies_id', $comp_id)->where_not_in('cities_id', $cities_array)->delete('companies_city');
+                    $this->db->where(['companies_id' => $comp_id])->where_not_in('cities_id', $cities_array)->delete('companies_sub_city');
                     $exist_cities = $this->db->select('cities_id')->where('companies_id', $comp_id)->where_in('cities_id', $cities_array)->get('companies_city')->result_array();
                     $exist_records = array();
+                    $cities_array1 = [];
                     if (!empty($exist_cities)) {
                         foreach ($exist_cities as $value) {
                             $exist_records[] = $value['cities_id'];
                         }
-                        $cities_array = array_diff($cities_array, $exist_records);
                     }
+                    $cities_array1 = array_diff($cities_array, $exist_records);
                     $CompCitydata = array();
-                    foreach ($cities_array as $value) {
+                    foreach ($cities_array1 as $value) {
                         $CompCitydata[] = array(
                             'cities_id' => $value,
                             'companies_id' => $comp_id
@@ -204,6 +208,35 @@ class Companies extends CI_Controller {
                 } else {
                     $this->db->where('companies_id', $comp_id)->delete('companies_city');
                 }
+
+                $sub_cities_array = $this->input->post('sub_cities');
+                if (!empty($cities_array)) {
+                    foreach ($cities_array as $key => $city_id) {
+                        if (!empty($sub_cities_array[$key])) {
+                            $this->db->where(['cities_id' => $city_id, 'companies_id' => $comp_id])->where_not_in('sub_cities_id', $sub_cities_array[$key])->delete('companies_sub_city');
+                            $exist_sub_cities = $this->db->select('sub_cities_id')->where(['cities_id' => $city_id, 'companies_id' => $comp_id])->where_in('sub_cities_id', $sub_cities_array[$key])->get('companies_sub_city')->result_array();
+                            $exist_records = [];
+                            if (!empty($exist_sub_cities)) {
+                                foreach ($exist_sub_cities as $value) {
+                                    $exist_records[] = $value['sub_cities_id'];
+                                }
+                                $sub_cities_array[$key] = array_diff($sub_cities_array[$key], $exist_records);
+                            }
+                            $CompSubCitydata = [];
+                            foreach ($sub_cities_array[$key] as $value) {
+                                $CompSubCitydata[] = [
+                                    'cities_id' => $city_id,
+                                    'sub_cities_id' => $value,
+                                    'companies_id' => $comp_id
+                                ];
+                            }
+                            if (!empty($CompSubCitydata)) {
+                                $this->db->insert_batch('companies_sub_city', $CompSubCitydata);
+                            }
+                        } 
+                    }
+                }
+
                 /* end */
 
                 /* update services data */
@@ -261,7 +294,7 @@ class Companies extends CI_Controller {
         if ($id > 0 && !empty($detail->servicetypes_id)) {
             $this->viewData['services_options'] = $this->service->services_options($detail->servicetypes_id);
         }
-        $this->viewData['cities_options'] = $this->city->cities_options();
+        $this->viewData['cities_options'] = $this->city->cities_options(TRUE);
 
         $this->viewData['pageModule'] = 'Add New Company';
         $this->viewData['breadcrumb'] = array('Company Manager' => 'companies', $this->viewData['title'] => '');
@@ -343,6 +376,26 @@ class Companies extends CI_Controller {
         }
     }
 
+    public function ajax_getsubcities() {
+        if ($this->input->is_ajax_request()) {
+            $response = array();
+            $response['result'] = array();
+            $this->load->model(array('sub_city_model' => 'sub_city'));
+            if ($this->input->post('cities_id') != "" && is_numeric($this->input->post('cities_id'))) {
+                $result = $this->sub_city->get_list(array('sub_cities.is_delete' => '0', 'sub_cities.is_active' => '1', 'cities_id' => $this->input->post('cities_id')));
+                if ($result->num_rows() > 0) {
+                    foreach ($result->result_array() as $key => $row) {
+                        $response['result'][$key]['id'] = $row['id'];
+                        $response['result'][$key]['text'] = $row['name'];
+                    }
+                }
+            }
+            $this->output->set_content_type('application/json')->set_output(json_encode($response));
+        } else {
+            show_404();
+        }
+    }
+
     public function ajax_getPackageAmount() {
         if ($this->input->is_ajax_request()) {
             $response = array();
@@ -370,6 +423,40 @@ class Companies extends CI_Controller {
                 force_download($filename, $data);
             }
         }
+    }
+
+    public function delete_doc($filename = '') {
+        $response = array();
+        if ($this->input->is_ajax_request() && $filename != "") {
+            $id = $this->input->post('id');
+            $has_permission = $this->acl->has_permission('company-delete', FALSE);
+            if ($has_permission === TRUE) {
+                $companyDetail = $this->company->getById($id);
+                if (!empty($companyDetail->other_documents)) {
+                    $documents = explode(',', $companyDetail->other_documents);
+                    if (($key = array_search($filename, $documents)) !== false) {
+                        unset($documents[$key]);
+                        $filepath = COMPANY_DOC_PATH . $filename;
+                        if (file_exists($filepath)) {
+                            unlink($filepath);
+                        }
+                    }
+                    if (!empty($documents)) {
+                        $documents = implode(',', $documents);
+                    } else {
+                        $documents = NULL;
+                    }
+                    if ($this->db->where("id", $id)->set('other_documents', $documents)->update("companies")) {
+                        $response['success'] = __('CompanyDeleteSuccess');
+                    } else {
+                        $response['error'] = __('InvalidRequest');
+                    }
+                }
+            } else {
+                $response['error'] = $has_permission;
+            }
+        }
+        $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
 
     public function manage_package($company_id = NULL) {

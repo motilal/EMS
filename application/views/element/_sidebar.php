@@ -4,9 +4,19 @@ $segment_fun = $this->uri->segment(2);
 
 $companyIndex = ($segment_cntr == 'companies' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
 $companyManagePackage = ($segment_cntr == 'companies' && $segment_fun == 'manage_package') ? 'active' : '';
+$groupIndex = ($segment_cntr == 'groups' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
 
 $packageIndex = ($segment_cntr == 'packages' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
 $packagetypeIndex = ($segment_cntr == 'package_types' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
+
+$serviceIndex = ($segment_cntr == 'servicetypes' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
+$subserviceIndex = ($segment_cntr == 'services' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
+
+$cityIndex = ($segment_cntr == 'cities' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
+$subcityIndex = ($segment_cntr == 'sub_cities' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
+
+$portalIndex = ($segment_cntr == 'portals' || $segment_cntr == 'leads') ? 'active' : '';
+$reasonIndex = ($segment_cntr == 'reasons' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
 
 $settingIndex = ($segment_cntr == 'settings' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
 $settingProfile = ($segment_cntr == 'settings' && $segment_fun == 'profile') ? 'active' : '';
@@ -47,8 +57,8 @@ $user_permissions = $this->session->userdata('_subadmin_module_permissions');
 
 
 
-            <?php if (is_allow_module('company')) { ?>  
-                <li class="treeview <?php echo $segment_cntr == 'companies' ? 'active menu-open' : ''; ?>">
+            <?php if (is_allow_module('company') || is_allow_module('group')) { ?>  
+                <li class="treeview <?php echo in_array($segment_cntr, array('companies', 'groups')) ? 'active menu-open' : ''; ?>">
                     <a href="#">
                         <i class="fa fa-building"></i>
                         <span>Company Manager</span>
@@ -56,85 +66,105 @@ $user_permissions = $this->session->userdata('_subadmin_module_permissions');
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
                     </a>
-                    <ul class="treeview-menu" style="display:<?php echo $segment_cntr == 'companies' ? 'block' : 'none'; ?>;">
+                    <ul class="treeview-menu" style="display:<?php echo in_array($segment_cntr, array('companies', 'groups')) ? 'block' : 'none'; ?>;">
                         <?php if (is_allow_action('company-index')) { ?>
                             <li class="<?php echo $companyIndex; ?>"><a href="<?php echo site_url('companies'); ?>"><i class="fa fa-th-list"></i> Manage Company</a></li>
                         <?php } ?>
                         <?php if (is_allow_action('company-package-manage')) { ?>
                             <li class="<?php echo $companyManagePackage; ?>"><a href="<?php echo site_url('companies/manage_package'); ?>"><i class="fa fa-shopping-cart"></i> Company Package</a></li> 
                         <?php } ?>
+                        <?php if (is_allow_action('group-index')) { ?>
+                            <li class="<?php echo $groupIndex; ?>"><a href="<?php echo site_url('groups'); ?>"><i class="fa fa-users"></i> Manage Company Group</a></li>
+                        <?php } ?>
                     </ul>
                 </li>
-            <?php } ?>
-
-            <?php if (is_allow_module('group')) { ?>    
-                <li class="<?php echo $segment_cntr == 'groups' ? 'active' : ''; ?>">
-                    <a href="<?php echo site_url('groups'); ?>">
-                        <i class="fa fa-users"></i> <span>Group</span> 
-                    </a>
-                </li>
-            <?php } ?>  
+            <?php } ?> 
 
             <?php if (is_allow_module('package') || is_allow_module('package_type')) { ?>  
                 <li class="treeview <?php echo in_array($segment_cntr, array('packages', 'package_types')) ? 'active menu-open' : ''; ?>">
                     <a href="#">
-                        <i class="fa fa-building"></i>
+                        <i class="fa fa-shopping-cart"></i>
                         <span>Package Manager</span>
                         <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
                     </a>
                     <ul class="treeview-menu" style="display:<?php echo in_array($segment_cntr, array('packages', 'package_types')) ? 'block' : 'none'; ?>;">
-                        <li class="<?php echo $packageIndex; ?>"><a href="<?php echo site_url('packages'); ?>"><i class="fa fa-shopping-cart"></i> Manage Package</a></li>
-                        <li class="<?php echo $packagetypeIndex; ?>"><a href="<?php echo site_url('package_types'); ?>"><i class="fa fa-th-large"></i> Package Type</a></li> 
+                        <?php if (is_allow_action('package-index')) { ?>
+                            <li class="<?php echo $packageIndex; ?>"><a href="<?php echo site_url('packages'); ?>"><i class="fa fa-th-list"></i> Manage Package</a></li>
+                        <?php } ?>
+                        <?php if (is_allow_action('package_type-index')) { ?>
+                            <li class="<?php echo $packagetypeIndex; ?>"><a href="<?php echo site_url('package_types'); ?>"><i class="fa fa-th-large"></i> Package Type</a></li> 
+                        <?php } ?>
                     </ul>
                 </li>
             <?php } ?>
 
-            <?php if (is_allow_module('service')) { ?>    
-                <li class="<?php echo $segment_cntr == 'servicetypes' ? 'active' : ''; ?>">
-                    <a href="<?php echo site_url('servicetypes'); ?>">
-                        <i class="fa fa-cogs"></i> <span>Services</span> 
+            <?php if (is_allow_module('service') || is_allow_module('sub service')) { ?>  
+                <li class="treeview <?php echo in_array($segment_cntr, array('servicetypes', 'services')) ? 'active menu-open' : ''; ?>">
+                    <a href="#">
+                        <i class="fa fa-cogs"></i>
+                        <span>Service Manager</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
                     </a>
+                    <ul class="treeview-menu" style="display:<?php echo in_array($segment_cntr, array('servicetypes', 'services')) ? 'block' : 'none'; ?>;">
+                        <?php if (is_allow_action('servicetype-index')) { ?>
+                            <li class="<?php echo $serviceIndex; ?>"><a href="<?php echo site_url('servicetypes'); ?>"><i class="fa fa-th-list"></i> Manage Services</a></li>
+                        <?php } ?>                    
+                        <?php if (is_allow_action('service-index')) { ?>
+                            <li class="<?php echo $subserviceIndex; ?>"><a href="<?php echo site_url('services'); ?>"><i class="fa fa-th-large"></i> Manage Sub Services</a></li> 
+                        <?php } ?>
+                    </ul>
+                </li>
+            <?php } ?>    
+
+            <?php if (is_allow_module('city') || is_allow_module('sub city')) { ?>  
+                <li class="treeview <?php echo in_array($segment_cntr, array('cities', 'sub_cities')) ? 'active menu-open' : ''; ?>">
+                    <a href="#">
+                        <i class="fa fa-institution"></i>
+                        <span>City Manager</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu" style="display:<?php echo in_array($segment_cntr, array('cities', 'sub_cities')) ? 'block' : 'none'; ?>;">
+                        <?php if (is_allow_action('city-index')) { ?>
+                            <li class="<?php echo $cityIndex; ?>"><a href="<?php echo site_url('cities'); ?>"><i class="fa fa-th-list"></i> Manage City</a></li>
+                        <?php } ?>                    
+                        <?php if (is_allow_action('sub_city-index')) { ?>
+                            <li class="<?php echo $subcityIndex; ?>"><a href="<?php echo site_url('sub_cities'); ?>"><i class="fa fa-map-o"></i> Manage Sub City</a></li> 
+                        <?php } ?>
+                    </ul>
+                </li>
+            <?php } ?>  
+
+            <?php if (is_allow_module('lead') || is_allow_module('portal') || is_allow_module('reason')) { ?>  
+                <li class="treeview <?php echo in_array($segment_cntr, array('leads', 'portals', 'reasons')) ? 'active menu-open' : ''; ?>">
+                    <a href="#">
+                        <i class="fa fa-envelope"></i>
+                        <span>Lead Manager</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu" style="display:<?php echo in_array($segment_cntr, array('leads', 'portals', 'reasons')) ? 'block' : 'none'; ?>;">
+                        <?php if (is_allow_action('portal-index')) { ?>
+                            <li class="<?php echo $portalIndex; ?>"><a href="<?php echo site_url('portals'); ?>"><i class="fa fa-th-list"></i> Manage Leads</a></li>
+                        <?php } ?>                    
+                        <?php if (is_allow_action('reasons-index')) { ?>
+                            <li class="<?php echo $reasonIndex; ?>"><a href="<?php echo site_url('reasons'); ?>"><i class="fa fa-comment"></i> Lead Return Reasons</a></li> 
+                        <?php } ?>
+                    </ul>
                 </li>
             <?php } ?>
 
-            <?php if (is_allow_module('sub service')) { ?>    
-                <li class="<?php echo $segment_cntr == 'services' ? 'active' : ''; ?>">
-                    <a href="<?php echo site_url('services'); ?>">
-                        <i class="fa fa-th-large"></i> <span>Sub Services</span> 
-                    </a>
-                </li>
-            <?php } ?>
-
-            <?php if (is_allow_module('city')) { ?>    
-                <li class="<?php echo $segment_cntr == 'cities' ? 'active' : ''; ?>">
-                    <a href="<?php echo site_url('cities'); ?>">
-                        <i class="fa fa-institution"></i> <span>City</span> 
-                    </a>
-                </li>
-            <?php } ?>
 
             <?php if (is_allow_module('follow up')) { ?>    
                 <li class="<?php echo $segment_cntr == 'follow_up' ? 'active' : ''; ?>">
                     <a href="<?php echo site_url('follow_up'); ?>">
                         <i class="fa fa-user"></i> <span>Follow Up</span> 
-                    </a>
-                </li>
-            <?php } ?>
-
-            <?php if (is_allow_module('lead') || is_allow_module('portal')) { ?>    
-                <li class="<?php echo in_array($segment_cntr, array('leads', 'portals')) ? 'active' : ''; ?>">
-                    <a href="<?php echo site_url('portals'); ?>">
-                        <i class="fa fa-inbox"></i> <span>Manage Leads</span> 
-                    </a>
-                </li>
-            <?php } ?> 
-
-            <?php if (is_allow_module('reason')) { ?>    
-                <li class="<?php echo $segment_cntr == 'reasons' ? 'active' : ''; ?>">
-                    <a href="<?php echo site_url('reasons'); ?>">
-                        <i class="fa fa-comment"></i> <span>Lead Return Reasons</span> 
                     </a>
                 </li>
             <?php } ?>
@@ -148,12 +178,12 @@ $user_permissions = $this->session->userdata('_subadmin_module_permissions');
             <?php } ?>
 
             <?php /* if (is_allow_module('sms')) { ?>    
-                <li class="<?php echo $segment_cntr == 'sms' ? 'active' : ''; ?>">
-                    <a href="<?php echo site_url('sms'); ?>">
-                        <i class="fa fa-fax"></i> <span>SMS Manager</span> 
-                    </a>
-                </li>
-            <?php } */?> 
+              <li class="<?php echo $segment_cntr == 'sms' ? 'active' : ''; ?>">
+              <a href="<?php echo site_url('sms'); ?>">
+              <i class="fa fa-fax"></i> <span>SMS Manager</span>
+              </a>
+              </li>
+              <?php } */ ?> 
 
 
             <li class="treeview <?php echo in_array($segment_cntr, array('settings', 'logs')) ? 'active menu-open' : ''; ?>">

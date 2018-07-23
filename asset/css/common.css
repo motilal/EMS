@@ -96,3 +96,15 @@ a.add-cal-event:hover{
 a.text-white,a.text-white:hover{
     color: #fff;
 } 
+.other-doc-label {
+    padding: 7px;
+    float: left;
+    margin: 3px;
+    font-size: 12px;
+}
+.remove-cities,.add-more-cities{
+    width:7%;margin-top: 25px;margin-right: 1%;border-radius: 0 4px 4px 0;
+}
+.sub_city_c{
+    float:left;width: 92%
+}

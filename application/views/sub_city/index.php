@@ -2,14 +2,14 @@
     <div class="col-xs-12"> 
         <div class="box">
             <div class="box-header">
-                <i class="fa fa-th-large"></i> 
+                <i class="fa fa-map-o"></i> 
                 <h3 class="box-title"><?php echo isset($pageHeading) ? $pageHeading : '&nbsp;'; ?></h3>
                 <div class="box-tools pull-right">
                     <div class="btn-group" data-toggle="btn-toggle">
-                        <?php if (is_allow_action('service-add')) { ?>
-                            <a href="#" data-toggle="modal" data-target="#modal-manage" class="btn btn-primary btn-sm add_new_item"><i class="fa fa-plus"></i> Add New Sub Service </a>
+                        <?php if (is_allow_action('sub_city-add')) { ?>
+                            <a href="#" data-toggle="modal" data-target="#modal-manage" class="btn btn-primary btn-sm add_new_item"><i class="fa fa-plus"></i> Add New Sub City </a>
                         <?php } ?> 
-                        <a href="<?php echo site_url('services?download=report'); ?>" class="btn btn-default btn-sm"><i class="fa fa-download"></i> Export CSV</a>
+                        <a href="<?php echo site_url('sub_cities?download=report'); ?>" class="btn btn-default btn-sm"><i class="fa fa-download"></i> Export CSV</a>
                     </div>
                 </div>
             </div>     
@@ -19,9 +19,8 @@
                     <thead>
                         <tr>
                             <td>Sr.</td> 
-                            <th>Name</th> 
-                            <th>Code</th> 
-                            <th>Service</th> 
+                            <th>Name</th>  
+                            <th>City</th> 
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -31,15 +30,10 @@
                             <?php foreach ($result->result() as $key => $row): ?> 
                                 <tr id="row_<?php echo $row->id; ?>">
                                     <td> <?php echo $key + 1; ?></td>    
-                                    <td><?php echo $row->name; ?> </td>
-                                    <td><?php echo $row->code; ?> </td>
-                                    <td><?php echo $row->service_name; ?></td>  
-                                    <td>
-                                        <?php echo $this->layout->element('element/_module_status', array('status' => $row->is_active, 'id' => $row->id, 'url' => "services/changestatus", 'permissionKey' => "service-status"), true); ?>
-                                    </td>
-                                    <td>  
-                                        <?php echo $this->layout->element('element/_module_action', array('id' => $row->id, 'editUrl' => "services/manage", 'deleteUrl' => 'services/delete', 'editPermissionKey' => 'service-edit', 'deletePermissionKey' => 'service-delete'), true); ?>
-                                    </td>  
+                                    <td><?php echo $row->name; ?> </td> 
+                                    <td><?php echo $row->city_name; ?></td>  
+                                    <td><?php echo $this->layout->element('element/_module_status', array('status' => $row->is_active, 'id' => $row->id, 'url' => "sub_cities/changestatus", 'permissionKey' => "sub_city-status"), true); ?></td>
+                                    <td><?php echo $this->layout->element('element/_module_action', array('id' => $row->id, 'editUrl' => "sub_cities/manage", 'deleteUrl' => 'sub_cities/delete', 'editPermissionKey' => 'sub_city-edit', 'deletePermissionKey' => 'sub_city-delete'), true); ?></td>  
                                 </tr>
                             <?php endforeach; ?>
                         <?php } ?> 
@@ -56,30 +50,25 @@
 <div class="modal fade" id="modal-manage">
     <div class="modal-dialog">
         <div class="modal-content">
-            <?php echo form_open('services/manage', array("id" => "manage-form", "method" => "post")); ?>
+            <?php echo form_open('sub_cities/manage', array("id" => "manage-form", "method" => "post")); ?>
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Add New Sub Service</h4>
+                <h4 class="modal-title">Add New Sub City</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-lg-12">
 
                         <div class="form-group">
-                            <label class="control-label" for="servicetype">Service <em>*</em></label> 
-                            <?php echo form_dropdown('servicetype', $servicetypes_options, '', 'class="form-control select2dropdown" id="servicetype" style="width:100%;"'); ?>  
+                            <label class="control-label" for="city">City <em>*</em></label> 
+                            <?php echo form_dropdown('city', $cities_options, '', 'class="form-control select2dropdown" id="city" style="width:100%;"'); ?>  
                         </div>
 
                         <div class="form-group">
                             <label class="control-label" for="name">Name <em>*</em></label>
                             <?php echo form_input("name", '', "id='name' class='form-control'"); ?>
-                        </div> 
-
-                        <div class="form-group">
-                            <label class="control-label" for="code">Code </label>
-                            <?php echo form_input("code", '', "id='code' class='form-control'"); ?>
-                        </div>      
+                        </div>  
                         <?php echo form_hidden('id'); ?> 
                     </div>
                 </div>
@@ -105,7 +94,7 @@
      3 default paging
      4 show sr. number or not
      */
-    var datatbl = datatable_init([0, 5], [[2, 'asc']], DEFAULT_PAGING, 1);
+    var datatbl = datatable_init([0, 4], [[2, 'asc']], DEFAULT_PAGING, 1);
 
     $('#manage-form').submit(function (e) {
         var _this = $(this);
@@ -132,12 +121,11 @@
                     });
                 } else if (res.success && res.msg && res.data) {
                     if (res.mode == 'add') {
-                        datatbl.row.add([0, res.data.name, res.data.code, res.data.servicetype_name, res.data.statusButtons, res.data.actionButtons]).draw();
+                        datatbl.row.add([0, res.data.name, res.data.city_name, res.data.statusButtons, res.data.actionButtons]).draw();
                         $('.changestatus[data-id="' + res.data.id + '"]').closest('tr').attr('id', 'row_' + res.data.id);
                     } else if (res.mode == 'edit') {
-                        $('#row_' + res.data.id).find('td:nth-child(3)').text(res.data.name);
-                        $('#row_' + res.data.id).find('td:nth-child(3)').text(res.data.code);
-                        $('#row_' + res.data.id).find('td:nth-child(4)').html(res.data.servicetype_name);
+                        $('#row_' + res.data.id).find('td:nth-child(2)').text(res.data.name);
+                        $('#row_' + res.data.id).find('td:nth-child(3)').html(res.data.city_name);
                     }
                     showMessage('success', {message: res.msg});
                     $('#modal-manage').modal('hide');
@@ -155,11 +143,11 @@
     $('#modal-manage').on('hidden.bs.modal', function (e) {
         $('.form-group .help-block').remove();
         $('.form-group').removeClass('has-error');
-        var servicetypeval = $('#servicetype').val();
+        var cityval = $('#city').val();
         $('#manage-form')[0].reset();
         $('#manage-form').find('[name="id"]').val('');
-        $('#servicetype').val(servicetypeval).trigger('change.select2');
-        $('.modal-title').text('Add New Sub Service');
+        $('#city').val(cityval).trigger('change.select2');
+        $('.modal-title').text('Add New Sub City');
     });
 
     $(document).on('click', 'a.edit-row', function (e) {
@@ -167,17 +155,16 @@
         e.preventDefault();
         var id = $(this).data('id');
         $.ajax({
-            url: '<?php echo site_url('services/getDetailAjax'); ?>',
+            url: '<?php echo site_url('sub_cities/getDetailAjax'); ?>',
             type: "POST",
             data: {id: id},
             success: function (res)
             {
                 if (res.result) {
                     $('#manage-form').find('[name="name"]').val(res.result.name);
-                    $('#manage-form').find('[name="code"]').val(res.result.code);
                     $('#manage-form').find('[name="id"]').val(res.result.id);
-                    $('#servicetype').val(res.result.servicetypes_id).trigger('change');
-                    $('.modal-title').text('Edit Sub Service');
+                    $('#city').val(res.result.cities_id).trigger('change');
+                    $('.modal-title').text('Edit Sub City');
                     $('#modal-manage').modal('show');
                 }
             },

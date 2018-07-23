@@ -71,11 +71,24 @@
                                 <th>Location</th>
                                 <td colspan="4"><?php echo $data->location; ?></td>
                             </tr>
-
-                            <tr>
-                                <th>Cities</th>
-                                <td colspan="4"><?php echo implode(',', $company_cities); ?></td>
-                            </tr> 
+                            <?php foreach ($company_cities as $key => $row): ?>
+                                <tr>
+                                    <th>City</th>
+                                    <td colspan="4">
+                                        <?php echo $key; ?>
+                                    </td>
+                                </tr> 
+                                <tr>
+                                    <th>Sub Cities</th>
+                                    <td colspan="4">
+                                        <?php
+                                        if (!empty($row)) {
+                                            echo implode(', ', $row);
+                                        }
+                                        ?>
+                                    </td>
+                                </tr> 
+                            <?php endforeach; ?>
 
                             <tr>
                                 <th>Country</th>

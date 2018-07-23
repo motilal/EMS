@@ -82,6 +82,18 @@ $config = array(
             'rules' => "trim|required|max_length[255]|callback__is_unique_city_name"
         )
     ),
+    'sub_cities/manage' => array(
+        array(
+            'field' => 'name',
+            'label' => 'Name',
+            'rules' => "trim|required|max_length[255]|callback__is_unique_sub_city_name"
+        ),
+        array(
+            'field' => 'city',
+            'label' => 'Name',
+            'rules' => "trim|required"
+        )
+    ),
     'package_types/manage' => array(
         array(
             'field' => 'name',

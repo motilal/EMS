@@ -74,7 +74,7 @@ class Company_model extends CI_Model {
     public function get_company_cities($companies_id) {
         if (is_numeric($companies_id) && $companies_id > 0) {
             $result = $this->db->select("cities.name")
-                    ->where(array('cc.is_delete' => 0, 'cc.companies_id' => $companies_id))
+                    ->where(array('cc.companies_id' => $companies_id))
                     ->join('cities', 'cities.id=cc.cities_id', 'LEFT')
                     ->get("companies_city as cc");
             $array = array();
@@ -87,10 +87,58 @@ class Company_model extends CI_Model {
         }
     }
 
+    public function get_company_sub_cities($companies_id, $cities_id) {
+        if (is_numeric($companies_id) && $companies_id > 0) {
+            $result = $this->db->select("sub_cities.name")
+                    ->where(array('csc.companies_id' => $companies_id))
+                    ->join('sub_cities', 'sub_cities.id=csc.sub_cities_id AND cities_id = ' . $cities_id, 'LEFT')
+                    ->get("companies_sub_city as csc");
+            $array = array();
+            if ($result->num_rows()) {
+                foreach ($result->result() as $row) {
+                    $array[] = $row->name;
+                }
+            }
+            return $array;
+        }
+    }
+
+    public function get_company_sub_cities_ids($companies_id, $cities_id) {
+        if (is_numeric($companies_id) && $companies_id > 0) {
+            $result = $this->db->select("sub_cities_id")
+                    ->where(array('companies_id' => $companies_id, 'cities_id' => $cities_id))
+                    ->get("companies_sub_city");
+            $array = array();
+            if ($result->num_rows()) {
+                foreach ($result->result() as $row) {
+                    $array[] = $row->sub_cities_id;
+                }
+            }
+            return $array;
+        }
+    }
+
+    public function get_company_sub_cities_group($companies_id) {
+        if (is_numeric($companies_id) && $companies_id > 0) {
+            $result = $this->db->select("sub_cities.name,cities.name as city_name")
+                    ->where(array('csc.companies_id' => $companies_id))
+                    ->join('sub_cities', 'sub_cities.id=csc.sub_cities_id', 'LEFT')
+                    ->join('cities', 'cities.id=csc.cities_id', 'LEFT')
+                    ->get("companies_sub_city as csc");
+            $array = array();
+            if ($result->num_rows()) {
+                foreach ($result->result() as $row) {
+                    $array[$row->city_name][] = $row->name;
+                }
+            }
+            return $array;
+        }
+    }
+
     public function get_company_cities_ids($companies_id) {
         if (is_numeric($companies_id) && $companies_id > 0) {
             $result = $this->db->select("cities_id")
-                    ->where(array('is_delete' => 0, 'companies_id' => $companies_id))
+                    ->where(array('companies_id' => $companies_id))
                     ->get("companies_city");
             $array = array();
             if ($result->num_rows()) {

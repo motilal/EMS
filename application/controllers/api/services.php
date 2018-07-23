@@ -25,7 +25,8 @@ class Services extends Rest_server {
             'message' => $this->post('message'),
             'portals_id' => $this->post('portal_id'),
             'record_id' => $this->post('record_id'),
-            'is_active' => 1
+            'is_active' => 1,
+            'created'=>date('Y-m-d H:i:s')
         );
         $data = filterPostData($data);
         if (empty($data)) {
