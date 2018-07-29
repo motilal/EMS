@@ -354,17 +354,13 @@
         });
         $(document).on('click', '.remove-cities', function () {
             $(this).closest('.clonecities').remove();
-        });
+        }); 
 
 
 
         $("#services,.sub_cities").select2({
             tags: false
-        });
-        $('#company_tab li:nth-child(3) a').tab('show');
-        function show_tab(element) {
-            $(element).tab('show');
-        }
+        }); 
         $('#servicetypes_id').on('select2:select', function (e) {
             var _this = $(this);
             $.ajax({
@@ -426,7 +422,9 @@
             }
         });
     });
-
+    function show_tab(element) {
+        $(element).tab('show');
+    }
     var placeSearch, autocomplete;
     var componentForm = {
         locality: 'long_name',

@@ -89,6 +89,11 @@ $config = array(
             'rules' => "trim|required|max_length[255]|callback__is_unique_sub_city_name"
         ),
         array(
+            'field' => 'pin_code',
+            'label' => 'Pin Code',
+            'rules' => "trim|required|max_length[8]|callback__is_unique_pin_code"
+        ),
+        array(
             'field' => 'city',
             'label' => 'Name',
             'rules' => "trim|required"

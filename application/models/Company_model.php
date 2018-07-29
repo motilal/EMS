@@ -187,14 +187,15 @@ class Company_model extends CI_Model {
         }
     }
 
-    public function get_companies_by_city_service($service_type_id, $city_id) {
-        $condition = array('c.is_delete' => '0', 'c.is_active' => '1', 'companies_city.cities_id' => $city_id, 'c.servicetypes_id' => $service_type_id, 'cp.total_leads > cp.used_leads' => NULL, 'cp.is_active' => 1);
+    public function get_companies_by_city_service($service_type_id, $city_id, $sub_cities_id = NULL) {
+        $condition = array('c.is_delete' => '0', 'c.is_active' => '1', 'companies_city.cities_id' => $city_id, "(csc.sub_cities_id=$sub_cities_id OR csc.sub_cities_id IS NULL)" => NULL, 'c.servicetypes_id' => $service_type_id, 'cp.total_leads > cp.used_leads' => NULL, 'cp.is_active' => 1);
         $this->db->select("c.*");
         if (!empty($condition) || $condition != "") {
             $this->db->where($condition);
         }
         $this->db->join('companies_city', 'companies_city.companies_id=c.id', 'INNER');
         $this->db->join('companies_package as cp', 'cp.companies_id=c.id', 'INNER');
+        $this->db->join('companies_sub_city csc', 'csc.companies_id=c.id', 'LEFT');
         $this->db->group_by('c.id');
         $data = $this->db->get("companies as c");
         return $data;

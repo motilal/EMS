@@ -49,7 +49,8 @@ class Sub_cities extends CI_Controller {
         if ($this->form_validation->run() === TRUE) {
             $data = array(
                 "name" => $this->input->post('name'),
-                "cities_id" => $this->input->post('city')
+                "cities_id" => $this->input->post('city'),
+                'pin_code' => $this->input->post('pin_code')
             );
             if ($this->input->post('id') > 0) {
                 $has_permission = $this->acl->has_permission('sub_city-edit', FALSE);
@@ -148,6 +149,19 @@ class Sub_cities extends CI_Controller {
         }
         if (validate_is_unique('sub_cities', $condition)) {
             $this->form_validation->set_message('_is_unique_sub_city_name', 'The Sub City name already exist.');
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    }
+
+    function _is_unique_pin_code($str) {
+        $condition = array('is_delete' => '0', 'pin_code' => $str);
+        if ($this->input->post('id') != "") {
+            $condition['id !='] = $this->input->post('id');
+        }
+        if (validate_is_unique('sub_cities', $condition)) {
+            $this->form_validation->set_message('_is_unique_pin_code', 'The Pin code already exist.');
             return FALSE;
         } else {
             return TRUE;

@@ -26,7 +26,7 @@ class Services extends Rest_server {
             'portals_id' => $this->post('portal_id'),
             'record_id' => $this->post('record_id'),
             'is_active' => 1,
-            'created'=>date('Y-m-d H:i:s')
+            'created' => date('Y-m-d H:i:s')
         );
         $data = filterPostData($data);
         if (empty($data)) {
@@ -34,7 +34,7 @@ class Services extends Rest_server {
         }
         if ($this->db->insert('leads', $data)) {
             $last_insert_id = $this->db->insert_id();
-            $this->load->library('send_lead');
+            $this->load->library('send_lead'); 
             $this->send_lead->send($last_insert_id);
             $message = [
                 'status' => TRUE,
@@ -52,7 +52,7 @@ class Services extends Rest_server {
     public function users_get() {
         // Users from a data store e.g. database 
         $users = [
-            ['id' => 1, 'name' => 'John', 'email' => 'john@example.com', 'fact' => 'Loves coding', 'city' => $this->getCityByAddress('chandni chowk delhi')],
+            ['id' => 1, 'name' => $this->getCityByAddress($this->get('location')), 'email' => 'john@example.com', 'fact' => 'Loves coding', 'city' => $this->getCityByAddress('chandni chowk delhi')],
             ['id' => 2, 'name' => 'Jim', 'email' => 'jim@example.com', 'fact' => 'Developed on CodeIgniter'],
             ['id' => 3, 'name' => 'Jane', 'email' => 'jane@example.com', 'fact' => 'Lives in the USA', ['hobbies' => ['guitar', 'cycling']]],
         ];
@@ -94,9 +94,16 @@ class Services extends Rest_server {
                 if (isset($output->results[0]->address_components)) {
                     $address_compoment = $output->results[0]->address_components;
                     foreach ($address_compoment as $key) {
+                        if (isset($key->types[0]) && $key->types[0] == 'locality') {
+                            $option_city = $key->long_name;
+                        }
                         if (isset($key->types[0]) && $key->types[0] == 'administrative_area_level_2') {
                             if (isset($key->long_name)) {
-                                return $this->getCityId($key->long_name);
+                                $cityId = $this->getCityId($key->long_name);
+                                if ($cityId == "" && $option_city != "") {
+                                    $cityId = $this->getCityId($option_city);
+                                }
+                                return $cityId; 
                             }
                         }
                     }

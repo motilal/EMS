@@ -58,8 +58,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-lg-12">
-
+                    <div class="col-lg-12"> 
                         <div class="form-group">
                             <label class="control-label" for="city">City <em>*</em></label> 
                             <?php echo form_dropdown('city', $cities_options, '', 'class="form-control select2dropdown" id="city" style="width:100%;"'); ?>  
@@ -67,8 +66,18 @@
 
                         <div class="form-group">
                             <label class="control-label" for="name">Name <em>*</em></label>
-                            <?php echo form_input("name", '', "id='name' class='form-control'"); ?>
-                        </div>  
+                            <?php echo form_input("name", '', "id='name' class='form-control' autocomplete='off'"); ?>
+                        </div> 
+
+
+                        <div class="form-group input-group"> 
+                            <h5><strong>Pin Code  <em>*</em></strong></h5>
+                            <?php echo form_input("pin_code", '', "id='pin_code' class='form-control' readonly"); ?> 
+                            <span class="input-group-addon padding0">
+                                <button type="button" class="btn btn-success fill-pin-code" style="padding:5px 12px;border-radius: 0;">Fill Pin Code</button>
+                            </span>                                
+                        </div>
+
                         <?php echo form_hidden('id'); ?> 
                     </div>
                 </div>
@@ -85,7 +94,7 @@
 </div>
 <!-- /.modal -->
 
-
+<script src="https://maps.googleapis.com/maps/api/js?key=<?php echo GOOGLE_MAP_KEY; ?>&libraries=places&callback=initAutocomplete" async defer></script>
 <script>
     /*
      params 
@@ -105,10 +114,7 @@
         $.ajax({
             url: _this.attr('action'),
             type: "POST",
-            data: new FormData($('#manage-form')[0]),
-            cache: false,
-            processData: false,
-            contentType: false,
+            data: $('#manage-form').serialize(),
             success: function (res)
             {
                 _this.find("[type='submit']").prop('disabled', false);
@@ -176,4 +182,32 @@
 
 
     });
-</script>
+
+    function getLatLong() {
+        var geocoder = new google.maps.Geocoder();
+        var address = "Malviya nagar jaipur";
+        geocoder.geocode({'address': address}, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                var latitude = results[0].geometry.location.lat();
+                var longitude = results[0].geometry.location.lng();
+                GetPinCodeFromLatLong(latitude, longitude);
+            }
+        });
+    }
+    function GetPinCodeFromLatLong(lat, lng) {
+        var latlng = new google.maps.LatLng(lat, lng);
+        var geocoder = geocoder = new google.maps.Geocoder();
+        geocoder.geocode({'latLng': latlng}, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                if (results[0]) {
+                    var address = results[0].formatted_address;
+                    var pin = results[0].formatted_address.split(',')[results[0].formatted_address.split(',').length - 2].trim().split(' ')[1];
+                    alert("Address: " + address + "\n\nPinCode: " + pin);
+                }
+            }
+        });
+    }
+</script> 
+<style>
+    .pac-container{z-index: 10000 !important;}
+</style>

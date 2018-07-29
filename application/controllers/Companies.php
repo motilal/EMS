@@ -81,7 +81,7 @@ class Companies extends CI_Controller {
             $this->acl->has_permission('company-add');
         }
 
-        if ($this->form_validation->run() === TRUE) {
+        if ($this->form_validation->run() === TRUE) { 
             $saveData = array(
                 "name" => $this->input->post('name'),
                 "company_owner" => $this->input->post('company_owner'),
@@ -233,7 +233,7 @@ class Companies extends CI_Controller {
                             if (!empty($CompSubCitydata)) {
                                 $this->db->insert_batch('companies_sub_city', $CompSubCitydata);
                             }
-                        } 
+                        }
                     }
                 }
 
@@ -270,11 +270,18 @@ class Companies extends CI_Controller {
                 $saveData['created'] = date("Y-m-d H:i:s");
                 $this->db->insert("companies", $saveData);
                 $company_id = $this->db->insert_id();
-                if ($this->input->post('cities') != "") {
-                    $cities = $this->input->post('cities');
-                    $citiesData = array();
-                    foreach ($this->input->post('cities') as $val) {
-                        $citiesData[] = array('cities_id' => $val, 'companies_id' => $company_id);
+                if ($this->input->post('cities_id') != "") {
+                    $cities = $this->input->post('cities_id');
+                    $sub_cities_array = $this->input->post('sub_cities');
+                    $citiesData = array(); 
+                    foreach ($this->input->post('cities_id') as $key => $val) {
+                        $citiesData[] = array('cities_id' => $val, 'companies_id' => $company_id); 
+                        if (!empty($sub_cities_array[$key])) {
+                            foreach ($sub_cities_array[$key] as $sval) {
+                                $subcitiesData[] = array('cities_id' => $val, 'sub_cities_id' => $sval, 'companies_id' => $company_id);
+                            }
+                            $this->db->insert_batch('companies_sub_city', $subcitiesData);
+                        }
                     }
                     $this->db->insert_batch('companies_city', $citiesData);
                 }
