@@ -13,11 +13,12 @@ class Services extends Rest_server {
     public function savelead_post() {
         $services_id = $this->getServiceId($this->post('service_name'));
         $cities_id = $this->getCityByAddress($this->post('location'));
+        $sub_cities_id = $this->getZipByAddress($this->post('location'));
         $data = array('name' => $this->post('name'),
             'email' => $this->post('email'),
             'location' => $this->post('location'),
             'cities_id' => $cities_id,
-            'servicetypes_id' => $services_id,
+            'services_id' => $services_id,
             'service_to' => $this->post('service_to'),
             'source' => !empty($this->post('source')) ? $this->post('source') : NULL,
             'phone_number' => $this->post('phone'),
@@ -34,8 +35,8 @@ class Services extends Rest_server {
         }
         if ($this->db->insert('leads', $data)) {
             $last_insert_id = $this->db->insert_id();
-            $this->load->library('send_lead'); 
-            $this->send_lead->send($last_insert_id);
+            $this->load->library('send_lead');
+            $this->send_lead->send($last_insert_id, $sub_cities_id);
             $message = [
                 'status' => TRUE,
                 'message' => 'New lead inserted successfully.'
@@ -60,7 +61,16 @@ class Services extends Rest_server {
     }
 
     private function getServiceId($service_name = '') {
-        $sql = $this->db->select('id')->get_where('servicetypes', array('name' => $service_name, 'is_delete' => 0));
+        $sql = $this->db->select('id')->get_where('services', array('name' => $service_name, 'is_delete' => 0));
+        if ($sql->num_rows() > 0) {
+            return $sql->row()->id;
+        } else {
+            return NULL;
+        }
+    }
+
+    private function getSubCityIdByPincode($pin_code = '') {
+        $sql = $this->db->select('id')->get_where('sub_cities', array('pin_code' => $pin_code, 'is_delete' => 0));
         if ($sql->num_rows() > 0) {
             return $sql->row()->id;
         } else {
@@ -103,7 +113,33 @@ class Services extends Rest_server {
                                 if ($cityId == "" && $option_city != "") {
                                     $cityId = $this->getCityId($option_city);
                                 }
-                                return $cityId; 
+                                return $cityId;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return NULL;
+    }
+
+    function getZipByAddress($address = "") {
+        if (!empty($address)) {
+            $address = urlencode($address);
+            $geocode = file_get_contents("https://maps.googleapis.com/maps/api/geocode/json?address=$address&components=country:IN&key=" . GOOGLE_MAP_KEY);
+            $output = json_decode($geocode);
+            if (isset($output->results[0]->geometry->location->lat)) {
+                $lat = $output->results[0]->geometry->location->lat;
+                $long = $output->results[0]->geometry->location->lng;
+                $geocode = file_get_contents("https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$long&sensor=false&key=" . GOOGLE_MAP_KEY);
+                $output = json_decode($geocode);
+                if (isset($output->results[0]->address_components)) {
+                    $address_compoment = $output->results[0]->address_components;
+                    foreach ($address_compoment as $key) {
+                        if (isset($key->types[0]) && $key->types[0] == 'postal_code') {
+                            if (isset($key->long_name)) {
+                                $subcityId = $this->getSubCityIdByPincode($key->long_name);
+                                return $subcityId;
                             }
                         }
                     }

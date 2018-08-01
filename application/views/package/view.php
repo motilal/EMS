@@ -40,12 +40,12 @@
                             </tr>
 
                             <tr>
-                                <th>Services</th>
-                                <td colspan="4"><?php echo $data->service_name; ?></td>
+                                <th>Service Type</th>
+                                <td colspan="4"><?php echo $data->servicetype_name; ?></td>
                             </tr>
 
                             <tr>
-                                <th>Sub Services</th>
+                                <th>Services</th>
                                 <td colspan="4"><?php echo implode(',', $package_services); ?></td>
                             </tr>
 

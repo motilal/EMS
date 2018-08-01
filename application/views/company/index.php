@@ -38,7 +38,10 @@
                                         <?php echo $row->phone1; ?>
                                         <div class="hide"><?php echo json_encode($row); ?></div>
                                     </td> 
-                                    <td><?php echo $row->service_name; ?></td>
+                                    <td><?php
+                                        $services = $this->company->get_company_services($row->id);
+                                        echo empty($services) ? '' : implode(',', $services);
+                                        ?> </td>
                                     <td>
                                         <?php
                                         $cities = $this->company->get_company_cities($row->id);
@@ -73,5 +76,5 @@
      3 default paging
      4 show sr. number or not
      */
-    var datatbl = datatable_init([0, 6], [[1, 'asc']], DEFAULT_PAGING, 1);
+    var datatbl = datatable_init([0, 7], [[1, 'asc']], DEFAULT_PAGING, 1);
 </script>

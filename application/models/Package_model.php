@@ -13,7 +13,7 @@ class Package_model extends CI_Model {
     }
 
     public function get_list($condition = array(), $order = array()) {
-        $this->db->select("packages.*,servicetypes.name as service_name,ptype.name as package_type_name");
+        $this->db->select("packages.*,servicetypes.name as servicetype_name,ptype.name as package_type_name");
         if (!empty($condition)) {
             $this->db->where($condition);
         }
@@ -28,7 +28,7 @@ class Package_model extends CI_Model {
     public function getById($id, $join = false) {
         if (is_numeric($id) && $id > 0) {
             if ($join == true) {
-                $result = $this->db->select("packages.*,servicetypes.name as service_name,ptype.name as package_type_name")
+                $result = $this->db->select("packages.*,servicetypes.name as servicetype_name,ptype.name as package_type_name")
                         ->join('package_types ptype', 'ptype.id=packages.package_types_id', 'LEFT')
                         ->join('servicetypes', 'servicetypes.id=packages.servicetypes_id', 'LEFT')
                         ->get_where("packages", array("packages.id" => $id, 'packages.is_delete' => '0'));

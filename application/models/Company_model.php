@@ -13,11 +13,10 @@ class Company_model extends CI_Model {
     }
 
     public function get_list($condition = array()) {
-        $this->db->select("companies.*,servicetypes.name as service_name");
+        $this->db->select("companies.*");
         if (!empty($condition) || $condition != "") {
             $this->db->where($condition);
         }
-        $this->db->join('servicetypes', 'servicetypes.id=companies.servicetypes_id', 'LEFT');
         $data = $this->db->get("companies");
         return $data;
     }
@@ -187,15 +186,16 @@ class Company_model extends CI_Model {
         }
     }
 
-    public function get_companies_by_city_service($service_type_id, $city_id, $sub_cities_id = NULL) {
-        $condition = array('c.is_delete' => '0', 'c.is_active' => '1', 'companies_city.cities_id' => $city_id, "(csc.sub_cities_id=$sub_cities_id OR csc.sub_cities_id IS NULL)" => NULL, 'c.servicetypes_id' => $service_type_id, 'cp.total_leads > cp.used_leads' => NULL, 'cp.is_active' => 1);
-        $this->db->select("c.*");
+    public function get_companies_by_city_service($service_id, $city_id, $sub_cities_id = NULL) {
+        $condition = array('c.is_delete' => '0', 'c.is_active' => '1', 'companies_city.cities_id' => $city_id, 'companies_service.services_id' => $service_id, "(csc.sub_cities_id=$sub_cities_id OR csc.sub_cities_id IS NULL)" => NULL, 'cp.total_leads > cp.used_leads' => NULL, 'cp.is_active' => 1);
+        $this->db->select("csc.sub_cities_id,csc.sub_cities_id,c.*");
         if (!empty($condition) || $condition != "") {
             $this->db->where($condition);
         }
         $this->db->join('companies_city', 'companies_city.companies_id=c.id', 'INNER');
+        $this->db->join('companies_service', 'companies_service.companies_id=c.id', 'INNER');
         $this->db->join('companies_package as cp', 'cp.companies_id=c.id', 'INNER');
-        $this->db->join('companies_sub_city csc', 'csc.companies_id=c.id', 'LEFT');
+        $this->db->join('companies_sub_city csc', 'csc.companies_id=c.id AND csc.cities_id=' . $city_id, 'LEFT');
         $this->db->group_by('c.id');
         $data = $this->db->get("companies as c");
         return $data;
@@ -203,6 +203,14 @@ class Company_model extends CI_Model {
 
     public function total_lead_sent_today($company_id) {
         $sql = $this->db->select('count(id) as total')->where(['companies_id' => $company_id, 'DATE(created)' => date('Y-m-d')])->group_by('companies_id')->get('leads_sent_history');
+        if ($sql->num_rows() > 0) {
+            return $sql->row()->total;
+        }
+        return 0;
+    }
+
+    public function duplicate_lead_check($phone, $service_id) {
+        $sql = $this->db->select('count(leads.id) as total')->join('leads', 'leads.id=lsh.leads_id', 'LEFT')->where(['leads.phone_number' => $phone, 'services_id' => $service_id, 'DATE(lsh.created)' => date('Y-m-d')])->group_by('leads.phone_number')->get('leads_sent_history as lsh');
         if ($sql->num_rows() > 0) {
             return $sql->row()->total;
         }

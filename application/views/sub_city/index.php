@@ -19,8 +19,9 @@
                     <thead>
                         <tr>
                             <td>Sr.</td> 
-                            <th>Name</th>  
                             <th>City</th> 
+                            <th>Sub City</th>  
+                            <th>Pin Code</th>                              
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -30,8 +31,9 @@
                             <?php foreach ($result->result() as $key => $row): ?> 
                                 <tr id="row_<?php echo $row->id; ?>">
                                     <td> <?php echo $key + 1; ?></td>    
-                                    <td><?php echo $row->name; ?> </td> 
                                     <td><?php echo $row->city_name; ?></td>  
+                                    <td><?php echo $row->name; ?> </td> 
+                                    <td><?php echo $row->pin_code; ?> </td>                                     
                                     <td><?php echo $this->layout->element('element/_module_status', array('status' => $row->is_active, 'id' => $row->id, 'url' => "sub_cities/changestatus", 'permissionKey' => "sub_city-status"), true); ?></td>
                                     <td><?php echo $this->layout->element('element/_module_action', array('id' => $row->id, 'editUrl' => "sub_cities/manage", 'deleteUrl' => 'sub_cities/delete', 'editPermissionKey' => 'sub_city-edit', 'deletePermissionKey' => 'sub_city-delete'), true); ?></td>  
                                 </tr>
@@ -70,8 +72,8 @@
                         </div> 
 
 
-                        <div class="form-group input-group"> 
-                            <h5><strong>Pin Code  <em>*</em></strong></h5>
+                        <h5><strong>Pin Code  <em>*</em></strong></h5>
+                        <div class="form-group input-group">                             
                             <?php echo form_input("pin_code", '', "id='pin_code' class='form-control' readonly"); ?> 
                             <span class="input-group-addon padding0">
                                 <button type="button" class="btn btn-success fill-pin-code" style="padding:5px 12px;border-radius: 0;">Fill Pin Code</button>
@@ -94,7 +96,7 @@
 </div>
 <!-- /.modal -->
 
-<script src="https://maps.googleapis.com/maps/api/js?key=<?php echo GOOGLE_MAP_KEY; ?>&libraries=places&callback=initAutocomplete" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<?php echo GOOGLE_MAP_KEY; ?>&libraries=places" async defer></script>
 <script>
     /*
      params 
@@ -103,12 +105,13 @@
      3 default paging
      4 show sr. number or not
      */
-    var datatbl = datatable_init([0, 4], [[2, 'asc']], DEFAULT_PAGING, 1);
+    var datatbl = datatable_init([0, 5], [[2, 'asc']], DEFAULT_PAGING, 1);
 
     $('#manage-form').submit(function (e) {
         var _this = $(this);
         _this.find("[type='submit']").prop('disabled', true);
         $('.form-group .help-block').remove();
+        $('.form-group+.help-block').remove();
         $('.form-group').removeClass('has-error');
         e.preventDefault();
         $.ajax({
@@ -122,16 +125,21 @@
                     $.each(res.validation_error, function (index, value) {
                         var elem = _this.find('[name="' + index + '"]');
                         var error = '<div class="help-block">' + value + '</div>';
-                        elem.closest('.form-group').append(error);
+                        if (elem.closest('.form-group').hasClass('input-group')) {
+                            elem.closest('.form-group').after(error);
+                        } else {
+                            elem.closest('.form-group').append(error);
+                        }
                         elem.closest('.form-group').addClass('has-error');
                     });
                 } else if (res.success && res.msg && res.data) {
                     if (res.mode == 'add') {
-                        datatbl.row.add([0, res.data.name, res.data.city_name, res.data.statusButtons, res.data.actionButtons]).draw();
+                        datatbl.row.add([0, res.data.city_name, res.data.name, res.data.pin_code, res.data.statusButtons, res.data.actionButtons]).draw();
                         $('.changestatus[data-id="' + res.data.id + '"]').closest('tr').attr('id', 'row_' + res.data.id);
                     } else if (res.mode == 'edit') {
-                        $('#row_' + res.data.id).find('td:nth-child(2)').text(res.data.name);
-                        $('#row_' + res.data.id).find('td:nth-child(3)').html(res.data.city_name);
+                        $('#row_' + res.data.id).find('td:nth-child(2)').html(res.data.city_name);
+                        $('#row_' + res.data.id).find('td:nth-child(3)').text(res.data.name);
+                        $('#row_' + res.data.id).find('td:nth-child(4)').html(res.data.pin_code);
                     }
                     showMessage('success', {message: res.msg});
                     $('#modal-manage').modal('hide');
@@ -168,6 +176,7 @@
             {
                 if (res.result) {
                     $('#manage-form').find('[name="name"]').val(res.result.name);
+                    $('#manage-form').find('[name="pin_code"]').val(res.result.pin_code);
                     $('#manage-form').find('[name="id"]').val(res.result.id);
                     $('#city').val(res.result.cities_id).trigger('change');
                     $('.modal-title').text('Edit Sub City');
@@ -178,14 +187,24 @@
                 showMessage('error', 'Internal error: ' + jqXHR.responseText);
             }
         });
-
-
-
     });
 
-    function getLatLong() {
+    $('.fill-pin-code').on('click', function () {
+        if ($('#name').val() != "" && $("#city").val() != "") {
+            $('.fill-pin-code').text('Loading...');
+            var address = $("#city option:selected").text() + ' ' + $('#name').val();
+            getLatLong(address);
+        } else {
+            showMessage('error', {message: 'Please enter city and sub city name'});
+        }
+    });
+
+    $('#name,#city').on('change', function () {
+        $('#pin_code').val('');
+    });
+
+    function getLatLong(address) {
         var geocoder = new google.maps.Geocoder();
-        var address = "Malviya nagar jaipur";
         geocoder.geocode({'address': address}, function (results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
                 var latitude = results[0].geometry.location.lat();
@@ -200,9 +219,17 @@
         geocoder.geocode({'latLng': latlng}, function (results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
                 if (results[0]) {
-                    var address = results[0].formatted_address;
                     var pin = results[0].formatted_address.split(',')[results[0].formatted_address.split(',').length - 2].trim().split(' ')[1];
-                    alert("Address: " + address + "\n\nPinCode: " + pin);
+                    if (typeof pin === "undefined") {
+                        showMessage('error', {message: 'Please enter correct address'});
+                        $('.fill-pin-code').text('Fill Pin Code');
+                    } else if (pin != "") {
+                        $('#pin_code').val(pin);
+                        $('.fill-pin-code').text('Fill Pin Code');
+                    }
+                } else {
+                    showMessage('error', {message: 'Please enter correct address'});
+                    $('.fill-pin-code').text('Fill Pin Code');
                 }
             }
         });

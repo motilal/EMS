@@ -21,8 +21,8 @@
                             <tr>
                                 <td>Sr.</td>
                                 <th>Name</th> 
-                                <th>Service</th> 
-                                <th>Sub Service(s)</th>
+                                <th>Service Type</th> 
+                                <th>Service(s)</th>
                                 <th>Duration</th> 
                                 <th>Amount</th>
                                 <th>Leads</th>
@@ -38,7 +38,7 @@
                                     <tr id="row_<?php echo $row->id; ?>">
                                         <td><?php echo $key + 1; ?></td>
                                         <td><?php echo $row->name; ?></td>
-                                        <td><?php echo $row->service_name; ?></td> 
+                                        <td><?php echo $row->servicetype_name; ?></td> 
                                         <td><?php
                                             $services = $this->package->get_package_services($row->id);
                                             echo empty($services) ? '' : implode(',', $services);

@@ -249,7 +249,7 @@
                         <div class="col-lg-12 padding0">
                             <div class="col-lg-6">
                                 <div class="form-group <?php echo form_error('servicetypes_id') != "" ? 'has-error' : ''; ?>">
-                                    <label class="control-label" for="servicetypes_id">Service</label> 
+                                    <label class="control-label" for="servicetypes_id">Service Type</label> 
                                     <?php echo form_dropdown('servicetypes_id', $servicetypes_options, set_value("servicetypes_id", isset($data->servicetypes_id) ? $data->servicetypes_id : "", false), 'class="form-control select2dropdown" id="servicetypes_id" style="width:100%;"'); ?> 
                                     <?php echo form_error('servicetypes_id'); ?>
                                 </div>
@@ -257,7 +257,7 @@
 
                             <div class="col-lg-6">
                                 <div class="form-group <?php echo form_error('services[]') != "" ? 'has-error' : ''; ?>">
-                                    <label class="control-label" for="services">Sub Service(s)</label> 
+                                    <label class="control-label" for="services">Service(s)</label> 
                                     <?php echo form_dropdown('services[]', isset($services_options) ? $services_options : '', set_value("services[]", isset($company_services) ? $company_services : '', false), 'class="form-control" multiple="multiple" id="services" style="width:100%;"'); ?> 
                                     <?php echo form_error('services[]'); ?>
                                 </div>

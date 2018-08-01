@@ -13,7 +13,7 @@ class Servicetypes extends CI_Controller {
     var $viewData = array();
 
     public function __construct() {
-        parent::__construct(); 
+        parent::__construct();
         $this->site_santry->allow(array());
         $this->load->model(array('servicetype_model' => 'servicetype', 'portal_model' => 'portal'));
         $this->layout->set_layout("layout/layout_admin");
@@ -26,20 +26,20 @@ class Servicetypes extends CI_Controller {
         $start = (int) $this->input->get('start');
         $result = $this->servicetype->get_list($condition);
         if ($this->input->get('download') == 'report') {
-            $csv_array[] = array('name' => 'Name', 'code' => 'Code', 'portal' => 'Portal', 'status' => 'Status', 'created' => 'Created');
+            $csv_array[] = array('name' => 'Name', 'portal' => 'Portal', 'status' => 'Status', 'created' => 'Created');
             foreach ($result->result() as $row) {
                 $this->load->helper('csv');
-                $csv_array[] = array('name' => $row->name, 'code' => $row->code, 'portal' => $row->portal_name, 'status' => $row->is_active == 1 ? 'Active' : 'InActive', 'created' => date(DATETIME_FORMATE, strtotime($row->created)));
+                $csv_array[] = array('name' => $row->name, 'portal' => $row->portal_name, 'status' => $row->is_active == 1 ? 'Active' : 'InActive', 'created' => date(DATETIME_FORMATE, strtotime($row->created)));
             }
             $Today = date('dmY');
             array_to_csv($csv_array, "Services_$Today.csv");
             exit();
         }
         $this->viewData['result'] = $result;
-        $this->viewData['title'] = "Service Listing";
+        $this->viewData['title'] = "Service Type Listing";
         $this->viewData['datatable_asset'] = true;
-        $this->viewData['pageHeading'] = 'Service Listing';
-        $this->viewData['breadcrumb'] = array('Service Manager' => 'servicetypes', $this->viewData['title'] => '');
+        $this->viewData['pageHeading'] = 'Service Type Listing';
+        $this->viewData['breadcrumb'] = array('Service Type Manager' => 'servicetypes', $this->viewData['title'] => '');
         $this->viewData['portal_options'] = $this->portal->portal_options();
         $this->layout->view("servicetype/index", $this->viewData);
     }
@@ -51,7 +51,6 @@ class Servicetypes extends CI_Controller {
         if ($this->form_validation->run() === TRUE) {
             $data = array(
                 "name" => $this->input->post('name'),
-                "code" => $this->input->post('code'),
                 "portals_id" => $this->input->post('portal')
             );
             if ($this->input->post('id') > 0) {

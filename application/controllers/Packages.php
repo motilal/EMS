@@ -26,12 +26,12 @@ class Packages extends CI_Controller {
         $start = (int) $this->input->get('start');
         $result = $this->package->get_list($condition);
         if ($this->input->get('download') == 'report') {
-            $csv_array[] = array('name' => 'Package Name', 'service' => 'Service', 'sub_services' => 'Sub Service(s)', 'duration' => 'Package Duration', 'amount' => 'Package Amount', 'leads' => 'Total Leads', 'type' => 'Package Type', 'status' => 'Status', 'created' => 'Created', 'updated' => 'Last Update');
+            $csv_array[] = array('name' => 'Package Name', 'servicetype' => 'Service', 'services' => 'Sub Service(s)', 'duration' => 'Package Duration', 'amount' => 'Package Amount', 'leads' => 'Total Leads', 'type' => 'Package Type', 'status' => 'Status', 'created' => 'Created', 'updated' => 'Last Update');
             foreach ($result->result() as $row) {
                 $this->load->helper('csv');
                 $services = $this->package->get_package_services($row->id);
                 $services = empty($services) ? '' : implode(',', $services);
-                $csv_array[] = array('name' => $row->name, 'service' => $row->service_name, 'sub_services' => $services, 'duration' => $row->duration, 'amount' => $row->amount, 'leads' => $row->no_of_leads, 'type' => $row->package_type_name, 'status' => $row->is_active == 1 ? 'Active' : 'InActive', 'created' => date(DATETIME_FORMATE, strtotime($row->created)), 'updated' => date(DATETIME_FORMATE, strtotime($row->updated)));
+                $csv_array[] = array('name' => $row->name, 'servicetype' => $row->service_name, 'services' => $services, 'duration' => $row->duration, 'amount' => $row->amount, 'leads' => $row->no_of_leads, 'type' => $row->package_type_name, 'status' => $row->is_active == 1 ? 'Active' : 'InActive', 'created' => date(DATETIME_FORMATE, strtotime($row->created)), 'updated' => date(DATETIME_FORMATE, strtotime($row->updated)));
             }
             $Today = date('dmY');
             array_to_csv($csv_array, "Packages_$Today.csv");

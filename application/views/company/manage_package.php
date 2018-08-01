@@ -104,7 +104,7 @@
                         </div> 
                         <div class="form-group">
                             <label class="control-label" for="package">Package <em>*</em></label>  
-                            <?php echo form_dropdown('package', $packages_options, '', 'class="form-control select2dropdown" id="package" style="width:100%;"'); ?>  
+                            <?php echo form_dropdown('package', array('' => 'Select Package'), '', 'class="form-control select2dropdown" id="package" style="width:100%;"'); ?>  
                             <div class="pull-right text-info" id="package_amount"></div>
                         </div>  
                         <?php echo form_hidden('package_amount'); ?>
@@ -132,6 +132,7 @@
 
 
 <script>
+    var company_id = '<?php echo isset($company_id) ? $company_id : ''; ?>';
     /*
      params 
      1 sorting remove from colomns
@@ -182,6 +183,11 @@
         $('#package').val('').trigger('change.select2');
         $('#package_amount,#lead_balance').empty();
         $('.modal-title').text('Add New Package');
+    });
+    $('#modal-manage').on('shown.bs.modal', function (e) {
+        if (company_id != "") {
+            fill_match_package(company_id);
+        }
     });
 
     $('#amount_paid').on('keyup', function () {
@@ -313,5 +319,28 @@
             });
         }
     });
+
+    $('#company').on('select2:select', function (e) {
+        var _this = $(this);
+        fill_match_package(_this.val());
+
+    });
+
+    function fill_match_package(companies_id) {
+        $.ajax({
+            url: '<?php echo site_url('companies/ajax_getmatchpackage'); ?>',
+            type: "POST",
+            dataType: "json",
+            data: {companies_id: companies_id},
+            success: function (response) {
+                if (response.result) {
+                    $('#package').select2('destroy').empty().select2({data: response.result});
+                }
+            },
+            error: function (jqXHR, exception) {
+                showMessage('error', {message: 'Uncaught Error.\n' + jqXHR.responseText});
+            }
+        });
+    }
 
 </script>

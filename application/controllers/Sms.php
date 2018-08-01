@@ -44,8 +44,7 @@ class Sms extends CI_Controller {
         $this->viewData['datatable_asset'] = true;
         $this->viewData['pageHeading'] = 'SMS History';
         $this->viewData['breadcrumb'] = array('SMS Manager' => 'cities', $this->viewData['title'] => '');
-        $this->layout
-                ->view("sms/index", $this->viewData);
+        $this->layout->view("sms/index", $this->viewData);
     }
 
     private function get_list($limit = array(), $order = array()) {
@@ -57,7 +56,6 @@ class Sms extends CI_Controller {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($ch);
         curl_close($ch);
-
         return json_decode($response);
     }
 

@@ -13,18 +13,18 @@ class Send_lead {
         return get_instance()->$var;
     }
 
-    public function send($lead_id = '') {
+    public function send($lead_id = '', $sub_city_id = '') {
         if (empty($lead_id)) {
             return FALSE;
         }
         $leadDetail = $this->lead->getById($lead_id, true);
-        $todayLeadDuplicate = $this->company->duplicate_lead_check($leadDetail->phone_number);
-        if ($todayLeadDuplicate > 2) {
-            $this->db->where('id', $leadDetail->id)->set('status', 3)->update('leads');
-            return FALSE;
-        }
-        if (isset($leadDetail->status) && $leadDetail->status == 0 && $leadDetail->servicetypes_id > 0 && $leadDetail->cities_id) {
-            $companies = $this->company->get_companies_by_city_service($leadDetail->servicetypes_id, $leadDetail->cities_id);
+        if (isset($leadDetail->status) && $leadDetail->status == 0 && $leadDetail->services_id > 0 && $leadDetail->cities_id) {
+            $todayLeadDuplicate = $this->company->duplicate_lead_check($leadDetail->phone_number, $leadDetail->services_id);
+            if ($todayLeadDuplicate > 1) {
+                $this->db->where('id', $leadDetail->id)->set('status', 3)->update('leads');
+                return FALSE;
+            }
+            $companies = $this->company->get_companies_by_city_service($leadDetail->services_id, $leadDetail->cities_id, $sub_city_id);
             $sentCounter = 0;
             if ($companies->num_rows() > 0) {
                 $companies_result = $companies->result();

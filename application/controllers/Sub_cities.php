@@ -24,10 +24,10 @@ class Sub_cities extends CI_Controller {
         $start = (int) $this->input->get('start');
         $result = $this->sub_city->get_list($condition);
         if ($this->input->get('download') == 'report') {
-            $csv_array[] = array('name' => 'Name', 'City' => 'City Name', 'status' => 'Status', 'created' => 'Created', 'updated' => 'Updated');
+            $csv_array[] = array('name' => 'Name', 'city' => 'City Name', 'pin_code' => 'Pin Code', 'status' => 'Status', 'created' => 'Created', 'updated' => 'Updated');
             foreach ($result->result() as $row) {
                 $this->load->helper('csv');
-                $csv_array[] = array('name' => $row->name, 'sub_city' => $row->city_name, 'status' => $row->is_active == 1 ? 'Active' : 'InActive', 'created' => date(DATETIME_FORMATE, strtotime($row->created)), 'updated' => date(DATETIME_FORMATE, strtotime($row->created)));
+                $csv_array[] = array('name' => $row->name, 'city' => $row->city_name, 'pin' => $row->pin_code, 'status' => $row->is_active == 1 ? 'Active' : 'InActive', 'created' => date(DATETIME_FORMATE, strtotime($row->created)), 'updated' => date(DATETIME_FORMATE, strtotime($row->created)));
             }
             $Today = date('dmY');
             array_to_csv($csv_array, "Sub_Cities_$Today.csv");

@@ -17,7 +17,7 @@ class Services extends CI_Controller {
         $this->site_santry->allow(array());
         $this->load->model(array('service_model' => 'service', 'servicetype_model' => 'servicetype'));
         $this->layout->set_layout("layout/layout_admin");
-        $this->viewData['pageModule'] = 'Sub Service Manager';
+        $this->viewData['pageModule'] = 'Service Manager';
     }
 
     public function index() {
@@ -32,14 +32,14 @@ class Services extends CI_Controller {
                 $csv_array[] = array('name' => $row->name, 'code' => $row->code, 'service' => $row->service_name, 'status' => $row->is_active == 1 ? 'Active' : 'InActive', 'created' => date(DATETIME_FORMATE, strtotime($row->created)));
             }
             $Today = date('dmY');
-            array_to_csv($csv_array, "Subservices_$Today.csv");
+            array_to_csv($csv_array, "Services_$Today.csv");
             exit();
         }
         $this->viewData['result'] = $result;
-        $this->viewData['title'] = "Sub Service Listing";
+        $this->viewData['title'] = "Service Listing";
         $this->viewData['datatable_asset'] = true;
-        $this->viewData['pageHeading'] = 'Sub Service Listing';
-        $this->viewData['breadcrumb'] = array('Sub Service Manager' => 'services', $this->viewData['title'] => '');
+        $this->viewData['pageHeading'] = 'Service Listing';
+        $this->viewData['breadcrumb'] = array('Service Manager' => 'services', $this->viewData['title'] => '');
         $this->viewData['servicetypes_options'] = $this->servicetype->servicetypes_options();
         $this->layout->view("service/index", $this->viewData);
     }
@@ -50,8 +50,7 @@ class Services extends CI_Controller {
         $response = array();
         if ($this->form_validation->run() === TRUE) {
             $data = array(
-                "name" => $this->input->post('name'),
-                "code" => $this->input->post('code'),
+                "name" => $this->input->post('name'), 
                 "servicetypes_id" => $this->input->post('servicetype')
             );
             if ($this->input->post('id') > 0) {

@@ -33,7 +33,7 @@ class Leads extends CI_Controller {
         $this->viewData['type'] = $type;
         $this->viewData['portal_id'] = isset($portal_id) ? $portal_id : '';
         if ($this->input->is_ajax_request()) {
-            $orderColomn = array(1 => 'led.name', 2 => 'led.phone_number', 3 => 'servicetypes.name', 4 => 'cities.name', 5 => 'led.date', 6 => 'led.status', 7 => 'led.is_active');
+            $orderColomn = array(1 => 'led.name', 2 => 'led.phone_number', 3 => 'services.name', 4 => 'cities.name', 5 => 'led.date', 6 => 'led.status', 7 => 'led.is_active');
             $params = dataTableGetRequest($this->input->get(), $orderColomn);
             if (!empty($params->search)) {
                 $keyword = $this->db->escape_str($params->search);
@@ -94,7 +94,7 @@ class Leads extends CI_Controller {
     }
 
     public function manage($id = null) {
-        $this->load->model(array('servicetype_model' => 'servicetype'));
+        $this->load->model(array('service_model' => 'service'));
         $this->load->library('form_validation');
         $this->form_validation->set_rules('manage');
         $this->viewData['title'] = "Add Leads";
@@ -113,7 +113,7 @@ class Leads extends CI_Controller {
         if ($this->form_validation->run() === TRUE) {
             $data = array(
                 "portals_id" => $this->input->post('portals_id'),
-                "servicetypes_id" => $this->input->post('servicetypes_id') != "" ? $this->input->post('servicetypes_id') : NULL,
+                "services_id" => $this->input->post('services_id') != "" ? $this->input->post('services_id') : NULL,
                 "name" => $this->input->post('name'),
                 "email" => $this->input->post('email'),
                 "location" => $this->input->post('location'),
@@ -140,7 +140,7 @@ class Leads extends CI_Controller {
         $this->viewData['breadcrumb'] = array('Leads Manager' => 'leads', $this->viewData['title'] => '');
         $this->viewData['datetimepicker_asset'] = true;
         $this->viewData['portals_options'] = $this->lead->portals_options();
-        $this->viewData['servicetypes_options'] = $this->servicetype->servicetypes_options();
+        $this->viewData['services_options'] = $this->service->services_options('', TRUE);
         $this->load->model(array('city_model' => 'city'));
         $this->viewData['city_options'] = $this->city->cities_options(true);
         $this->layout->view("lead/manage", $this->viewData);

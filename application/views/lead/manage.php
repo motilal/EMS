@@ -94,10 +94,10 @@
 
                     <div class="clearfix"></div>
                     <div class="col-lg-6">
-                        <div class="form-group <?php echo form_error('servicetypes_id') != "" ? 'has-error' : ''; ?>">
-                            <label class="control-label" for="servicetypes_id">Service</label> 
-                            <?php echo form_dropdown('servicetypes_id', $servicetypes_options, set_value("servicetypes_id", isset($data->servicetypes_id) ? $data->servicetypes_id : "", false), 'class="form-control select2dropdown" id="servicetypes_id" style="width:100%;"'); ?> 
-                            <?php echo form_error('servicetypes_id'); ?>
+                        <div class="form-group <?php echo form_error('services_id') != "" ? 'has-error' : ''; ?>">
+                            <label class="control-label" for="services_id">Service</label> 
+                            <?php echo form_dropdown('services_id', $services_options, set_value("services_id", isset($data->services_id) ? $data->services_id : "", false), 'class="form-control select2dropdown" id="services_id" style="width:100%;"'); ?> 
+                            <?php echo form_error('services_id'); ?>
                         </div>
                     </div> 
 

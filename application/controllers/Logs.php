@@ -11,7 +11,7 @@ class Logs extends CI_Controller {
     var $viewData = array();
 
     public function __construct() {
-        parent::__construct(); 
+        parent::__construct();
         $this->site_santry->allow(array());
         is_allow_admin();
         $this->layout->set_layout("layout/layout_admin");
@@ -109,4 +109,8 @@ class Logs extends CI_Controller {
         var_dump($sql);
     }
 
+    function lead_test($id = 43) {
+        $this->load->model(array('lead_model' => 'lead', 'company_model' => 'company'));
+        echo $this->company->total_lead_sent_today($id);
+    } 
 }

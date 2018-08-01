@@ -32,11 +32,11 @@
                                 <td colspan="4"><?php echo $data->phone2; ?></td>
                             </tr>
                             <tr>
-                                <th>Service</th>
-                                <td colspan="4"><?php echo $data->service_name; ?></td>
+                                <th>Service Type</th>
+                                <td colspan="4"><?php echo $data->servicetype_name; ?></td>
                             </tr>
                             <tr>
-                                <th>Sub Service(s)</th>
+                                <th>Service(s)</th>
                                 <td colspan="4"><?php echo implode(',', $company_services); ?></td>
                             </tr>
                             <tr>

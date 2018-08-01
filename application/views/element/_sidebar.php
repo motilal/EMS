@@ -9,8 +9,8 @@ $groupIndex = ($segment_cntr == 'groups' && ($segment_fun == 'index' || $segment
 $packageIndex = ($segment_cntr == 'packages' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
 $packagetypeIndex = ($segment_cntr == 'package_types' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
 
-$serviceIndex = ($segment_cntr == 'servicetypes' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
-$subserviceIndex = ($segment_cntr == 'services' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
+$servicetypeIndex = ($segment_cntr == 'servicetypes' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
+$serviceIndex = ($segment_cntr == 'services' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
 
 $cityIndex = ($segment_cntr == 'cities' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
 $subcityIndex = ($segment_cntr == 'sub_cities' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
@@ -100,7 +100,7 @@ $user_permissions = $this->session->userdata('_subadmin_module_permissions');
                 </li>
             <?php } ?>
 
-            <?php if (is_allow_module('service') || is_allow_module('sub service')) { ?>  
+            <?php if (is_allow_module('service') || is_allow_module('servicetype')) { ?>  
                 <li class="treeview <?php echo in_array($segment_cntr, array('servicetypes', 'services')) ? 'active menu-open' : ''; ?>">
                     <a href="#">
                         <i class="fa fa-cogs"></i>
@@ -111,10 +111,10 @@ $user_permissions = $this->session->userdata('_subadmin_module_permissions');
                     </a>
                     <ul class="treeview-menu" style="display:<?php echo in_array($segment_cntr, array('servicetypes', 'services')) ? 'block' : 'none'; ?>;">
                         <?php if (is_allow_action('servicetype-index')) { ?>
-                            <li class="<?php echo $serviceIndex; ?>"><a href="<?php echo site_url('servicetypes'); ?>"><i class="fa fa-th-list"></i> Manage Services</a></li>
+                            <li class="<?php echo $servicetypeIndex; ?>"><a href="<?php echo site_url('servicetypes'); ?>"><i class="fa fa-th-list"></i> Manage Services Type</a></li>
                         <?php } ?>                    
                         <?php if (is_allow_action('service-index')) { ?>
-                            <li class="<?php echo $subserviceIndex; ?>"><a href="<?php echo site_url('services'); ?>"><i class="fa fa-th-large"></i> Manage Sub Services</a></li> 
+                            <li class="<?php echo $serviceIndex; ?>"><a href="<?php echo site_url('services'); ?>"><i class="fa fa-th-large"></i> Manage Services</a></li> 
                         <?php } ?>
                     </ul>
                 </li>

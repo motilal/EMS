@@ -31,7 +31,7 @@
                             <td>Sr.</td>
                             <th>Customer Name</th>
                             <th>Customer Phone</th>
-                            <th>Service Type</th>  
+                            <th>Service</th>  
                             <th>City</th> 
                             <th>Received</th> 
                             <th>Sent Status</th>

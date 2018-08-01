@@ -22,12 +22,12 @@ class Companies extends CI_Controller {
         $condition = array('companies.is_delete' => '0');
         $result = $this->company->get_list($condition);
         if ($this->input->get('download') == 'report') {
-            $csv_array[] = array('name' => 'Company Name', 'company_owner' => 'Company Owner', 'company_address' => 'Company Address', 'email' => 'Email', 'phone1' => 'Phone Number', 'phone2' => 'Alternate Phone', 'lead_limit' => 'Lead Limit', 'gst_no' => 'GST No.', 'aadhar_no' => 'Aadhar No.', 'pencard_no' => 'Pencard No.', 'country' => 'country', 'state' => 'state', 'city' => 'city', 'zip_code' => 'zip_code', 'latitude' => 'latitude', 'logitude' => 'logitude', 'cities' => 'Cities', 'service' => 'Services', 'sub_service' => 'Sub Services', 'status' => 'Status', 'created' => 'Created', 'updated' => 'Last Modify');
+            $csv_array[] = array('name' => 'Company Name', 'company_owner' => 'Company Owner', 'company_address' => 'Company Address', 'email' => 'Email', 'phone1' => 'Phone Number', 'phone2' => 'Alternate Phone', 'lead_limit' => 'Lead Limit', 'gst_no' => 'GST No.', 'aadhar_no' => 'Aadhar No.', 'pencard_no' => 'Pencard No.', 'country' => 'country', 'state' => 'state', 'city' => 'city', 'zip_code' => 'zip_code', 'latitude' => 'latitude', 'logitude' => 'logitude', 'cities' => 'Cities', 'servicetype' => 'Services', 'service' => 'Sub Services', 'status' => 'Status', 'created' => 'Created', 'updated' => 'Last Modify');
             foreach ($result->result() as $row) {
                 $this->load->helper('csv');
                 $company_cities = $this->company->get_company_cities($row->id);
                 $company_services = $this->company->get_company_services($row->id);
-                $csv_array[] = array('name' => $row->name, 'company_owner' => $row->company_owner, 'company_address' => $row->company_address, 'email' => $row->email, 'phone1' => $row->phone1, 'phone2' => $row->phone2, 'lead_limit' => $row->lead_limit, 'gst_no' => $row->gst_no, 'aadhar_no' => $row->aadhar_no, 'pencard_no' => $row->pencard_no, 'country' => $row->country, 'state' => $row->state, 'city' => $row->city, 'zip_code' => $row->zip_code, 'latitude' => $row->latitude, 'logitude' => $row->logitude, 'cities' => implode(',', $company_cities), 'service' => $row->service_name, 'sub_service' => implode(',', $company_services), 'status' => $row->is_active == 1 ? 'Active' : 'InActive', 'created' => date(DATETIME_FORMATE, strtotime($row->created)), 'updated' => date(DATETIME_FORMATE, strtotime($row->updated)));
+                $csv_array[] = array('name' => $row->name, 'company_owner' => $row->company_owner, 'company_address' => $row->company_address, 'email' => $row->email, 'phone1' => $row->phone1, 'phone2' => $row->phone2, 'lead_limit' => $row->lead_limit, 'gst_no' => $row->gst_no, 'aadhar_no' => $row->aadhar_no, 'pencard_no' => $row->pencard_no, 'country' => $row->country, 'state' => $row->state, 'city' => $row->city, 'zip_code' => $row->zip_code, 'latitude' => $row->latitude, 'logitude' => $row->logitude, 'cities' => implode(',', $company_cities), 'servicetype' => $row->service_name, 'service' => implode(',', $company_services), 'status' => $row->is_active == 1 ? 'Active' : 'InActive', 'created' => date(DATETIME_FORMATE, strtotime($row->created)), 'updated' => date(DATETIME_FORMATE, strtotime($row->updated)));
             }
             $Today = date('dmY');
             array_to_csv($csv_array, "Companies_$Today.csv");
@@ -81,7 +81,7 @@ class Companies extends CI_Controller {
             $this->acl->has_permission('company-add');
         }
 
-        if ($this->form_validation->run() === TRUE) { 
+        if ($this->form_validation->run() === TRUE) {
             $saveData = array(
                 "name" => $this->input->post('name'),
                 "company_owner" => $this->input->post('company_owner'),
@@ -102,7 +102,6 @@ class Companies extends CI_Controller {
                 "lead_limit" => $this->input->post("lead_limit")
             );
             $saveData = filterPostData($saveData);
-
 
             if (isset($_FILES['other_documents']['name']) && $_FILES['other_documents']['name'] != "") {
                 $other_documents = [];
@@ -233,6 +232,8 @@ class Companies extends CI_Controller {
                             if (!empty($CompSubCitydata)) {
                                 $this->db->insert_batch('companies_sub_city', $CompSubCitydata);
                             }
+                        } else {
+                            $this->db->where(['cities_id' => $city_id, 'companies_id' => $comp_id])->delete('companies_sub_city');
                         }
                     }
                 }
@@ -273,9 +274,9 @@ class Companies extends CI_Controller {
                 if ($this->input->post('cities_id') != "") {
                     $cities = $this->input->post('cities_id');
                     $sub_cities_array = $this->input->post('sub_cities');
-                    $citiesData = array(); 
+                    $citiesData = array();
                     foreach ($this->input->post('cities_id') as $key => $val) {
-                        $citiesData[] = array('cities_id' => $val, 'companies_id' => $company_id); 
+                        $citiesData[] = array('cities_id' => $val, 'companies_id' => $company_id);
                         if (!empty($sub_cities_array[$key])) {
                             foreach ($sub_cities_array[$key] as $sval) {
                                 $subcitiesData[] = array('cities_id' => $val, 'sub_cities_id' => $sval, 'companies_id' => $company_id);
@@ -374,6 +375,38 @@ class Companies extends CI_Controller {
                     foreach ($result->result_array() as $key => $row) {
                         $response['result'][$key]['id'] = $row['id'];
                         $response['result'][$key]['text'] = $row['name'];
+                    }
+                }
+            }
+            $this->output->set_content_type('application/json')->set_output(json_encode($response));
+        } else {
+            show_404();
+        }
+    }
+
+    public function ajax_getmatchpackage() {
+        if ($this->input->is_ajax_request()) {
+            $response = array();
+            $response['result'] = array();
+            $this->load->model(array('package_model' => 'package'));
+            if ($this->input->post('companies_id') != "" && is_numeric($this->input->post('companies_id'))) {
+                $company_services_ids = $this->company->get_company_services_ids($this->input->post('companies_id'));
+                $total_company_services = count($company_services_ids);
+                if ($total_company_services > 0) {
+                    $result = $this->db->select('packages.name,packages.id')
+                            ->join('packages', 'packages.id=packages_service.packages_id', 'INNER')
+                            ->where_in('services_id', $company_services_ids)
+                            ->where(array('packages.is_delete' => '0', 'packages.is_active' => '1'))
+                            ->group_by('packages_service.packages_id')
+                            ->having('COUNT(DISTINCT services_id) = ', $total_company_services)
+                            ->get('packages_service');
+                    $response['result'][0]['id'] = '';
+                    $response['result'][0]['text'] = 'Select package';
+                    if ($result->num_rows() > 0) {
+                        foreach ($result->result_array() as $key => $row) {
+                            $response['result'][$key + 1]['id'] = $row['id'];
+                            $response['result'][$key + 1]['text'] = $row['name'];
+                        }
                     }
                 }
             }

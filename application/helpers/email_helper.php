@@ -46,11 +46,12 @@ if (!function_exists("sendmail")) {
         }
     }
 
-    function sendsms($phone = array(), $message = '') {
+    function sendsms($phone = array(), $message = '') { 
+        return;
         //echo $message; die;
         $apiKey = urlencode(TEXT_LOCAL_APIKEY);
-        // Message details
-        $numbers = array(919024978491);
+        // Message details 
+        $numbers = $phone;
         $sender = urlencode(TEXT_LOCAL_SENDER);
         $message = rawurlencode($message);
         $numbers = implode(',', $numbers);

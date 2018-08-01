@@ -7,7 +7,7 @@
                 <div class="box-tools pull-right">
                     <div class="btn-group" data-toggle="btn-toggle">
                         <?php if (is_allow_action('service-add')) { ?>
-                            <a href="#" data-toggle="modal" data-target="#modal-manage" class="btn btn-primary btn-sm add_new_item"><i class="fa fa-plus"></i> Add New Sub Service </a>
+                            <a href="#" data-toggle="modal" data-target="#modal-manage" class="btn btn-primary btn-sm add_new_item"><i class="fa fa-plus"></i> Add New Service </a>
                         <?php } ?> 
                         <a href="<?php echo site_url('services?download=report'); ?>" class="btn btn-default btn-sm"><i class="fa fa-download"></i> Export CSV</a>
                     </div>
@@ -19,9 +19,8 @@
                     <thead>
                         <tr>
                             <td>Sr.</td> 
-                            <th>Name</th> 
-                            <th>Code</th> 
-                            <th>Service</th> 
+                            <th>Name</th>  
+                            <th>Service Type</th> 
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -31,9 +30,8 @@
                             <?php foreach ($result->result() as $key => $row): ?> 
                                 <tr id="row_<?php echo $row->id; ?>">
                                     <td> <?php echo $key + 1; ?></td>    
-                                    <td><?php echo $row->name; ?> </td>
-                                    <td><?php echo $row->code; ?> </td>
-                                    <td><?php echo $row->service_name; ?></td>  
+                                    <td><?php echo $row->name; ?> </td> 
+                                    <td><?php echo $row->servicetype_name; ?></td>  
                                     <td>
                                         <?php echo $this->layout->element('element/_module_status', array('status' => $row->is_active, 'id' => $row->id, 'url' => "services/changestatus", 'permissionKey' => "service-status"), true); ?>
                                     </td>
@@ -60,7 +58,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Add New Sub Service</h4>
+                <h4 class="modal-title">Add New Service</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -74,12 +72,8 @@
                         <div class="form-group">
                             <label class="control-label" for="name">Name <em>*</em></label>
                             <?php echo form_input("name", '', "id='name' class='form-control'"); ?>
-                        </div> 
+                        </div>  
 
-                        <div class="form-group">
-                            <label class="control-label" for="code">Code </label>
-                            <?php echo form_input("code", '', "id='code' class='form-control'"); ?>
-                        </div>      
                         <?php echo form_hidden('id'); ?> 
                     </div>
                 </div>
@@ -105,7 +99,7 @@
      3 default paging
      4 show sr. number or not
      */
-    var datatbl = datatable_init([0, 5], [[2, 'asc']], DEFAULT_PAGING, 1);
+    var datatbl = datatable_init([0, 4], [[2, 'asc']], DEFAULT_PAGING, 1);
 
     $('#manage-form').submit(function (e) {
         var _this = $(this);
@@ -132,12 +126,11 @@
                     });
                 } else if (res.success && res.msg && res.data) {
                     if (res.mode == 'add') {
-                        datatbl.row.add([0, res.data.name, res.data.code, res.data.servicetype_name, res.data.statusButtons, res.data.actionButtons]).draw();
+                        datatbl.row.add([0, res.data.name, res.data.servicetype_name, res.data.statusButtons, res.data.actionButtons]).draw();
                         $('.changestatus[data-id="' + res.data.id + '"]').closest('tr').attr('id', 'row_' + res.data.id);
                     } else if (res.mode == 'edit') {
-                        $('#row_' + res.data.id).find('td:nth-child(3)').text(res.data.name);
-                        $('#row_' + res.data.id).find('td:nth-child(3)').text(res.data.code);
-                        $('#row_' + res.data.id).find('td:nth-child(4)').html(res.data.servicetype_name);
+                        $('#row_' + res.data.id).find('td:nth-child(2)').text(res.data.name);
+                        $('#row_' + res.data.id).find('td:nth-child(3)').html(res.data.servicetype_name);
                     }
                     showMessage('success', {message: res.msg});
                     $('#modal-manage').modal('hide');
@@ -159,7 +152,7 @@
         $('#manage-form')[0].reset();
         $('#manage-form').find('[name="id"]').val('');
         $('#servicetype').val(servicetypeval).trigger('change.select2');
-        $('.modal-title').text('Add New Sub Service');
+        $('.modal-title').text('Add New Service');
     });
 
     $(document).on('click', 'a.edit-row', function (e) {
@@ -174,10 +167,9 @@
             {
                 if (res.result) {
                     $('#manage-form').find('[name="name"]').val(res.result.name);
-                    $('#manage-form').find('[name="code"]').val(res.result.code);
                     $('#manage-form').find('[name="id"]').val(res.result.id);
                     $('#servicetype').val(res.result.servicetypes_id).trigger('change');
-                    $('.modal-title').text('Edit Sub Service');
+                    $('.modal-title').text('Edit Service');
                     $('#modal-manage').modal('show');
                 }
             },
