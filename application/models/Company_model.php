@@ -187,8 +187,13 @@ class Company_model extends CI_Model {
     }
 
     public function get_companies_by_city_service($service_id, $city_id, $sub_cities_id = NULL) {
-        $condition = array('c.is_delete' => '0', 'c.is_active' => '1', 'companies_city.cities_id' => $city_id, 'companies_service.services_id' => $service_id, "(csc.sub_cities_id=$sub_cities_id OR csc.sub_cities_id IS NULL)" => NULL, 'cp.total_leads > cp.used_leads' => NULL, 'cp.is_active' => 1);
-        $this->db->select("csc.sub_cities_id,csc.sub_cities_id,c.*");
+        $condition = array('c.is_delete' => '0', 'c.is_active' => '1', 'companies_city.cities_id' => $city_id, 'companies_service.services_id' => $service_id, 'cp.total_leads > cp.used_leads' => NULL, 'cp.is_active' => 1);
+        if ($sub_cities_id != "") {
+            $condition["(csc.sub_cities_id=$sub_cities_id OR csc.sub_cities_id IS NULL)"] = NULL;
+        } else {
+            $condition["(csc.sub_cities_id IS NULL)"] = NULL;
+        }
+        $this->db->select("c.*");
         if (!empty($condition) || $condition != "") {
             $this->db->where($condition);
         }
@@ -217,47 +222,17 @@ class Company_model extends CI_Model {
         return 0;
     }
 
-    public function get_active_companies($first_element = false) {
-        $sql = $this->db->select('name,id,lead_limit')->where(array('is_active' => 1, 'is_delete' => '0'))->order_by('name', 'ASC')->get('companies');
+    /* list of all companies which have already receive a lead */
+
+    public function leadsent_company_list($lead_id) {
+        $sql = $this->db->select('companies_id')->where(['leads_id' => $lead_id])->get('leads_sent_history');
+        $companies = [];
         if ($sql->num_rows() > 0) {
-            $array = [];
-            $ids = [];
-            if ($first_element) {
-                $array = ['' => 'Select Company'];
-            }
             foreach ($sql->result() as $row) {
-                $array[$row->id] = $row->name;
-                $ids[] = $row->id;
+                $companies[] = $row->companies_id;
             }
-            if (!empty($array)) {
-                /* $leadSentTodayQuery = $this->db->select('companies_id,count(id) as lead_sent_today')
-                  ->where_in('companies_id', $ids)
-                  ->where(['DATE(created)' => date('Y-m-d')])
-                  ->having('lead_sent_today >=', $row->lead_limit)
-                  ->group_by('companies_id')
-                  ->get('leads_sent_history');
-                  if ($leadSentTodayQuery->num_rows() > 0) {
-                  foreach ($leadSentTodayQuery->result() as $val) {
-                  unset($array[$val->companies_id]);
-                  }
-                  } */
-                $companyPackageQuery = $this->db->select('id,companies_id')->where_in('companies_id', $ids)->where(['total_leads > used_leads' => NULL, 'is_active' => '1'])->get('companies_package');
-                $validPackageCompaniesId = [];
-                if ($companyPackageQuery->num_rows() > 0) {
-                    foreach ($companyPackageQuery->result() as $val1) {
-                        $validPackageCompaniesId[] = $val1->companies_id;
-                    }
-                }
-                foreach ($array as $key => $value) {
-                    if (!in_array($key, $validPackageCompaniesId) && $key != "" && isset($array[$key])) {
-                        unset($array[$key]);
-                    }
-                }
-            }
-            return $array;
-        } else {
-            return false;
         }
+        return $companies;
     }
 
 }

@@ -18,8 +18,9 @@ class Services extends Rest_server {
             'email' => $this->post('email'),
             'location' => $this->post('location'),
             'cities_id' => $cities_id,
+            'sub_cities_id' => !empty($sub_cities_id) ? $sub_cities_id : NULL,
             'services_id' => $services_id,
-            'service_to' => $this->post('service_to'),
+            'service_to' => $sub_cities_id,
             'source' => !empty($this->post('source')) ? $this->post('source') : NULL,
             'phone_number' => $this->post('phone'),
             'date' => !empty($this->post('date')) ? date('Y-m-d', strtotime($this->post('date'))) : NULL,
@@ -36,7 +37,7 @@ class Services extends Rest_server {
         if ($this->db->insert('leads', $data)) {
             $last_insert_id = $this->db->insert_id();
             $this->load->library('send_lead');
-            $this->send_lead->send($last_insert_id, $sub_cities_id);
+            $this->send_lead->send($last_insert_id);
             $message = [
                 'status' => TRUE,
                 'message' => 'New lead inserted successfully.'
@@ -53,7 +54,7 @@ class Services extends Rest_server {
     public function users_get() {
         // Users from a data store e.g. database 
         $users = [
-            ['id' => 1, 'name' => $this->getCityByAddress($this->get('location')), 'email' => 'john@example.com', 'fact' => 'Loves coding', 'city' => $this->getCityByAddress('chandni chowk delhi')],
+            ['id' => 1, 'name' => $this->getZipByAddress($this->get('location')), 'email' => 'john@example.com', 'fact' => 'Loves coding'],
             ['id' => 2, 'name' => 'Jim', 'email' => 'jim@example.com', 'fact' => 'Developed on CodeIgniter'],
             ['id' => 3, 'name' => 'Jane', 'email' => 'jane@example.com', 'fact' => 'Lives in the USA', ['hobbies' => ['guitar', 'cycling']]],
         ];

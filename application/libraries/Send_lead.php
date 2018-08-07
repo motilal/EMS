@@ -13,7 +13,7 @@ class Send_lead {
         return get_instance()->$var;
     }
 
-    public function send($lead_id = '', $sub_city_id = '') {
+    public function send($lead_id = '') {
         if (empty($lead_id)) {
             return FALSE;
         }
@@ -24,7 +24,7 @@ class Send_lead {
                 $this->db->where('id', $leadDetail->id)->set('status', 3)->update('leads');
                 return FALSE;
             }
-            $companies = $this->company->get_companies_by_city_service($leadDetail->services_id, $leadDetail->cities_id, $sub_city_id);
+            $companies = $this->company->get_companies_by_city_service($leadDetail->services_id, $leadDetail->cities_id, $leadDetail->sub_cities_id);
             $sentCounter = 0;
             if ($companies->num_rows() > 0) {
                 $companies_result = $companies->result();

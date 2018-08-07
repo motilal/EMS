@@ -65,4 +65,20 @@ class User_model extends CI_Model {
         }
     }
 
+    public function subadmin_options($empty_element = false) {
+        $sql = $this->db->select('users.first_name,users.last_name,users.id')->join("users_groups as ug", "users.id = ug.user_id", "left")->join("groups as grp", "ug.group_id = grp.id", "left")->order_by('users.first_name', 'ASC')->where(array("users.active" => 1, 'grp.id' => '3'))->get('users');
+        if ($sql->num_rows() > 0) {
+            $array = array();
+            if ($empty_element) {
+                $array[''] = 'Select User';
+            }
+            foreach ($sql->result() as $row) {
+                $array[$row->id] = $row->first_name . ' ' . $row->last_name;
+            }
+            return $array;
+        } else {
+            return false;
+        }
+    }
+
 }

@@ -6,7 +6,17 @@
 
                 <div class="row">
                     <?php echo form_open(null, array("id" => "manage-form", "method" => "post")); ?>
-
+                    <?php if (!empty($users_options)) { ?>
+                        <div class="col-lg-12 padding0">
+                            <div class="col-lg-6">
+                                <div class="form-group <?php echo form_error('users_id') != "" ? 'has-error' : ''; ?>">
+                                    <label class="control-label" for="users_id">Assign User</label> 
+                                    <?php echo form_dropdown('users_id', $users_options, set_value("users_id", isset($data->users_id) ? $data->users_id : "", false), 'class="form-control select2dropdown" id="users_id" style="width:100%;"'); ?> 
+                                    <?php echo form_error('users_id'); ?>
+                                </div>
+                            </div> 
+                        </div>
+                    <?php } ?>
                     <div class="col-lg-12 padding0"> 
                         <div class="col-lg-6">
                             <div class="form-group <?php echo form_error('member_name') != "" ? 'has-error' : ''; ?>">

@@ -50,7 +50,7 @@ class Services extends CI_Controller {
         $response = array();
         if ($this->form_validation->run() === TRUE) {
             $data = array(
-                "name" => $this->input->post('name'), 
+                "name" => $this->input->post('name'),
                 "servicetypes_id" => $this->input->post('servicetype')
             );
             if ($this->input->post('id') > 0) {
@@ -141,6 +141,19 @@ class Services extends CI_Controller {
             }
         }
         $this->output->set_content_type('application/json')->set_output(json_encode($response));
+    }
+
+    function _is_unique_service_name($str) {
+        $condition = array('is_delete' => '0', 'name' => $str);
+        if ($this->input->post('id') != "") {
+            $condition['id !='] = $this->input->post('id');
+        }
+        if (validate_is_unique('services', $condition)) {
+            $this->form_validation->set_message('_is_unique_service_name', 'The Service name already exist.');
+            return FALSE;
+        } else {
+            return TRUE;
+        }
     }
 
 }

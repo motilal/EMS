@@ -36,7 +36,7 @@
                             <?php endif; ?>
                             <tr>
                                 <th>Service</th>
-                                <td colspan="4"><?php echo $data->servicetype_name; ?></td>
+                                <td colspan="4"><?php echo $data->service_name; ?></td>
                             </tr>
                             <tr>
                                 <th>Name</th>

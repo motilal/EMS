@@ -83,7 +83,7 @@ class lead_model extends CI_Model {
                 $result = $this->db->select("leads.*")
                         ->get_where("leads", array("id" => $id, 'is_delete' => '0'));
             } else {
-                $this->db->select("led.*,prtl.name as portal_name,services.name as services_name,cities.name as city_name");
+                $this->db->select("led.*,prtl.name as portal_name,services.name as service_name,cities.name as city_name");
                 $this->db->where(array("led.id" => $id, 'led.is_delete' => '0'));
                 $this->db->join('services', 'services.id=led.services_id', 'LEFT');
                 $this->db->join('cities', 'cities.id=led.cities_id', 'LEFT');

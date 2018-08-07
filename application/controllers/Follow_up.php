@@ -23,6 +23,9 @@ class Follow_up extends CI_Controller {
     public function index() {
         $this->acl->has_permission('follow_up-index');
         $condition = array('follow_up.is_delete' => '0');
+        if ($this->ion_auth->is_subadmin() === TRUE) {
+            $condition['follow_up.users_id'] = $this->ion_auth->get_user_id();
+        }
         $start = (int) $this->input->get('start');
         $result = $this->follow_up->get_list($condition);
         if ($this->input->get('download') == 'report') {
@@ -55,6 +58,10 @@ class Follow_up extends CI_Controller {
                 $this->session->set_flashdata("error", __('LinkExpired'));
                 redirect('follow_up');
             }
+            if ($this->ion_auth->is_subadmin() === TRUE && $this->ion_auth->get_user_id() != $detail->users_id) {
+                $this->session->set_flashdata("error", 'You don\'t have permission to edit this record');
+                redirect('follow_up');
+            }
             $this->viewData['title'] = "Edit Follow Up";
         } else {
             $this->acl->has_permission('follow_up-add');
@@ -69,6 +76,11 @@ class Follow_up extends CI_Controller {
                 "phone_number" => $this->input->post('phone_number'),
                 "email" => $this->input->post('email')
             );
+            if ($this->ion_auth->is_admin() === TRUE) {
+                $saveData['users_id'] = $this->input->post('users_id');
+            } else if ($this->ion_auth->is_subadmin() === TRUE) {
+                $saveData['users_id'] = $this->ion_auth->get_user_id();
+            }
             if ($this->input->post('id') > 0) {
                 $saveData['updated'] = date("Y-m-d H:i:s");
                 $this->db->update("follow_up", $saveData, array("id" => $this->input->post('id')));
@@ -84,6 +96,10 @@ class Follow_up extends CI_Controller {
         }
         $this->viewData['pageModule'] = 'Add New Member';
         $this->viewData['datetimepicker_asset'] = true;
+        if ($this->ion_auth->is_admin() === TRUE) {
+            $this->load->model(['user_model' => 'user']);
+            $this->viewData['users_options'] = $this->user->subadmin_options(TRUE);
+        }
         $this->viewData['breadcrumb'] = array('Follow Up Manager' => 'follow_up', $this->viewData['title'] => '');
         $this->layout->view("follow_up/manage", $this->viewData);
     }
@@ -94,7 +110,11 @@ class Follow_up extends CI_Controller {
             $id = $this->input->post('id');
             $has_permission = $this->acl->has_permission('follow_up-delete', FALSE);
             if ($has_permission === TRUE) {
-                if ($id > 0 && $this->db->where("id", $id)->update("follow_up", array('is_delete' => '1'))) {
+                $condition = array("id" => $id);
+                if ($this->ion_auth->is_subadmin() === TRUE) {
+                    $condition['users_id'] = $this->ion_auth->get_user_id();
+                }
+                if ($id > 0 && $this->db->where($condition)->update("follow_up", array('is_delete' => '1'))) {
                     $response['success'] = __('FollowUpDeleteSuccess');
                 } else {
                     $response['error'] = __('InvalidRequest');
@@ -112,13 +132,19 @@ class Follow_up extends CI_Controller {
             $has_permission = $this->acl->has_permission('follow_up-status', FALSE);
             if ($has_permission === TRUE) {
                 $id = $this->input->post('id');
+                $condition = array("id" => $id);
+                if ($this->ion_auth->is_subadmin() === TRUE) {
+                    $condition['users_id'] = $this->ion_auth->get_user_id();
+                }
                 $status = $this->input->post('status');
                 if ($status == "1") {
-                    $this->db->where("id", $id)->update("follow_up", array("is_active" => 0));
-                    $response['success'] = __('FollowUpInactiveSuccess');
+                    if ($this->db->where($condition)->update("follow_up", array("is_active" => 0))) {
+                        $response['success'] = __('FollowUpInactiveSuccess');
+                    }
                 } else if ($status == "0") {
-                    $this->db->where("id", $id)->update("follow_up", array("is_active" => 1));
-                    $response['success'] = __('FollowUpActiveSuccess');
+                    if ($this->db->where($condition)->update("follow_up", array("is_active" => 1))) {
+                        $response['success'] = __('FollowUpActiveSuccess');
+                    }
                 }
             } else {
                 $response['error'] = $has_permission;
@@ -131,6 +157,10 @@ class Follow_up extends CI_Controller {
         $this->viewData['data'] = $data = $this->follow_up->getById($id);
         if (empty($data)) {
             show_404();
+        }
+        if ($this->ion_auth->is_subadmin() === TRUE && $this->ion_auth->get_user_id() != $data->users_id) {
+            $this->session->set_flashdata("error", 'You don\'t have permission to edit this record');
+            redirect('follow_up');
         }
         $this->viewData['title'] = "Follow Up Detail";
         $this->viewData['pageModule'] = 'Follow Up Detail';

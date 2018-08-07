@@ -20,25 +20,42 @@ class Companies extends CI_Controller {
     public function index() {
         $this->acl->has_permission('company-index');
         $condition = array('companies.is_delete' => '0');
-        $result = $this->company->get_list($condition);
-        if ($this->input->get('download') == 'report') {
-            $csv_array[] = array('name' => 'Company Name', 'company_owner' => 'Company Owner', 'company_address' => 'Company Address', 'email' => 'Email', 'phone1' => 'Phone Number', 'phone2' => 'Alternate Phone', 'lead_limit' => 'Lead Limit', 'gst_no' => 'GST No.', 'aadhar_no' => 'Aadhar No.', 'pencard_no' => 'Pencard No.', 'country' => 'country', 'state' => 'state', 'city' => 'city', 'zip_code' => 'zip_code', 'latitude' => 'latitude', 'logitude' => 'logitude', 'cities' => 'Cities', 'servicetype' => 'Services', 'service' => 'Sub Services', 'status' => 'Status', 'created' => 'Created', 'updated' => 'Last Modify');
-            foreach ($result->result() as $row) {
-                $this->load->helper('csv');
-                $company_cities = $this->company->get_company_cities($row->id);
-                $company_services = $this->company->get_company_services($row->id);
-                $csv_array[] = array('name' => $row->name, 'company_owner' => $row->company_owner, 'company_address' => $row->company_address, 'email' => $row->email, 'phone1' => $row->phone1, 'phone2' => $row->phone2, 'lead_limit' => $row->lead_limit, 'gst_no' => $row->gst_no, 'aadhar_no' => $row->aadhar_no, 'pencard_no' => $row->pencard_no, 'country' => $row->country, 'state' => $row->state, 'city' => $row->city, 'zip_code' => $row->zip_code, 'latitude' => $row->latitude, 'logitude' => $row->logitude, 'cities' => implode(',', $company_cities), 'servicetype' => $row->service_name, 'service' => implode(',', $company_services), 'status' => $row->is_active == 1 ? 'Active' : 'InActive', 'created' => date(DATETIME_FORMATE, strtotime($row->created)), 'updated' => date(DATETIME_FORMATE, strtotime($row->updated)));
-            }
-            $Today = date('dmY');
-            array_to_csv($csv_array, "Companies_$Today.csv");
-            exit();
+        if ($this->ion_auth->is_subadmin() === TRUE) {
+            $condition['users_id'] = $this->ion_auth->get_user_id();
         }
+        if ($this->input->get('download') == 'report') {
+            if ($this->input->get('datefrom') != "" && $this->input->get('dateto') != "") {
+                $dateFrom = date('Y-m-d', strtotime($this->input->get('datefrom')));
+                $dateTo = date('Y-m-d', strtotime($this->input->get('dateto')));
+            } else {
+                $dateFrom = date('Y-01-01');
+                $dateTo = date('Y-m-d');
+            }
+            $condition["DATE(companies.created) BETWEEN '$dateFrom' AND '$dateTo'"] = NULL;
+            $result = $this->company->get_list($condition);
+            $csv_array[] = array('name' => 'Company Name', 'company_owner' => 'Company Owner', 'company_address' => 'Company Address', 'email' => 'Email', 'phone1' => 'Phone Number', 'phone2' => 'Alternate Phone', 'lead_limit' => 'Lead Limit', 'gst_no' => 'GST No.', 'aadhar_no' => 'Aadhar No.', 'pencard_no' => 'Pencard No.', 'country' => 'country', 'state' => 'state', 'city' => 'city', 'zip_code' => 'zip_code', 'latitude' => 'latitude', 'logitude' => 'logitude', 'cities' => 'Cities', 'servicetype' => 'Services', 'service' => 'Sub Services', 'status' => 'Status', 'created' => 'Created', 'updated' => 'Last Modify');
+            if ($result->num_rows() > 0) {
+                foreach ($result->result() as $row) {
+                    $company_cities = $this->company->get_company_cities($row->id);
+                    $company_services = $this->company->get_company_services($row->id);
+                    $csv_array[] = array('name' => $row->name, 'company_owner' => $row->company_owner, 'company_address' => $row->company_address, 'email' => $row->email, 'phone1' => $row->phone1, 'phone2' => $row->phone2, 'lead_limit' => $row->lead_limit, 'gst_no' => $row->gst_no, 'aadhar_no' => $row->aadhar_no, 'pencard_no' => $row->pencard_no, 'country' => $row->country, 'state' => $row->state, 'city' => $row->city, 'zip_code' => $row->zip_code, 'latitude' => $row->latitude, 'logitude' => $row->logitude, 'cities' => implode(',', $company_cities), 'servicetype' => implode(',', $company_services), 'service' => implode(',', $company_services), 'status' => $row->is_active == 1 ? 'Active' : 'InActive', 'created' => date(DATETIME_FORMATE, strtotime($row->created)), 'updated' => date(DATETIME_FORMATE, strtotime($row->updated)));
+                }
+                $this->load->helper('csv');
+                array_to_csv($csv_array, "Company_report_{$dateFrom}_to_{$dateTo}.csv");
+                exit();
+            } else {
+                $this->session->set_flashdata("error", __('No records found'));
+                redirect('companies');
+            }
+        }
+        $result = $this->company->get_list($condition);
         $this->viewData['result'] = $result;
         $this->viewData['title'] = "Manage Company";
         $this->viewData['pageModule'] = 'Company Manager';
         $this->viewData['pageHeading'] = 'Company';
         $this->viewData['breadcrumb'] = array('Company Manager' => '');
         $this->viewData['datatable_asset'] = true;
+        $this->viewData['daterangepicker_asset'] = true;
         $this->layout->view("company/index", $this->viewData);
     }
 
@@ -64,7 +81,7 @@ class Companies extends CI_Controller {
 
     public function manage($id = null) {
         $this->load->library('form_validation');
-        $this->load->model(array('service_model' => 'service', 'servicetype_model' => 'servicetype', 'city_model' => 'city', 'sub_city_model' => 'sub_city'));
+        $this->load->model(array('service_model' => 'service', 'servicetype_model' => 'servicetype', 'city_model' => 'city', 'sub_city_model' => 'sub_city', 'user_model' => 'user'));
         $this->form_validation->set_rules('manage');
         $this->viewData['title'] = "Add Company";
         if ($id > 0) {
@@ -72,6 +89,10 @@ class Companies extends CI_Controller {
             $this->viewData['data'] = $detail = $this->company->getById($id);
             if (empty($detail)) {
                 $this->session->set_flashdata("error", __('LinkExpired'));
+                redirect('companies');
+            }
+            if ($this->ion_auth->is_subadmin() === TRUE && $this->ion_auth->get_user_id() != $detail->users_id) {
+                $this->session->set_flashdata("error", 'You don\'t have permission to edit this company');
                 redirect('companies');
             }
             $this->viewData['company_services'] = $this->company->get_company_services_ids($id);
@@ -101,6 +122,11 @@ class Companies extends CI_Controller {
                 "logitude" => $this->input->post("logitude"),
                 "lead_limit" => $this->input->post("lead_limit")
             );
+            if ($this->ion_auth->is_admin() === TRUE) {
+                $saveData['users_id'] = $this->input->post('users_id');
+            } else if ($this->ion_auth->is_subadmin() === TRUE) {
+                $saveData['users_id'] = $this->ion_auth->get_user_id();
+            }
             $saveData = filterPostData($saveData);
 
             if (isset($_FILES['other_documents']['name']) && $_FILES['other_documents']['name'] != "") {
@@ -303,7 +329,9 @@ class Companies extends CI_Controller {
             $this->viewData['services_options'] = $this->service->services_options($detail->servicetypes_id);
         }
         $this->viewData['cities_options'] = $this->city->cities_options(TRUE);
-
+        if ($this->ion_auth->is_admin() === TRUE) {
+            $this->viewData['users_options'] = $this->user->subadmin_options(TRUE);
+        }
         $this->viewData['pageModule'] = 'Add New Company';
         $this->viewData['breadcrumb'] = array('Company Manager' => 'companies', $this->viewData['title'] => '');
         $this->layout->view("company/manage", $this->viewData);
@@ -331,7 +359,11 @@ class Companies extends CI_Controller {
             $id = $this->input->post('id');
             $has_permission = $this->acl->has_permission('company-delete', FALSE);
             if ($has_permission === TRUE) {
-                if ($id > 0 && $this->db->where("id", $id)->update("companies", array('is_delete' => '1'))) {
+                $condition = array("id" => $id);
+                if ($this->ion_auth->is_subadmin() === TRUE) {
+                    $condition['users_id'] = $this->ion_auth->get_user_id();
+                }
+                if ($id > 0 && $this->db->where($condition)->update("companies", array('is_delete' => '1'))) {
                     $response['success'] = __('CompanyDeleteSuccess');
                 } else {
                     $response['error'] = __('InvalidRequest');
@@ -349,13 +381,19 @@ class Companies extends CI_Controller {
             $has_permission = $this->acl->has_permission('company-status', FALSE);
             if ($has_permission === TRUE) {
                 $id = $this->input->post('id');
+                $condition = array("id" => $id);
+                if ($this->ion_auth->is_subadmin() === TRUE) {
+                    $condition['users_id'] = $this->ion_auth->get_user_id();
+                }
                 $status = $this->input->post('status');
                 if ($status == "1") {
-                    $this->db->where("id", $id)->update("companies", array("is_active" => 0));
-                    $response['success'] = __('CompanyInactiveSuccess');
+                    if ($this->db->where($condition)->update("companies", array("is_active" => 0))) {
+                        $response['success'] = __('CompanyInactiveSuccess');
+                    }
                 } else if ($status == "0") {
-                    $this->db->where("id", $id)->update("companies", array("is_active" => 1));
-                    $response['success'] = __('CompanyActiveSuccess');
+                    if ($this->db->where($condition)->update("companies", array("is_active" => 1))) {
+                        $response['success'] = __('CompanyActiveSuccess');
+                    }
                 }
             } else {
                 $response['error'] = $has_permission;
@@ -406,6 +444,37 @@ class Companies extends CI_Controller {
                         foreach ($result->result_array() as $key => $row) {
                             $response['result'][$key + 1]['id'] = $row['id'];
                             $response['result'][$key + 1]['text'] = $row['name'];
+                        }
+                    }
+                }
+            }
+            $this->output->set_content_type('application/json')->set_output(json_encode($response));
+        } else {
+            show_404();
+        }
+    }
+
+    public function ajax_getmatchcompanies() {
+        if ($this->input->is_ajax_request()) {
+            $response = [];
+            $response['result'] = [];
+            if ($this->input->post('lead_id') != "" && is_numeric($this->input->post('lead_id'))) {
+                $this->load->model('lead_model', 'lead');
+                $lead_id = $this->input->post('lead_id');
+                $leadDetail = $this->lead->getById($lead_id, true);
+                $result = $this->company->get_companies_by_city_service($leadDetail->services_id, $leadDetail->cities_id, $leadDetail->sub_cities_id);
+                $allCompanies = [];
+                if ($result->num_rows() > 0) {
+                    $company_result = $result->result_array();
+                    foreach ($company_result as $k => $v) {
+                        $allCompanies[$k] = $v['id'];
+                    }
+                    $alreadySentCompanies = $this->company->leadsent_company_list($lead_id);
+                    $companies = array_diff($allCompanies, $alreadySentCompanies);
+                    if (count($companies) > 0) {
+                        foreach ($companies as $key => $row) {
+                            $response['result'][$key]['id'] = $company_result[$key]['id'];
+                            $response['result'][$key]['text'] = $company_result[$key]['name'];
                         }
                     }
                 }

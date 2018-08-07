@@ -75,7 +75,7 @@
                     <div class="col-lg-12">
                         <div class="form-group">
                             <label class="control-label" for="company">Company(s)</label> 
-                            <?php echo form_dropdown('company_id', $company_options, '', 'class="form-control" id="company" style="width:100%;"'); ?>  
+                            <?php echo form_dropdown('companies_id[]', NULL, '', 'class="form-control" id="company" multiple="multiple" style="width:100%;"'); ?>  
                         </div>  
                     </div>
                     <?php echo form_hidden('flag'); ?>
@@ -121,7 +121,6 @@
                         elem.closest('.form-group').addClass('has-error');
                     });
                 } else if (res.success && res.msg) {
-                    showMessage('success', {message: res.msg});
                     $('#send-lead-form').modal('hide');
                     location.reload();
                 } else if (res.error) {
@@ -141,6 +140,13 @@
         $('#send-lead-form').find('[name="id"]').val('');
         $('#company').val('').trigger('change.select2');
     });
+    $('#modal-send-lead').on('shown.bs.modal', function (e) {
+        var lead_id = $(e.relatedTarget).data('id');
+        if (lead_id != "") {
+            load_match_companies(lead_id);
+        }
+    });
+
     $(document).on('click', 'a.send-lead', function (e) {
         e.preventDefault();
         var action = $(this).data('action');
@@ -150,4 +156,20 @@
     $("#company").select2({
         tags: false
     });
+    function load_match_companies(lead_id) {
+        $.ajax({
+            url: '<?php echo site_url('companies/ajax_getmatchcompanies'); ?>',
+            type: "POST",
+            dataType: "json",
+            data: {lead_id: lead_id},
+            success: function (response) {
+                if (response.result) {
+                    $('#company').select2('destroy').empty().select2({data: response.result});
+                }
+            },
+            error: function (jqXHR, exception) {
+                showMessage('error', {message: 'Uncaught Error.\n' + jqXHR.responseText});
+            }
+        });
+    }
 </script>

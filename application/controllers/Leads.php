@@ -64,7 +64,6 @@ class Leads extends CI_Controller {
         $this->viewData['breadcrumb'] = array('Leads Manager' => 'portals', 'Lead ' . ucfirst($type) => '');
         $this->viewData['datatable_asset'] = true;
         $this->load->model('company_model', 'company');
-        $this->viewData['company_options'] = $this->company->get_active_companies(TRUE);
         $this->layout->view("lead/index", $this->viewData);
     }
 
@@ -341,12 +340,13 @@ class Leads extends CI_Controller {
                 if ($this->input->post()) {
                     $this->load->library('form_validation');
                     if ($this->form_validation->run('send_lead') === TRUE) {
-                        $company_id = $this->input->post('company_id');
+                        $company_ids = $this->input->post('companies_id');
                         $this->load->library('send_lead');
-                        $sendLead = $this->send_lead->send_manual($leads_id, $company_id);
-                        if ($sendLead === TRUE) {
+                        $sendLead = $this->send_lead->send_manual($leads_id, $company_ids);
+                        if (isset($sendLead['status']) && $sendLead['status'] == 'success') {
                             $response['success'] = true;
-                            $response['msg'] = __('LeadSendSuccess');
+                            $this->session->set_flashdata('success', $sendLead['message']);
+                            $response['msg'] = $sendLead['message'];
                         } else {
                             $response['error'] = isset($sendLead['message']) ? $sendLead['message'] : 'Something error';
                         }

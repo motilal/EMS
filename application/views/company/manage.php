@@ -11,7 +11,19 @@
             <div class="tab-content"> 
                 <div class="tab-pane active" id="tab_1"> 
                     <div class="row">
-                        <div class="col-lg-12 padding0">
+                        <?php if (!empty($users_options)) { ?>
+                            <div class="col-lg-12 padding0">
+                                <div class="col-lg-6">
+                                    <div class="form-group <?php echo form_error('users_id') != "" ? 'has-error' : ''; ?>">
+                                        <label class="control-label" for="users_id">Assign User</label> 
+                                        <?php echo form_dropdown('users_id', $users_options, set_value("users_id", isset($data->users_id) ? $data->users_id : "", false), 'class="form-control select2dropdown" id="users_id" style="width:100%;"'); ?> 
+                                        <?php echo form_error('users_id'); ?>
+                                    </div>
+                                </div> 
+                            </div>
+                        <?php } ?>
+
+                        <div class="col-lg-12 padding0"> 
                             <div class="col-lg-6">
                                 <div class="form-group <?php echo form_error('name') != "" ? 'has-error' : ''; ?>">
                                     <label class="control-label" for="name">Company name <em>*</em></label>
@@ -292,8 +304,8 @@
                                             </div>
                                         </div>
                                         <?php
-                                        $sub_cities_options = $this->sub_city->sub_cities_options($city_id); 
-                                        $subcities = $this->company->get_company_sub_cities_ids($data->id, $city_id); 
+                                        $sub_cities_options = $this->sub_city->sub_cities_options($city_id);
+                                        $subcities = $this->company->get_company_sub_cities_ids($data->id, $city_id);
                                         ?> 
                                         <div class="col-lg-6">
                                             <div class="form-group sub_city_c <?php echo form_error('sub_cities[' . ($key + 1) . '][]') != "" ? 'has-error' : ''; ?>">
@@ -354,13 +366,13 @@
         });
         $(document).on('click', '.remove-cities', function () {
             $(this).closest('.clonecities').remove();
-        }); 
+        });
 
 
 
         $("#services,.sub_cities").select2({
             tags: false
-        }); 
+        });
         $('#servicetypes_id').on('select2:select', function (e) {
             var _this = $(this);
             $.ajax({

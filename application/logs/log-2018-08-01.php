@@ -9,3 +9,4 @@
 {"lavel":"ERROR","date":"2018-08-01 07:50:01","message":"Severity: Notice --> Undefined variable: service_type_id E:\\xampp\\htdocs\\easymysearch\\application\\models\\Company_model.php 190"}
 {"lavel":"ERROR","date":"2018-08-01 08:00:09","message":"Could not find the language line \"SubCityAddSuccess\""}
 {"lavel":"ERROR","date":"2018-08-01 08:00:31","message":"Could not find the language line \"SubCityAddSuccess\""}
+{"lavel":"ERROR","date":"2018-08-01 22:12:50","message":"Could not find the language line \"SubCityAddSuccess\""}

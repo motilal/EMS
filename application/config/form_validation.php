@@ -72,7 +72,7 @@ $config = array(
         array(
             'field' => 'name',
             'label' => 'Name',
-            'rules' => "trim|required|max_length[255]"
+            'rules' => "trim|required|max_length[255]|callback__is_unique_service_name"
         )
     ),
     'cities/manage' => array(
@@ -122,6 +122,11 @@ $config = array(
         array(
             'field' => 'portals_id',
             'label' => 'Portal',
+            'rules' => "trim|required"
+        ),
+        array(
+            'field' => 'services_id',
+            'label' => 'Services',
             'rules' => "trim|required"
         ),
         array(
@@ -176,7 +181,7 @@ $config = array(
     ),
     'send_lead' => array(
         array(
-            'field' => 'company_id',
+            'field' => 'companies_id[]',
             'label' => 'Company',
             'rules' => "trim|required"
         )

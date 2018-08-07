@@ -96,7 +96,7 @@
 </div>
 <!-- /.modal -->
 
-<script src="https://maps.googleapis.com/maps/api/js?key=<?php echo GOOGLE_MAP_KEY; ?>&libraries=places" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<?php echo GOOGLE_MAP_KEY; ?>&libraries=places&callback=initAutocomplete" async defer></script>
 <script>
     /*
      params 
@@ -175,10 +175,10 @@
             success: function (res)
             {
                 if (res.result) {
-                    $('#manage-form').find('[name="name"]').val(res.result.name);
-                    $('#manage-form').find('[name="pin_code"]').val(res.result.pin_code);
+                    $('#manage-form').find('[name="name"]').val(res.result.name);  
                     $('#manage-form').find('[name="id"]').val(res.result.id);
                     $('#city').val(res.result.cities_id).trigger('change');
+                    $('#manage-form').find('[name="pin_code"]').val(res.result.pin_code);
                     $('.modal-title').text('Edit Sub City');
                     $('#modal-manage').modal('show');
                 }
@@ -203,6 +203,23 @@
         $('#pin_code').val('');
     });
 
+    function initAutocomplete() {
+        autocomplete = new google.maps.places.Autocomplete((document.getElementById('name')), {types: ['geocode'], componentRestrictions: {country: "IN"}});
+        autocomplete.addListener('place_changed', fillInAddress);
+    }
+    function fillInAddress() {
+        var place = autocomplete.getPlace();
+        console.log(place);
+        var text = $('#name').val();
+        var resArray = text.split(",");
+        resArray.pop();
+        resArray.pop();
+        var result = resArray.toString();
+        $('#name').val(result);
+        var latitude = place.geometry.location.lat();
+        var longitude = place.geometry.location.lng();
+        GetPinCodeFromLatLong(latitude, longitude);
+    }
     function getLatLong(address) {
         var geocoder = new google.maps.Geocoder();
         geocoder.geocode({'address': address}, function (results, status) {
@@ -219,8 +236,13 @@
         geocoder.geocode({'latLng': latlng}, function (results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
                 if (results[0]) {
-                    var pin = results[0].formatted_address.split(',')[results[0].formatted_address.split(',').length - 2].trim().split(' ')[1];
-                    if (typeof pin === "undefined") {
+                    var pin = '';
+                    $.each(results[0].address_components, function (key, result) {
+                        if (typeof result.types[0] != "undefined" && result.types[0] == 'postal_code') {
+                            pin = result.long_name;
+                        }
+                    });
+                    if (pin == "") {
                         showMessage('error', {message: 'Please enter correct address'});
                         $('.fill-pin-code').text('Fill Pin Code');
                     } else if (pin != "") {

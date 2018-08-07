@@ -38,18 +38,18 @@
             <script type="text/javascript" src="<?php echo base_url("asset/plugin/ckeditor/ckeditor.js") ?>"></script>
             <script type="text/javascript" src="<?php echo base_url("asset/plugin/ckfinder/ckfinder.js") ?>"></script>
             <script type="text/javascript">
-            $(function () {
-                $('textarea.editor').each(function (e) {
-                    CKEDITOR.replace(this.id, {
-                        filebrowserBrowseUrl: '<?php echo base_url('asset/plugin/ckfinder/ckfinder.html'); ?>',
-                        filebrowserImageBrowseUrl: '<?php echo base_url('asset/plugin/ckfinder/ckfinder.html?type=Images'); ?>',
-                        filebrowserFlashBrowseUrl: '<?php echo base_url('asset/plugin/ckfinder/ckfinder.html?type=Flash'); ?>',
-                        filebrowserUploadUrl: '<?php echo base_url('asset/plugin/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files'); ?>',
-                        filebrowserImageUploadUrl: '<?php echo base_url('asset/plugin/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images'); ?>',
-                        filebrowserFlashUploadUrl: '<?php echo base_url('asset/plugin/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images'); ?>'
+                $(function () {
+                    $('textarea.editor').each(function (e) {
+                        CKEDITOR.replace(this.id, {
+                            filebrowserBrowseUrl: '<?php echo base_url('asset/plugin/ckfinder/ckfinder.html'); ?>',
+                            filebrowserImageBrowseUrl: '<?php echo base_url('asset/plugin/ckfinder/ckfinder.html?type=Images'); ?>',
+                            filebrowserFlashBrowseUrl: '<?php echo base_url('asset/plugin/ckfinder/ckfinder.html?type=Flash'); ?>',
+                            filebrowserUploadUrl: '<?php echo base_url('asset/plugin/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files'); ?>',
+                            filebrowserImageUploadUrl: '<?php echo base_url('asset/plugin/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images'); ?>',
+                            filebrowserFlashUploadUrl: '<?php echo base_url('asset/plugin/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images'); ?>'
+                        });
                     });
                 });
-            });
             </script>
         <?php } ?>
 
@@ -68,6 +68,12 @@
             <script src="<?php echo base_url('asset/plugin/datetimepicker/jquery.datetimepicker.full.min.js'); ?>"></script> 
             <link rel="stylesheet" href="<?php echo base_url('asset/plugin/datetimepicker/jquery.datetimepicker.min.css'); ?>" type="text/css" media="screen" /> 
         <?php } ?>  
+
+        <?php if (isset($daterangepicker_asset) && $daterangepicker_asset) { ?>    
+            <script src="<?php echo base_url('asset/plugin/daterangepicker/daterangepicker.js'); ?>"></script> 
+            <link rel="stylesheet" href="<?php echo base_url('asset/plugin/daterangepicker/daterangepicker.css'); ?>" type="text/css" media="screen" /> 
+        <?php } ?>  
+
         <script type="text/javascript">
             var DEFAULT_PAGING = <?php echo DEFAULT_PAGING; ?>;
             var SITE_URL = '<?php echo site_url(); ?>';
@@ -103,7 +109,7 @@
                     <!-- mini logo for sidebar mini 50x50 pixels -->
                     <span class="logo-mini"><b>E</b>Se</span>
                     <!-- logo for regular state and mobile devices -->
-                    <span class="logo-lg"><b>Press</b> Area</span>
+                    <span class="logo-lg"><b>Easy</b> My Search</span>
                 </a>
 
                 <!-- Header Navbar: style can be found in header.less -->
