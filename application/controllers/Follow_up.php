@@ -27,21 +27,36 @@ class Follow_up extends CI_Controller {
             $condition['follow_up.users_id'] = $this->ion_auth->get_user_id();
         }
         $start = (int) $this->input->get('start');
-        $result = $this->follow_up->get_list($condition);
         if ($this->input->get('download') == 'report') {
+            if ($this->input->get('datefrom') != "" && $this->input->get('dateto') != "") {
+                $dateFrom = date('Y-m-d', strtotime($this->input->get('datefrom')));
+                $dateTo = date('Y-m-d', strtotime($this->input->get('dateto')));
+            } else {
+                $dateFrom = date('Y-01-01');
+                $dateTo = date('Y-m-d');
+            }
+            $condition["DATE(follow_up.follow_up_date) BETWEEN '$dateFrom' AND '$dateTo'"] = NULL;
             $csv_array[] = array('name' => 'Member Name', 'follow_date' => 'Follow Date', 'follow_status' => 'Follow Status', 'client_name' => 'Client Name', 'client_phone' => 'Client Phone', 'client_email' => 'Client Email', 'status' => 'Status', 'created' => 'Created', 'updated' => 'Last Modify');
-            foreach ($result->result() as $row) {
-                $this->load->helper('csv');
-                $follow_status = $this->config->item('follow_status');
-                $csv_array[] = array('name' => $row->member_name, 'follow_date' => $row->follow_up_date, 'follow_status' => isset($follow_status[$row->status_id]) ? $follow_status[$row->status_id] : '', 'client_name' => $row->client_name, 'client_phone' => $row->phone_number, 'client_email' => $row->email, 'status' => $row->is_active == 1 ? 'Active' : 'InActive', 'created' => date(DATETIME_FORMATE, strtotime($row->created)), 'updated' => date(DATETIME_FORMATE, strtotime($row->updated)));
+            $result = $this->follow_up->get_list($condition);
+            if ($result->num_rows() > 0) {
+                foreach ($result->result() as $row) {
+                    $this->load->helper('csv');
+                    $follow_status = $this->config->item('follow_status');
+                    $csv_array[] = array('name' => $row->member_name, 'follow_date' => $row->follow_up_date, 'follow_status' => isset($follow_status[$row->status_id]) ? $follow_status[$row->status_id] : '', 'client_name' => $row->client_name, 'client_phone' => $row->phone_number, 'client_email' => $row->email, 'status' => $row->is_active == 1 ? 'Active' : 'InActive', 'created' => date(DATETIME_FORMATE, strtotime($row->created)), 'updated' => date(DATETIME_FORMATE, strtotime($row->updated)));
+                }
+            } else {
+                $this->session->set_flashdata("error", __('No records found'));
+                redirect('follow_up');
             }
             $Today = date('dmY');
-            array_to_csv($csv_array, "FollowUp_$Today.csv");
+            array_to_csv($csv_array, "FollowUp_report_{$dateFrom}_to_{$dateTo}.csv");
             exit();
         }
+        $result = $this->follow_up->get_list($condition);
         $this->viewData['result'] = $result;
         $this->viewData['title'] = "Follow Up Listing";
         $this->viewData['datatable_asset'] = true;
+        $this->viewData['daterangepicker_asset'] = true;
         $this->viewData['pageHeading'] = 'Follow Up Listing';
         $this->viewData['breadcrumb'] = array('Follow Up Manager' => 'follow_up', $this->viewData['title'] => '');
         $this->layout->view("follow_up/index", $this->viewData);

@@ -4,8 +4,8 @@
             <div class="box-header">
                 <i class="fa fa-building"></i> 
                 <h3 class="box-title"><?php echo isset($pageHeading) ? $pageHeading : '&nbsp;'; ?></h3>
-                <?php echo form_open('companies', ['method' => 'get']); ?>    
                 <div class="box-tools pull-right">
+                    <?php echo form_open('companies', ['method' => 'get']); ?>    
                     <div class="btn-group" data-toggle="btn-toggle">
                         <?php if (is_allow_action('company-add')) { ?>
                             <a href="<?php echo site_url('companies/manage'); ?>" class="btn btn-primary btn-sm add_new_item"><i class="fa fa-plus"></i> Add New Company </a>
@@ -27,8 +27,9 @@
                         ?>
                         <button type="submit" class="btn btn-default btn-sm"><i class="fa fa-download"></i> Export CSV</button>
                     </div>
+                    <?php echo form_close(); ?>
                 </div>
-                <?php echo form_close(); ?>
+
             </div>     
             <!-- /.box-header -->
             <div class="box-body table-responsive"> 

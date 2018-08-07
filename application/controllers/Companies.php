@@ -38,7 +38,7 @@ class Companies extends CI_Controller {
                 foreach ($result->result() as $row) {
                     $company_cities = $this->company->get_company_cities($row->id);
                     $company_services = $this->company->get_company_services($row->id);
-                    $csv_array[] = array('name' => $row->name, 'company_owner' => $row->company_owner, 'company_address' => $row->company_address, 'email' => $row->email, 'phone1' => $row->phone1, 'phone2' => $row->phone2, 'lead_limit' => $row->lead_limit, 'gst_no' => $row->gst_no, 'aadhar_no' => $row->aadhar_no, 'pencard_no' => $row->pencard_no, 'country' => $row->country, 'state' => $row->state, 'city' => $row->city, 'zip_code' => $row->zip_code, 'latitude' => $row->latitude, 'logitude' => $row->logitude, 'cities' => implode(',', $company_cities), 'servicetype' => implode(',', $company_services), 'service' => implode(',', $company_services), 'status' => $row->is_active == 1 ? 'Active' : 'InActive', 'created' => date(DATETIME_FORMATE, strtotime($row->created)), 'updated' => date(DATETIME_FORMATE, strtotime($row->updated)));
+                    $csv_array[] = array('name' => $row->name, 'company_owner' => $row->company_owner, 'company_address' => $row->company_address, 'email' => $row->email, 'phone1' => $row->phone1, 'phone2' => $row->phone2, 'lead_limit' => $row->lead_limit, 'gst_no' => $row->gst_no, 'aadhar_no' => $row->aadhar_no, 'pencard_no' => $row->pencard_no, 'country' => $row->country, 'state' => $row->state, 'city' => $row->city, 'zip_code' => $row->zip_code, 'latitude' => $row->latitude, 'logitude' => $row->logitude, 'cities' => implode(',', $company_cities), 'servicetype' => implode(',', $company_services), 'service' => implode(',', $company_services), 'status' => $row->is_active == 1 ? 'Active' : 'InActive', 'created' => date(DATETIME_FORMATE, strtotime($row->created)), 'updated' => $row->updated != "" ? date(DATETIME_FORMATE, strtotime($row->updated)) : '');
                 }
                 $this->load->helper('csv');
                 array_to_csv($csv_array, "Company_report_{$dateFrom}_to_{$dateTo}.csv");
@@ -68,7 +68,7 @@ class Companies extends CI_Controller {
         if ($data->servicetypes_id > 0) {
             $service_sql = $this->db->select('name')->get_where('servicetypes', array('id' => $data->servicetypes_id));
             if ($service_sql->num_rows() > 0) {
-                $data->service_name = $service_sql->row()->name;
+                $data->servicetype_name = $service_sql->row()->name;
             }
         }
         $this->viewData['company_services'] = $this->company->get_company_services($id);
@@ -611,23 +611,39 @@ class Companies extends CI_Controller {
             $condition['cp.companies_id'] = $company_id;
             $this->viewData['company_id'] = $company_id;
         }
-        $result = $this->company->get_company_packages($condition);
+
         if ($this->input->get('download') == 'report') {
-            $csv_array[] = array('company_name' => 'Company Name', 'package_name' => 'Package Name', 'package_amount' => 'Package Amount', 'package_lead' => 'Package Lead', 'total_lead' => 'Total Leads', 'used_lead' => 'Used Leads', 'amount_paid' => 'Amount Paid', 'status' => 'Status', 'created' => 'Created');
-            foreach ($result->result() as $row) {
-                $this->load->helper('csv');
-                $csv_array[] = array('company_name' => $row->company_name, 'package_name' => $row->package_name, 'package_amount' => $row->package_amount, 'package_lead' => $row->package_lead, 'total_lead' => $row->total_leads, 'used_lead' => $row->used_leads, 'amount_paid' => $row->total_paid_amount, 'status' => $row->is_active == 1 ? 'Active' : 'InActive', 'created' => date(DATETIME_FORMATE, strtotime($row->created)));
+            if ($this->input->get('datefrom') != "" && $this->input->get('dateto') != "") {
+                $dateFrom = date('Y-m-d', strtotime($this->input->get('datefrom')));
+                $dateTo = date('Y-m-d', strtotime($this->input->get('dateto')));
+            } else {
+                $dateFrom = date('Y-01-01');
+                $dateTo = date('Y-m-d');
             }
-            $Today = date('dmY');
-            array_to_csv($csv_array, "CompanyPackages_$Today.csv");
-            exit();
+            $condition["DATE(cp.created) BETWEEN '$dateFrom' AND '$dateTo'"] = NULL;
+            $csv_array[] = array('company_name' => 'Company Name', 'package_name' => 'Package Name', 'package_amount' => 'Package Amount', 'package_lead' => 'Package Lead', 'total_lead' => 'Total Leads', 'used_lead' => 'Used Leads', 'amount_paid' => 'Amount Paid', 'status' => 'Status', 'created' => 'Created');
+            $result = $this->company->get_company_packages($condition);
+            if ($result->num_rows() > 0) {
+                foreach ($result->result() as $row) {
+                    $this->load->helper('csv');
+                    $csv_array[] = array('company_name' => $row->company_name, 'package_name' => $row->package_name, 'package_amount' => $row->package_amount, 'package_lead' => $row->package_lead, 'total_lead' => $row->total_leads, 'used_lead' => $row->used_leads, 'amount_paid' => $row->total_paid_amount, 'status' => $row->is_active == 1 ? 'Active' : 'InActive', 'created' => date(DATETIME_FORMATE, strtotime($row->created)));
+                }
+                $Today = date('dmY');
+                array_to_csv($csv_array, "CompanyPackages_report_{$dateFrom}_to_{$dateTo}.csv");
+                exit();
+            } else {
+                $this->session->set_flashdata("error", __('No records found'));
+                redirect('companies/manage_package');
+            }
         }
+        $result = $this->company->get_company_packages($condition);
         $this->viewData['result'] = $result;
         $this->viewData['title'] = "Manage Company Package";
         $this->viewData['pageModule'] = 'Company Manager';
         $this->viewData['pageHeading'] = 'Company Package';
         $this->viewData['breadcrumb'] = array('Company Manager' => '');
         $this->viewData['datatable_asset'] = true;
+        $this->viewData['daterangepicker_asset'] = true;
         $this->viewData['packages_options'] = $this->package->packages_options();
         $this->viewData['company_options'] = $this->company->company_options(true);
         $this->layout->view("company/manage_package", $this->viewData);

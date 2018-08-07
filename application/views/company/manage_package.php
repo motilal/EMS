@@ -3,15 +3,33 @@
         <div class="box">
             <div class="box-header">
                 <i class="fa fa-shopping-cart"></i> 
-                <h3 class="box-title"><?php echo isset($pageHeading) ? $pageHeading : '&nbsp;'; ?></h3>
+                <h3 class="box-title"><?php echo isset($pageHeading) ? $pageHeading : '&nbsp;'; ?></h3>  
                 <div class="box-tools pull-right">
+                    <?php echo form_open('companies/manage_package', ['method' => 'get']); ?>    
                     <div class="btn-group" data-toggle="btn-toggle">
                         <?php if (is_allow_action('company-package-add')) { ?>
                             <a href="#" data-toggle="modal" data-target="#modal-manage" class="btn btn-primary btn-sm add_new_item"><i class="fa fa-plus"></i> Add New Package </a>
                         <?php } ?> 
-                        <a href="<?php echo site_url('companies/manage_package?download=report'); ?>" class="btn btn-default btn-sm"><i class="fa fa-download"></i> Export CSV</a>
+                        <div class="form-group pull-left"> 
+                            <div class="input-group">
+                                <button type="button" class="btn btn-default pull-right" id="daterange-btn">
+                                    <span>
+                                        <i class="fa fa-calendar"></i> Select Date Range
+                                    </span>
+                                    <i class="fa fa-caret-down"></i>
+                                </button>
+                            </div>
+                        </div> 
+                        <?php
+                        echo form_hidden('download', 'report');
+                        echo form_hidden('datefrom');
+                        echo form_hidden('dateto');
+                        ?>
+                        <button type="submit" class="btn btn-default btn-sm"><i class="fa fa-download"></i> Export CSV</button>
                     </div>
+                    <?php echo form_close(); ?>
                 </div>
+
             </div>     
             <!-- /.box-header -->
             <div class="box-body"> 
@@ -342,5 +360,25 @@
             }
         });
     }
+
+    $('#daterange-btn').daterangepicker(
+            {
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                    'This Year': [moment().startOf('year'), moment()]
+                },
+                startDate: moment().startOf('year'),
+                endDate: moment()
+            },
+    function (start, end) {
+        $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        $('[name="datefrom"]').val(start.format('YYYY-M-D'));
+        $('[name="dateto"]').val(end.format('YYYY-MM-DD'));
+    });
 
 </script>
