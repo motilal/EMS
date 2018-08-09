@@ -36,8 +36,13 @@ class Services extends Rest_server {
         }
         if ($this->db->insert('leads', $data)) {
             $last_insert_id = $this->db->insert_id();
-            $this->load->library('send_lead');
-            $this->send_lead->send($last_insert_id);
+            $CurrentTime = new DateTime();
+            $LeadSentStartTime = DateTime::createFromFormat('H:i:s', '07:00:00');
+            $LeadSentEndTime = DateTime::createFromFormat('H:i:s', '23:58:00');
+            if (($CurrentTime > $LeadSentStartTime) && ($CurrentTime < $LeadSentEndTime)) {
+                $this->load->library('send_lead');
+                $this->send_lead->send($last_insert_id);
+            }
             $message = [
                 'status' => TRUE,
                 'message' => 'New lead inserted successfully.'
@@ -52,6 +57,9 @@ class Services extends Rest_server {
     }
 
     public function users_get() {
+        $this->load->helper('email_helper');
+        sendbulksms([919024978491], 'hello this is test');
+        die;
         // Users from a data store e.g. database 
         $users = [
             ['id' => 1, 'name' => $this->getZipByAddress($this->get('location')), 'email' => 'john@example.com', 'fact' => 'Loves coding'],
@@ -59,6 +67,21 @@ class Services extends Rest_server {
             ['id' => 3, 'name' => 'Jane', 'email' => 'jane@example.com', 'fact' => 'Lives in the USA', ['hobbies' => ['guitar', 'cycling']]],
         ];
         $this->set_response($users, Rest_server::HTTP_OK);
+    }
+
+    public function lead_send_cron_get() {
+        $this->load->model(['setting_model' => 'setting']);
+        if ($this->setting->item('lead_send_cron') == 'On') {
+            $condition = ['is_delete' => '0', 'status' => 0, 'DATE(created) >= "2018-08-07"' => NULL];
+            $pending_leads = $this->db->select('id,status')->where($condition)->get('leads');
+            if ($pending_leads->num_rows() > 0) {
+                foreach ($pending_leads->result() as $row) {
+                    $this->load->library('send_lead');
+                    $response[$row->id] = $this->send_lead->send($row->id);
+                    $this->set_response($response, Rest_server::HTTP_OK);
+                }
+            }
+        }
     }
 
     private function getServiceId($service_name = '') {

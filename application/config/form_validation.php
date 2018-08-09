@@ -56,8 +56,8 @@ $config = array(
     ),
     'follow_up/manage' => array(
         array(
-            'field' => 'member_name',
-            'label' => 'Member Name',
+            'field' => 'client_name',
+            'label' => 'Client Name',
             'rules' => "trim|required|max_length[255]"
         )
     ),
@@ -396,6 +396,18 @@ $config = array(
             'field' => 'actions',
             'label' => 'Actions',
             'rules' => 'trim|required'
+        )
+    ),
+    'contacts/manage' => array(
+        array(
+            'field' => 'name',
+            'label' => 'Name',
+            'rules' => "trim|required|max_length[255]"
+        ),
+        array(
+            'field' => 'contact',
+            'label' => 'Contact Number',
+            'rules' => "trim|required|max_length[10]|numeric|callback__is_unique_contact_number"
         )
     )
 );

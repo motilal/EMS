@@ -9,15 +9,31 @@
         <?php if (is_allow_action('lead-return-history') === TRUE) { ?>
             <li class=""><a href="<?php echo site_url('leads/leads_return_history/' . $portal_id); ?>">Companies Lead Return History</a></li>
         <?php } ?>
-        <?php if ($type == 'inbox') { ?>
+        <?php if ($type != '') { ?>
             <li class="pull-right"> 
-                <?php if (is_allow_action('add-lead')) { ?>
-                    <div style="width: 100%;">
-                        <div class="btn-group" data-toggle="btn-toggle">
-                            <a href="<?php echo site_url('leads/manage'); ?>" class="btn btn-primary btn-sm add_new_tab_item"><i class="fa fa-plus"></i> Add New Lead</a>
+                <div class="btn-group" data-toggle="btn-toggle"> 
+                    <?php echo form_open("leads/index/$type/$portal_id", ['method' => 'get']); ?>    
+                    <?php if (is_allow_action('add-lead')) { ?>  
+                        <a href="<?php echo site_url('leads/manage'); ?>" class="btn btn-primary btn-sm pull-left" style="margin-right:3px;"><i class="fa fa-plus"></i> Add New Lead</a>
+                    <?php } ?> 
+                    <div class="form-group pull-left"> 
+                        <div class="input-group">
+                            <button type="button" class="btn btn-default pull-right" id="daterange-btn">
+                                <span>
+                                    <i class="fa fa-calendar"></i> Select Date Range
+                                </span>
+                                <i class="fa fa-caret-down"></i>
+                            </button>
                         </div>
                     </div> 
-                <?php } ?> 
+                    <?php
+                    echo form_hidden('download', 'report');
+                    echo form_hidden('datefrom');
+                    echo form_hidden('dateto');
+                    ?>
+                    <button type="submit" class="btn btn-default btn-sm pull-left"><i class="fa fa-download"></i> Export CSV</button>
+                    <?php echo form_close(); ?>
+                </div> 
             </li>
         <?php } ?>
 

@@ -38,18 +38,18 @@
             <script type="text/javascript" src="<?php echo base_url("asset/plugin/ckeditor/ckeditor.js") ?>"></script>
             <script type="text/javascript" src="<?php echo base_url("asset/plugin/ckfinder/ckfinder.js") ?>"></script>
             <script type="text/javascript">
-                $(function () {
-                    $('textarea.editor').each(function (e) {
-                        CKEDITOR.replace(this.id, {
-                            filebrowserBrowseUrl: '<?php echo base_url('asset/plugin/ckfinder/ckfinder.html'); ?>',
-                            filebrowserImageBrowseUrl: '<?php echo base_url('asset/plugin/ckfinder/ckfinder.html?type=Images'); ?>',
-                            filebrowserFlashBrowseUrl: '<?php echo base_url('asset/plugin/ckfinder/ckfinder.html?type=Flash'); ?>',
-                            filebrowserUploadUrl: '<?php echo base_url('asset/plugin/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files'); ?>',
-                            filebrowserImageUploadUrl: '<?php echo base_url('asset/plugin/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images'); ?>',
-                            filebrowserFlashUploadUrl: '<?php echo base_url('asset/plugin/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images'); ?>'
-                        });
+            $(function () {
+                $('textarea.editor').each(function (e) {
+                    CKEDITOR.replace(this.id, {
+                        filebrowserBrowseUrl: '<?php echo base_url('asset/plugin/ckfinder/ckfinder.html'); ?>',
+                        filebrowserImageBrowseUrl: '<?php echo base_url('asset/plugin/ckfinder/ckfinder.html?type=Images'); ?>',
+                        filebrowserFlashBrowseUrl: '<?php echo base_url('asset/plugin/ckfinder/ckfinder.html?type=Flash'); ?>',
+                        filebrowserUploadUrl: '<?php echo base_url('asset/plugin/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files'); ?>',
+                        filebrowserImageUploadUrl: '<?php echo base_url('asset/plugin/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images'); ?>',
+                        filebrowserFlashUploadUrl: '<?php echo base_url('asset/plugin/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images'); ?>'
                     });
                 });
+            });
             </script>
         <?php } ?>
 
@@ -82,6 +82,7 @@
             var ERROR_NOTIFICATION = <?php echo json_encode($this->session->flashdata("error")); ?>;
             var WARNING_NOTIFICATION = <?php echo json_encode($this->session->flashdata("warning")); ?>;
             var INFO_NOTIFICATION = <?php echo json_encode($this->session->flashdata("notification")); ?>;
+            var DATERANGEPICKER_ASSET = '<?php echo isset($daterangepicker_asset) ? 1 : 0; ?>';
         </script>
         <script src="<?php echo base_url('asset/js/common.js'); ?>"></script>   
     </head>

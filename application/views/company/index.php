@@ -41,6 +41,7 @@
                             <th>Phone</th> 
                             <th>Service</th>  
                             <th>Cities</th> 
+                            <th>Lead Balance</th>
                             <th>Created</th>
                             <th>Status</th>
                             <th>Action</th>
@@ -66,6 +67,7 @@
                                         echo empty($cities) ? '' : implode(',', $cities);
                                         ?> 
                                     </td>
+                                    <td><?php echo $this->company->get_company_lead_balance($row->id); ?></td>
                                     <td><?php echo date(DATE_FORMATE, strtotime($row->created)); ?></td>
                                     <td>
                                         <?php echo $this->layout->element('element/_module_status', array('status' => $row->is_active, 'id' => $row->id, 'url' => "companies/changestatus", 'permissionKey' => 'company-status'), true); ?>
@@ -92,26 +94,7 @@
      1 sorting remove from colomns
      2 default sort order of colomn set default []
      3 default paging
-     4 show sr. number or not
+     4 show sr. number or not 
      */
-    var datatbl = datatable_init([0, 7], [[1, 'asc']], DEFAULT_PAGING, 1);
-    $('#daterange-btn').daterangepicker(
-            {
-                ranges: {
-                    'Today': [moment(), moment()],
-                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                    'This Month': [moment().startOf('month'), moment().endOf('month')],
-                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-                    'This Year': [moment().startOf('year'), moment()]
-                },
-                startDate: moment().startOf('year'),
-                endDate: moment()
-            },
-    function (start, end) {
-        $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-        $('[name="datefrom"]').val(start.format('YYYY-M-D'));
-        $('[name="dateto"]').val(end.format('YYYY-MM-DD'));
-    });
+    var datatbl = datatable_init([0, 8], [[1, 'asc']], DEFAULT_PAGING, 1);
 </script>

@@ -13,14 +13,14 @@ class Follow_up_model extends CI_Model {
     }
 
     public function get_list($condition = array(), $order = array()) {
-        $this->db->select("follow_up.*");
+        $this->db->select("follow_up.*,CONCAT_WS(' ',users.first_name,users.last_name) as username");
         if (!empty($condition)) {
             $this->db->where($condition);
         }
         if (!empty($order)) {
             $this->db->order_by($order[0], $order[1]);
         }
-        $data = $this->db->get("follow_up");
+        $data = $this->db->join('users', 'users.id=follow_up.users_id', 'LEFT')->get("follow_up");
         return $data;
     }
 

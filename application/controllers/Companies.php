@@ -33,12 +33,13 @@ class Companies extends CI_Controller {
             }
             $condition["DATE(companies.created) BETWEEN '$dateFrom' AND '$dateTo'"] = NULL;
             $result = $this->company->get_list($condition);
-            $csv_array[] = array('name' => 'Company Name', 'company_owner' => 'Company Owner', 'company_address' => 'Company Address', 'email' => 'Email', 'phone1' => 'Phone Number', 'phone2' => 'Alternate Phone', 'lead_limit' => 'Lead Limit', 'gst_no' => 'GST No.', 'aadhar_no' => 'Aadhar No.', 'pencard_no' => 'Pencard No.', 'country' => 'country', 'state' => 'state', 'city' => 'city', 'zip_code' => 'zip_code', 'latitude' => 'latitude', 'logitude' => 'logitude', 'cities' => 'Cities', 'servicetype' => 'Services', 'service' => 'Sub Services', 'status' => 'Status', 'created' => 'Created', 'updated' => 'Last Modify');
+            $csv_array[] = array('name' => 'Company Name', 'company_owner' => 'Company Owner', 'company_address' => 'Company Address', 'email' => 'Email', 'phone1' => 'Phone Number', 'phone2' => 'Alternate Phone', 'lead_limit' => 'Lead Limit', 'gst_no' => 'GST No.', 'aadhar_no' => 'Aadhar No.', 'pencard_no' => 'Pencard No.', 'country' => 'country', 'state' => 'state', 'city' => 'city', 'zip_code' => 'zip_code', 'latitude' => 'latitude', 'logitude' => 'logitude', 'cities' => 'Cities', 'servicetype' => 'Services', 'service' => 'Sub Services', 'lead_balance' => 'Lead Balance', 'status' => 'Status', 'created' => 'Created', 'updated' => 'Last Modify');
             if ($result->num_rows() > 0) {
                 foreach ($result->result() as $row) {
                     $company_cities = $this->company->get_company_cities($row->id);
                     $company_services = $this->company->get_company_services($row->id);
-                    $csv_array[] = array('name' => $row->name, 'company_owner' => $row->company_owner, 'company_address' => $row->company_address, 'email' => $row->email, 'phone1' => $row->phone1, 'phone2' => $row->phone2, 'lead_limit' => $row->lead_limit, 'gst_no' => $row->gst_no, 'aadhar_no' => $row->aadhar_no, 'pencard_no' => $row->pencard_no, 'country' => $row->country, 'state' => $row->state, 'city' => $row->city, 'zip_code' => $row->zip_code, 'latitude' => $row->latitude, 'logitude' => $row->logitude, 'cities' => implode(',', $company_cities), 'servicetype' => implode(',', $company_services), 'service' => implode(',', $company_services), 'status' => $row->is_active == 1 ? 'Active' : 'InActive', 'created' => date(DATETIME_FORMATE, strtotime($row->created)), 'updated' => $row->updated != "" ? date(DATETIME_FORMATE, strtotime($row->updated)) : '');
+                    $leadBalance = $this->company->get_company_lead_balance($row->id);
+                    $csv_array[] = array('name' => $row->name, 'company_owner' => $row->company_owner, 'company_address' => $row->company_address, 'email' => $row->email, 'phone1' => $row->phone1, 'phone2' => $row->phone2, 'lead_limit' => $row->lead_limit, 'gst_no' => $row->gst_no, 'aadhar_no' => $row->aadhar_no, 'pencard_no' => $row->pencard_no, 'country' => $row->country, 'state' => $row->state, 'city' => $row->city, 'zip_code' => $row->zip_code, 'latitude' => $row->latitude, 'logitude' => $row->logitude, 'cities' => implode(',', $company_cities), 'servicetype' => implode(',', $company_services), 'service' => implode(',', $company_services), 'lead_balance' => $leadBalance, 'status' => $row->is_active == 1 ? 'Active' : 'InActive', 'created' => date(DATETIME_FORMATE, strtotime($row->created)), 'updated' => $row->updated != "" ? date(DATETIME_FORMATE, strtotime($row->updated)) : '');
                 }
                 $this->load->helper('csv');
                 array_to_csv($csv_array, "Company_report_{$dateFrom}_to_{$dateTo}.csv");
@@ -626,7 +627,11 @@ class Companies extends CI_Controller {
             if ($result->num_rows() > 0) {
                 foreach ($result->result() as $row) {
                     $this->load->helper('csv');
-                    $csv_array[] = array('company_name' => $row->company_name, 'package_name' => $row->package_name, 'package_amount' => $row->package_amount, 'package_lead' => $row->package_lead, 'total_lead' => $row->total_leads, 'used_lead' => $row->used_leads, 'amount_paid' => $row->total_paid_amount, 'status' => $row->is_active == 1 ? 'Active' : 'InActive', 'created' => date(DATETIME_FORMATE, strtotime($row->created)));
+                    $packageStatus = $row->is_active == 1 ? 'Active' : 'InActive';
+                    if ($row->total_leads <= $row->used_leads) {
+                        $packageStatus = 'Expired';
+                    }
+                    $csv_array[] = array('company_name' => $row->company_name, 'package_name' => $row->package_name, 'package_amount' => $row->package_amount, 'package_lead' => $row->package_lead, 'total_lead' => $row->total_leads, 'used_lead' => $row->used_leads, 'amount_paid' => $row->total_paid_amount, 'status' => $packageStatus, 'created' => date(DATETIME_FORMATE, strtotime($row->created)));
                 }
                 $Today = date('dmY');
                 array_to_csv($csv_array, "CompanyPackages_report_{$dateFrom}_to_{$dateTo}.csv");

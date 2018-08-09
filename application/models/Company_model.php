@@ -174,7 +174,7 @@ class Company_model extends CI_Model {
                 ->get("companies_package as cp");
         return $result;
     }
-
+ 
     public function get_company_active_package($companies_id) {
         if (is_numeric($companies_id) && $companies_id > 0) {
             $sql = $this->db->select('id')->where(array('companies_id' => $companies_id, 'total_leads > used_leads' => NULL, 'is_active' => '1'))->get('companies_package');
@@ -182,6 +182,18 @@ class Company_model extends CI_Model {
                 return $sql->row()->id;
             } else {
                 return FALSE;
+            }
+        }
+    }
+
+    public function get_company_lead_balance($companies_id) {
+        if (is_numeric($companies_id) && $companies_id > 0) {
+            $sql = $this->db->select('total_leads,used_leads')->where(array('companies_id' => $companies_id, 'total_leads > used_leads' => NULL, 'is_active' => '1'))->get('companies_package');
+            if ($sql->num_rows() > 0) {
+                $row = $sql->row();
+                return ($row->total_leads - $row->used_leads);
+            } else {
+                return 0;
             }
         }
     }

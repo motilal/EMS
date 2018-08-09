@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Send_lead {
 
     public function __construct() {
-        $this->load->model(array('lead_model' => 'lead', 'company_model' => 'company'));
+        $this->load->model(array('lead_model' => 'lead', 'company_model' => 'company', 'setting_model' => 'setting'));
         $this->load->helper('email_helper');
     }
 
@@ -75,38 +75,29 @@ class Send_lead {
         }
     }
 
-    public function send_manual($lead_id = '', $company_id = '') {
-        if (empty($company_id)) {
+    public function send_manual($lead_id = '', $company_ids = []) {
+        if (empty($company_ids)) {
             return;
         }
+        $leadSendToCompanies = [];
         $leadDetail = $this->lead->getById($lead_id, true);
-        $companyDetail = $this->company->getById($company_id, true);
-        if (!empty($companyDetail)) {
-            $leadSendToCompany = FALSE;
-            $check_lead_total_sent = $this->db->select('id')->where(['leads_id' => $lead_id])->get('leads_sent_history')->num_rows();
-            if ($check_lead_total_sent >= MAX_LEAD_SENT_TO_COMPANY) {
-                return ['status' => 'error', 'message' => 'Lead exceed total sent limit.'];
-            }
-            $companyDetail->todaySentLead = $this->company->total_lead_sent_today($companyDetail->id);
-            if ($companyDetail->lead_limit > $companyDetail->todaySentLead || is_null($companyDetail->lead_limit) || $companyDetail->lead_limit == "") {
-                //set sent flag for company
+        foreach ($company_ids as $company_id) {
+            $companyDetail = $this->company->getById($company_id, true);
+            if (!empty($companyDetail)) {
                 $updateLeadSend = $this->updateLeadSend($companyDetail->id, $lead_id);
                 if ($updateLeadSend === TRUE) {
                     $this->send_sms_to_company($companyDetail, $leadDetail);
                     $this->send_email_to_company($companyDetail, $leadDetail);
-                    $leadSendToCompany = $companyDetail->name;
-                } else {
-                    return $updateLeadSend;
+                    $leadSendToCompanies[] = $companyDetail->name;
                 }
-            } else {
-                return ['status' => 'error', 'message' => 'This company exceed max today lead sent limit.'];
+                $leadSendToCompanies[] = $companyDetail->name;
             }
-
-            if (!empty($leadSendToCompany)) {
-                //$this->send_sms_to_customer($leadSendToCompany, $leadDetail);
-                //$this->send_email_to_customer($leadSendToCompany, $leadDetail);
-            }
-            return TRUE;
+        }
+        if (!empty($leadSendToCompanies)) {
+            $leadSendToCompaniesStr = implode(',', $leadSendToCompanies);
+            return ['status' => 'success', 'message' => "The lead successfully sent to </strong>{$leadSendToCompaniesStr}</strong>"];
+        } else {
+            return ['status' => 'error', 'message' => "Something error occurs."];
         }
     }
 
@@ -124,57 +115,65 @@ class Send_lead {
 
     private function send_sms_to_company($company_detail, $lead_detail) {
         /* Send Lead to company via sms */
-        $customerDetail = $lead_detail->name . '(' . $lead_detail->phone_number . ')';
-        $customerDetail = substr($customerDetail, 0, 70);
-        $lead_detail->service_name = substr($lead_detail->service_name, 0, 25);
-        $message = "Hello, %nPlease give $lead_detail->service_name quotation to the following customer:%n$customerDetail,%n %nBookMyTempo";
-        $contacts = ['91' . $company_detail->phone1];
-        if ($company_detail->phone2 != "") {
-            array_push($contacts, '91' . $company_detail->phone2);
-        }
-        $sendSms = TRUE;
-        $sendSms = sendsms($contacts, $message);
-        if ($sendSms === TRUE) {
-            return TRUE;
-        }
-        /* Send company */
-    }
-
-    private function send_email_to_company($company_detail, $lead_detail) {
-        /* Send Lead to company via email */
-        $email = $company_detail->email;
-        $replaceFrom = array('{service}', '{customer_detail}');
-        $customer_detail = "Name: $lead_detail->name \n Phone: $lead_detail->phone_number \n Service: $lead_detail->service_name";
-        $replaceTo = array($lead_detail->service_name, nl2br($customer_detail));
-        sendMailByTemplate('send-lead-to-company', $replaceFrom, $replaceTo, $email);
-    }
-
-    private function send_sms_to_customer($companies, $lead_detail) {
-        if (count($companies) > 0) {
-            $companies = implode(',', $companies);
-            /* Send sms to customer */
-            $lead_detail->name = substr($lead_detail->name, 0, 10);
-            $lead_detail->service_name = substr($lead_detail->service_name, 0, 22);
-            $companies = substr($companies, 0, 208);
-
-            $message = "Hi $lead_detail->name,%nThanks for $lead_detail->service_name.You will be contacted by these professionals:%n %n$companies";
-            $contacts = ['91' . $lead_detail->phone_number];
+        if ($this->setting->item('send_lead_to_customer') == 'On') {
+            $customerDetail = $lead_detail->name . '(' . $lead_detail->phone_number . ')';
+            $customerDetail = substr($customerDetail, 0, 70);
+            $lead_detail->service_name = substr($lead_detail->service_name, 0, 25);
+            $message = "Hello, %nPlease give $lead_detail->service_name quotation to the following customer:%n$customerDetail,%n %nBookMyTempo";
+            $contacts = ['91' . $company_detail->phone1];
+            if ($company_detail->phone2 != "") {
+                array_push($contacts, '91' . $company_detail->phone2);
+            }
             $sendSms = TRUE;
             $sendSms = sendsms($contacts, $message);
             if ($sendSms === TRUE) {
                 return TRUE;
             }
         }
+        /* Send company */
+    }
+
+    private function send_email_to_company($company_detail, $lead_detail) {
+        if ($this->setting->item('send_lead_to_customer') == 'On') {
+            /* Send Lead to company via email */
+            $email = $company_detail->email;
+            $replaceFrom = array('{service}', '{customer_detail}');
+            $customer_detail = "Name: $lead_detail->name \n Phone: $lead_detail->phone_number \n Service: $lead_detail->service_name";
+            $replaceTo = array($lead_detail->service_name, nl2br($customer_detail));
+            sendMailByTemplate('send-lead-to-company', $replaceFrom, $replaceTo, $email);
+        }
+    }
+
+    private function send_sms_to_customer($companies, $lead_detail) {
+        if ($this->setting->item('send_lead_to_customer') == 'On') {
+            if (count($companies) > 0) {
+                $companies = implode(',', $companies);
+                /* Send sms to customer */
+                $lead_detail->name = substr($lead_detail->name, 0, 10);
+                $lead_detail->service_name = substr($lead_detail->service_name, 0, 22);
+                $companies = substr($companies, 0, 208);
+
+                $message = "Hi $lead_detail->name,%nThanks for $lead_detail->service_name.You will be contacted by these professionals:%n %n$companies";
+                $contacts = ['91' . $lead_detail->phone_number];
+                $sendSms = TRUE;
+                $sendSms = sendsms($contacts, $message);
+                if ($sendSms === TRUE) {
+                    return TRUE;
+                }
+            }
+        }
     }
 
     private function send_email_to_customer($companies, $lead_detail) {
-        if (count($companies) > 0) {
-            $companies = implode(',', $companies);
-            /* Send Lead detail handler to customer */
-            $email = $lead_detail->email;
-            $replaceFrom = array('{service}', '{company_detail}', '{customer}');
-            $replaceTo = array($lead_detail->service_name, $companies, $lead_detail->name);
-            sendMailByTemplate('send-company-detail-to-customer', $replaceFrom, $replaceTo, $email);
+        if ($this->setting->item('send_lead_to_customer') == 'On') {
+            if (count($companies) > 0) {
+                $companies = implode(',', $companies);
+                /* Send Lead detail handler to customer */
+                $email = $lead_detail->email;
+                $replaceFrom = array('{service}', '{company_detail}', '{customer}');
+                $replaceTo = array($lead_detail->service_name, $companies, $lead_detail->name);
+                sendMailByTemplate('send-company-detail-to-customer', $replaceFrom, $replaceTo, $email);
+            }
         }
     }
 

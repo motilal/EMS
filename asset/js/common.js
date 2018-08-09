@@ -76,9 +76,32 @@ $(document).ready(function () {
         }
     });
 
-    $('.check-all').click(function () { 
+    $('.check-all').click(function () {
         $(this).closest('table').find("input[type=checkbox]").prop('checked', $(this).is(':checked'));
     });
+
+    if (DATERANGEPICKER_ASSET == '1') {
+        $('#daterange-btn').daterangepicker(
+                {
+                    ranges: {
+                        'Today': [moment(), moment()],
+                        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                        'This Month': [moment().startOf('month'), moment().endOf('month')],
+                        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                        'This Year': [moment().startOf('year'), moment()]
+                    },
+                    startDate: moment().startOf('year'),
+                    endDate: moment()
+                },
+        function (start, end) {
+            $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            $('[name="datefrom"]').val(start.format('YYYY-M-D'));
+            $('[name="dateto"]').val(end.format('YYYY-MM-DD'));
+        });
+    }
+
 
 });
 

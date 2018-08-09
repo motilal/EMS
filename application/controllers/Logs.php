@@ -87,7 +87,7 @@ class Logs extends CI_Controller {
         $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
 
-    public function test() {
+    public function test_email() {
         //$this->load->get_var('UserInfo'); 
         $this->load->library('email');
         $mail_smtp = $this->config->item("mail_smtp");
@@ -112,5 +112,6 @@ class Logs extends CI_Controller {
     function lead_test($id = 43) {
         $this->load->model(array('lead_model' => 'lead', 'company_model' => 'company'));
         echo $this->company->total_lead_sent_today($id);
-    } 
+    }
+
 }

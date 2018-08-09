@@ -30,6 +30,10 @@ class Leads extends CI_Controller {
         } else if ($type == 'sent') {
             $condition['led.status'] = 1;
         }
+        if ($this->input->get('download') == 'report') {
+            $this->generateLeadReport($condition, $type);
+        }
+
         $this->viewData['type'] = $type;
         $this->viewData['portal_id'] = isset($portal_id) ? $portal_id : '';
         if ($this->input->is_ajax_request()) {
@@ -63,6 +67,7 @@ class Leads extends CI_Controller {
         $this->viewData['pageHeading'] = 'Leads';
         $this->viewData['breadcrumb'] = array('Leads Manager' => 'portals', 'Lead ' . ucfirst($type) => '');
         $this->viewData['datatable_asset'] = true;
+        $this->viewData['daterangepicker_asset'] = true;
         $this->load->model('company_model', 'company');
         $this->layout->view("lead/index", $this->viewData);
     }
@@ -79,7 +84,14 @@ class Leads extends CI_Controller {
                 $rowData[4] = $row->city_name;
                 $rowData[5] = date(DATETIME_FORMATE, strtotime($row->created));
                 $leadPercent = $this->lead->get_lead_percent($row->id);
-                $rowData[6] = $row->status == 0 ? '<span class="text-red">Pending<span>' : '<span class="text-green">Sent (' . $leadPercent . '%)</span>';
+                if ($row->status == 0) {
+                    $leadStatus = '<span class="text-red">Pending<span>';
+                } else if ($row->status == 1) {
+                    $leadStatus = '<span class="text-green">Sent (' . $leadPercent . '%)</span>';
+                } else if ($row->status == 3) {
+                    $leadStatus = '<span class="text-warning">Duplicate</span>';
+                }
+                $rowData[6] = $leadStatus;
                 $rowData[7] = $this->layout->element('element/_module_status', array('status' => $row->is_active, 'id' => $row->id, 'url' => "leads/changestatus", 'permissionKey' => "lead-status"), true);
                 $editUrl = 'leads/manage/' . $row->id;
                 $viewUrl = 'leads/view/' . $row->id;
@@ -202,9 +214,12 @@ class Leads extends CI_Controller {
             $condition['leads.portals_id'] = $portal_id;
             $portalDetail = $this->portal->getById($portal_id);
         }
+        if ($this->input->get('download') == 'report') {
+            $this->generateLeadSentReport($condition);
+        }
         $this->viewData['portal_id'] = isset($portal_id) ? $portal_id : '';
         if ($this->input->is_ajax_request()) {
-            $orderColomn = array(1 => 'portal_name', 2 => 'record_id', 3 => 'led.name', 4 => 'led.email', 5 => 'led.phone_number', 6 => 'led.is_active');
+            $orderColomn = array(1 => 'companies.name', 2 => 'leads.name', 3 => 'leads.phone_number', 4 => 'leads.message', 5 => 'lsh.created');
             $params = dataTableGetRequest($this->input->get(), $orderColomn);
             if (!empty($params->search)) {
                 $keyword = $this->db->escape_str($params->search);
@@ -236,6 +251,7 @@ class Leads extends CI_Controller {
         $this->viewData['datatable_asset'] = true;
         $this->load->model('reason_model', 'reason');
         $this->viewData['reason_options'] = $this->reason->reasons_options(true);
+        $this->viewData['daterangepicker_asset'] = true;
         $this->layout->view("lead/leads_sent_history", $this->viewData);
     }
 
@@ -245,6 +261,9 @@ class Leads extends CI_Controller {
         if ($portal_id != "") {
             $condition['leads.portals_id'] = $portal_id;
             $portalDetail = $this->portal->getById($portal_id);
+        }
+        if ($this->input->get('download') == 'report') {
+            $this->generateLeadReturnReport($condition);
         }
         $this->viewData['portal_id'] = isset($portal_id) ? $portal_id : '';
         if ($this->input->is_ajax_request()) {
@@ -468,6 +487,81 @@ class Leads extends CI_Controller {
             }
         }
         return $resultData;
+    }
+
+    private function generateLeadReport($condition, $type) {
+        if ($this->input->get('datefrom') != "" && $this->input->get('dateto') != "") {
+            $dateFrom = date('Y-m-d', strtotime($this->input->get('datefrom')));
+            $dateTo = date('Y-m-d', strtotime($this->input->get('dateto')));
+        } else {
+            $dateFrom = date('Y-01-01');
+            $dateTo = date('Y-m-d');
+        }
+        $condition["DATE(led.created) BETWEEN '$dateFrom' AND '$dateTo'"] = NULL;
+        $csv_array[] = ['portal_name' => 'Portal Name', 'source' => 'Source', 'record_id' => 'Reference Id', 'location' => 'Location From', 'service_to' => 'Service To', 'service_name' => 'Service', 'name' => 'Name', 'email' => 'Email', 'city_name' => 'City', 'phone_number' => 'Phone Number', 'date' => 'Service Date', 'message' => 'Message', 'sent_status' => 'Sent Status', 'sent_percent' => 'Sent Percentage', 'created' => 'Received', 'updated' => 'Modified'];
+        $result = $this->lead->get_list($condition);
+        if ($result->num_rows() > 0) {
+            foreach ($result->result() as $row) {
+                $this->load->helper('csv');
+                $csv_array[] = ['portal_name' => $row->portal_name, 'source' => $row->source, 'record_id' => $row->record_id, 'location' => $row->location, 'service_to' => $row->service_to, 'service_name' => $row->service_name, 'name' => $row->name, 'email' => $row->email, 'city_name' => $row->city_name, 'phone_number' => $row->phone_number, 'date' => $row->date != "" ? $row->date : '', 'message' => $row->message, 'sent_status' => $row->status == 0 ? 'Pending' : 'Sent', 'sent_percent' => $this->lead->get_lead_percent($row->id), 'created' => date(DATETIME_FORMATE, strtotime($row->created)), 'updated' => $row->updated != "" ? date(DATETIME_FORMATE, strtotime($row->updated)) : ''];
+            }
+        } else {
+            $this->session->set_flashdata("error", __('No records found'));
+            redirect('follow_up');
+        }
+        $Today = date('dmY');
+        array_to_csv($csv_array, "lead_{$type}_report_{$dateFrom}_to_{$dateTo}.csv");
+        exit();
+    }
+
+    private function generateLeadSentReport($condition) {
+        if ($this->input->get('datefrom') != "" && $this->input->get('dateto') != "") {
+            $dateFrom = date('Y-m-d', strtotime($this->input->get('datefrom')));
+            $dateTo = date('Y-m-d', strtotime($this->input->get('dateto')));
+        } else {
+            $dateFrom = date('Y-01-01');
+            $dateTo = date('Y-m-d');
+        }
+        $condition["DATE(lsh.created) BETWEEN '$dateFrom' AND '$dateTo'"] = NULL;
+        $csv_array[] = ['company_name' => 'Company Name', 'lead_name' => 'Customer Name', 'phone_number' => 'Customer Phone', 'message' => 'Customer Message', 'created' => 'Sent On', 'lead_sent_status' => 'Status'];
+        $result = $this->lead->get_leads_sent_history($condition);
+        if ($result->num_rows() > 0) {
+            foreach ($result->result() as $row) {
+                $this->load->helper('csv');
+                $csv_array[] = ['company_name' => $row->company_name, 'lead_name' => $row->lead_name, 'phone_number' => $row->phone_number, 'message' => $row->message, 'created' => date(DATETIME_FORMATE, strtotime($row->created)), 'lead_sent_status' => $row->lead_sent_status == 1 ? 'Sent' : 'Return'];
+            }
+        } else {
+            $this->session->set_flashdata("error", __('No records found'));
+            redirect('follow_up');
+        }
+        $Today = date('dmY');
+        array_to_csv($csv_array, "lead_sent_report_{$dateFrom}_to_{$dateTo}.csv");
+        exit();
+    }
+
+    private function generateLeadReturnReport($condition) {
+        if ($this->input->get('datefrom') != "" && $this->input->get('dateto') != "") {
+            $dateFrom = date('Y-m-d', strtotime($this->input->get('datefrom')));
+            $dateTo = date('Y-m-d', strtotime($this->input->get('dateto')));
+        } else {
+            $dateFrom = date('Y-01-01');
+            $dateTo = date('Y-m-d');
+        }
+        $condition["DATE(lrh.created) BETWEEN '$dateFrom' AND '$dateTo'"] = NULL;
+        $csv_array[] = ['company_name' => 'Company Name', 'lead_name' => 'Customer Name', 'phone_number' => 'Customer Phone', 'reason' => 'Reason for return', 'approve_date' => 'Approve On', 'approve_by' => 'Approve By', 'created' => 'Create On'];
+        $result = $this->lead->get_leads_return_history($condition);
+        if ($result->num_rows() > 0) {
+            foreach ($result->result() as $row) {
+                $this->load->helper('csv');
+                $csv_array[] = ['company_name' => $row->company_name, 'lead_name' => $row->lead_name, 'phone_number' => $row->phone_number, 'reason' => $row->reason, 'approve_date' => $row->approve_date != "" ? date(DATETIME_FORMATE, strtotime($row->approve_date)) : '', 'approve_by' => $this->common->getUserName($row->approve_by), 'created' => date(DATETIME_FORMATE, strtotime($row->created))];
+            }
+        } else {
+            $this->session->set_flashdata("error", __('No records found'));
+            redirect('follow_up');
+        }
+        $Today = date('dmY');
+        array_to_csv($csv_array, "lead_return_report_{$dateFrom}_to_{$dateTo}.csv");
+        exit();
     }
 
 }

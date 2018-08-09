@@ -57,7 +57,7 @@ class lead_model extends CI_Model {
     }
 
     public function get_leads_return_history($condition = array(), $limit = array(), $order = array(), $with_num_rows = false) {
-        $this->db->select("companies.name as company_name,leads.name as lead_name,leads.phone_number,leads.created,lrh.reason,lrh.approve_status,lrh.approve_by,lrh.approve_date,lrh.leads_id,lrh.id as lead_reaturn_history_id");
+        $this->db->select("companies.name as company_name,leads.name as lead_name,leads.phone_number,lrh.created,lrh.reason,lrh.approve_status,lrh.approve_by,lrh.approve_date,lrh.leads_id,lrh.id as lead_reaturn_history_id");
         if (!empty($condition) || $condition != "") {
             $this->db->where($condition);
         }

@@ -9,7 +9,7 @@
                     <?php echo form_open('follow_up', ['method' => 'get']); ?>    
                     <div class="btn-group" data-toggle="btn-toggle">
                         <?php if (is_allow_action('follow_up-add')) { ?>
-                            <a href="<?php echo site_url('follow_up/manage'); ?>" class="btn btn-primary btn-sm add_new_item"><i class="fa fa-plus"></i> Add New Member </a>
+                            <a href="<?php echo site_url('follow_up/manage'); ?>" class="btn btn-primary btn-sm add_new_item"><i class="fa fa-plus"></i> Add New Follow Up </a>
                         <?php } ?> 
                         <div class="form-group pull-left"> 
                             <div class="input-group">
@@ -55,7 +55,7 @@
                                 <?php foreach ($result->result() as $key => $row): ?> 
                                     <tr id="row_<?php echo $row->id; ?>">
                                         <td><?php echo $key + 1; ?></td>
-                                        <td><?php echo $row->member_name; ?></td>  
+                                        <td><?php echo $row->username; ?></td>  
                                         <td><?php echo date(DATE_FORMATE, strtotime($row->follow_up_date)); ?></td> 
                                         <td><?php echo isset($follow_status[$row->status_id]) ? $follow_status[$row->status_id] : ''; ?></td>
                                         <td><?php echo $row->client_name; ?></td> 
@@ -89,24 +89,5 @@
      3 default paging
      4 show sr. number or not
      */
-    var datatbl = datatable_init([0, 8], [[1, 'asc']], DEFAULT_PAGING, 1);
-    $('#daterange-btn').daterangepicker(
-            {
-                ranges: {
-                    'Today': [moment(), moment()],
-                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                    'This Month': [moment().startOf('month'), moment().endOf('month')],
-                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-                    'This Year': [moment().startOf('year'), moment()]
-                },
-                startDate: moment().startOf('year'),
-                endDate: moment()
-            },
-    function (start, end) {
-        $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-        $('[name="datefrom"]').val(start.format('YYYY-M-D'));
-        $('[name="dateto"]').val(end.format('YYYY-MM-DD'));
-    });
+    var datatbl = datatable_init([0, 8], [[1, 'asc']], DEFAULT_PAGING, 1);    
 </script>

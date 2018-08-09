@@ -10,6 +10,28 @@
         <?php if (is_allow_action('lead-return-history') === TRUE) { ?>
             <li class="active"><a href="<?php echo site_url('leads/leads_return_history/' . $portal_id); ?>">Companies Lead Return History</a></li> 
         <?php } ?>
+        <li class="pull-right"> 
+            <div class="btn-group" data-toggle="btn-toggle"> 
+                <?php echo form_open("leads/leads_return_history/$portal_id", ['method' => 'get']); ?>  
+                <div class="form-group pull-left"> 
+                    <div class="input-group">
+                        <button type="button" class="btn btn-default pull-right" id="daterange-btn">
+                            <span>
+                                <i class="fa fa-calendar"></i> Select Date Range
+                            </span>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                    </div>
+                </div> 
+                <?php
+                echo form_hidden('download', 'report');
+                echo form_hidden('datefrom');
+                echo form_hidden('dateto');
+                ?>
+                <button type="submit" class="btn btn-default btn-sm pull-left"><i class="fa fa-download"></i> Export CSV</button>
+                <?php echo form_close(); ?>
+            </div> 
+        </li>
     </ul>
 
     <div class="tab-content">
