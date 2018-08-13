@@ -1,6 +1,6 @@
 <?php
 
-/** 
+/**
  *
  * @author Motilal Soni
  */
@@ -16,12 +16,12 @@ class Contact_groups extends CI_Controller {
         $this->site_santry->allow(array());
         $this->load->model(array('contact_group_model' => 'contact_group'));
         $this->layout->set_layout("layout/layout_admin");
-        $this->viewData['pageModule'] = 'Contact Group Manager';
+        $this->viewData['pageModule'] = 'Bulk SMS Manager';
     }
 
     public function index() {
         $this->acl->has_permission('contact_group-index');
-        $condition = array('is_delete' => '0');
+        $condition = array();
         $start = (int) $this->input->get('start');
         $result = $this->contact_group->get_list($condition);
         if ($this->input->get('download') == 'report') {
@@ -35,10 +35,10 @@ class Contact_groups extends CI_Controller {
             exit();
         }
         $this->viewData['result'] = $result;
-        $this->viewData['title'] = "Contact Group Listing";
+        $this->viewData['title'] = "Contact Groups";
         $this->viewData['datatable_asset'] = true;
-        $this->viewData['pageHeading'] = 'Contact Group Listing';
-        $this->viewData['breadcrumb'] = array('Contact Group Manager' => 'contact_groups', $this->viewData['title'] => '');
+        $this->viewData['pageHeading'] = 'Contact Groups';
+        $this->viewData['breadcrumb'] = array('Bulk SMS Manager' => 'contact_groups', $this->viewData['title'] => '');
         $this->layout->view("contact_group/index", $this->viewData);
     }
 
@@ -74,7 +74,7 @@ class Contact_groups extends CI_Controller {
                 $detail = $this->contact_group->getById($resource_id);
                 $detail->created = date(DATE_FORMATE, strtotime($detail->created));
                 $detail->statusButtons = $this->layout->element('element/_module_status', array('status' => $detail->is_active, 'id' => $detail->id, 'url' => "contact_groups/changestatus", 'permissionKey' => "contact_group-status"), true);
-                $detail->actionButtons = $this->layout->element('element/_module_action', array('id' => $detail->id, 'editUrl' => 'contact_groups/manage', 'deleteUrl' => 'contact_groups/delete', 'editPermissionKey' => 'contact_group-edit', 'deletePermissionKey' => 'contact_group-delete'), true);
+                $detail->actionButtons = $this->layout->element('element/_module_action', array('id' => $detail->id, 'editUrl' => 'contact_groups/manage', 'viewUrl' => 'contacts?group=' . $detail->id, 'deleteUrl' => 'contact_groups/delete', 'editPermissionKey' => 'contact_group-edit', 'deletePermissionKey' => 'contact_group-delete'), true);
                 $response['data'] = $detail;
                 $response['success'] = true;
             } else {
@@ -94,7 +94,7 @@ class Contact_groups extends CI_Controller {
             $id = $this->input->post('id');
             $has_permission = $this->acl->has_permission('contact_group-delete', FALSE);
             if ($has_permission === TRUE) {
-                if ($id > 0 && $this->db->where("id", $id)->update("contact_groups", array('is_delete' => '1'))) {
+                if ($id > 0 && $this->db->where("id", $id)->delete("contact_groups")) {
                     $response['success'] = __('ContactGroupDeleteSuccess');
                 } else {
                     $response['error'] = __('InvalidRequest');
@@ -128,7 +128,7 @@ class Contact_groups extends CI_Controller {
     }
 
     function _is_unique_contact_group_name($str) {
-        $condition = array('is_delete' => '0', 'name' => $str);
+        $condition = array('name' => $str);
         if ($this->input->post('id') != "") {
             $condition['id !='] = $this->input->post('id');
         }

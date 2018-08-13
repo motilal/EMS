@@ -2,14 +2,14 @@
     <div class="col-xs-12"> 
         <div class="box">
             <div class="box-header">
-                <i class="fa fa-institution"></i> 
+                <i class="fa fa-users"></i> 
                 <h3 class="box-title"><?php echo isset($pageHeading) ? $pageHeading : '&nbsp;'; ?></h3>
                 <div class="box-tools pull-right">
                     <div class="btn-group" data-toggle="btn-toggle">
-                        <?php if (is_allow_action('city-add')) { ?>
-                            <a href="#" data-toggle="modal" data-target="#modal-manage" class="btn btn-primary btn-sm add_new_item"><i class="fa fa-plus"></i> Add New City </a>
+                        <?php if (is_allow_action('contact_group-add')) { ?>
+                            <a href="#" data-toggle="modal" data-target="#modal-manage" class="btn btn-primary btn-sm add_new_item"><i class="fa fa-plus"></i> Add New Contact Group </a>
                         <?php } ?> 
-                        <a href="<?php echo site_url('cities?download=report'); ?>" class="btn btn-default btn-sm"><i class="fa fa-download"></i> Export CSV</a>
+                        <a href="<?php echo site_url('contact_groups?download=report'); ?>" class="btn btn-default btn-sm"><i class="fa fa-download"></i> Export CSV</a>
                     </div>
                 </div>
             </div>     
@@ -21,6 +21,7 @@
                             <tr>
                                 <td>Sr.</td> 
                                 <th>Name</th> 
+                                <th>Total Contacts</th>
                                 <th>Created</th> 
                                 <th>Status</th>
                                 <th>Action</th>
@@ -32,12 +33,13 @@
                                     <tr id="row_<?php echo $row->id; ?>">
                                         <td><?php echo $key + 1; ?></td> 
                                         <td><?php echo $row->name; ?></td> 
+                                        <td><a href="<?php echo site_url("contacts?group=$row->id"); ?>"><?php echo $this->contact_group->group_contacts_count($row->id); ?></a></td> 
                                         <td><?php echo date(DATE_FORMATE, strtotime($row->created)); ?></td>
                                         <td>
-                                            <?php echo $this->layout->element('element/_module_status', array('status' => $row->is_active, 'id' => $row->id, 'url' => "cities/changestatus", 'permissionKey' => "city-status"), true); ?>
+                                            <?php echo $this->layout->element('element/_module_status', array('status' => $row->is_active, 'id' => $row->id, 'url' => "contact_groups/changestatus", 'permissionKey' => "contact_group-status"), true); ?>
                                         </td>
                                         <td>  
-                                            <?php echo $this->layout->element('element/_module_action', array('id' => $row->id, 'editUrl' => "cities/manage", 'deleteUrl' => 'cities/delete', 'editPermissionKey' => 'city-edit', 'deletePermissionKey' => 'city-delete'), true); ?>
+                                            <?php echo $this->layout->element('element/_module_action', array('id' => $row->id, 'editUrl' => "contact_groups/manage", 'deleteUrl' => 'contact_groups/delete', 'viewUrl' => "contacts?group=$row->id", 'editPermissionKey' => 'contact_group-edit', 'deletePermissionKey' => 'contact_group-delete'), true); ?>
                                         </td>  
                                     </tr>
                                 <?php endforeach; ?>
@@ -56,17 +58,17 @@
 <div class="modal fade" id="modal-manage">
     <div class="modal-dialog">
         <div class="modal-content">
-            <?php echo form_open('cities/manage', array("id" => "manage-form", "method" => "post")); ?>
+            <?php echo form_open('contact_groups/manage', array("id" => "manage-form", "method" => "post")); ?>
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Add New City</h4>
+                <h4 class="modal-title">Add New Contact Group</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <label class="control-label" for="name">City Name <em>*</em></label>
+                            <label class="control-label" for="name">Contact Group Name <em>*</em></label>
                             <?php echo form_input("name", '', "id='name' class='form-control'"); ?>
                         </div>  
                         <?php echo form_hidden('id'); ?> 
@@ -94,7 +96,7 @@
      3 default paging
      4 show sr. number or not
      */
-    var datatbl = datatable_init([0, 4], [[2, 'asc']], DEFAULT_PAGING, 1);
+    var datatbl = datatable_init([0, 5], [[2, 'asc']], DEFAULT_PAGING, 1);
 
     $('#manage-form').submit(function (e) {
         var _this = $(this);
@@ -118,7 +120,7 @@
                     });
                 } else if (res.success && res.msg && res.data) {
                     if (res.mode == 'add') {
-                        datatbl.row.add([0, res.data.name, res.data.created, res.data.statusButtons, res.data.actionButtons]).draw();
+                        datatbl.row.add([0, res.data.name, 0, res.data.created, res.data.statusButtons, res.data.actionButtons]).draw();
                         $('.changestatus[data-id="' + res.data.id + '"]').closest('tr').attr('id', 'row_' + res.data.id);
                     } else if (res.mode == 'edit') {
                         $('#row_' + res.data.id).find('td:nth-child(2)').text(res.data.name);
@@ -141,7 +143,7 @@
         $('.form-group').removeClass('has-error');
         $('#manage-form')[0].reset();
         $('#manage-form').find('[name="id"]').val('');
-        $('.modal-title').text('Add New City');
+        $('.modal-title').text('Add New Contact Group');
     });
 
     $(document).on('click', 'a.edit-row', function (e) {
@@ -150,7 +152,7 @@
         var name = $.trim($(this).closest('tr').find('td:nth-child(2)').text());
         $('#manage-form').find('[name="name"]').val(name);
         $('#manage-form').find('[name="id"]').val(id);
-        $('.modal-title').text('Edit City');
+        $('.modal-title').text('Edit Contact Group');
         $('#modal-manage').modal('show');
     });
 

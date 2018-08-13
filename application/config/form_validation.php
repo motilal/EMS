@@ -409,6 +409,25 @@ $config = array(
             'label' => 'Contact Number',
             'rules' => "trim|required|max_length[10]|numeric|callback__is_unique_contact_number"
         )
+    ),
+    'contact_groups/manage' => array(
+        array(
+            'field' => 'name',
+            'label' => 'Name',
+            'rules' => "trim|required|max_length[100]|callback__is_unique_contact_group_name"
+        )
+    ),
+    'bulk_sms/send_sms_to_group' => array(
+        array(
+            'field' => 'contact_group',
+            'label' => 'Contact Group',
+            'rules' => "trim|required"
+        ),
+        array(
+            'field' => 'message',
+            'label' => 'Message',
+            'rules' => "trim|required|max_length[260]"
+        )
     )
 );
 $config['error_prefix'] = '<div class="help-block">';

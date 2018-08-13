@@ -15,6 +15,10 @@ $serviceIndex = ($segment_cntr == 'services' && ($segment_fun == 'index' || $seg
 $cityIndex = ($segment_cntr == 'cities' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
 $subcityIndex = ($segment_cntr == 'sub_cities' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
 
+$contactIndex = ($segment_cntr == 'contacts' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
+$contactGroupsIndex = ($segment_cntr == 'contact_groups' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
+$BulkSmsIndex = ($segment_cntr == 'bulk_sms' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
+
 $portalIndex = ($segment_cntr == 'portals' || $segment_cntr == 'leads') ? 'active' : '';
 $reasonIndex = ($segment_cntr == 'reasons' && ($segment_fun == 'index' || $segment_fun == '')) ? 'active' : '';
 
@@ -138,7 +142,8 @@ $user_permissions = $this->session->userdata('_subadmin_module_permissions');
                         <?php } ?>
                     </ul>
                 </li>
-            <?php } ?>  
+            <?php } ?> 
+
 
             <?php if (is_allow_module('lead') || is_allow_module('portal') || is_allow_module('reason')) { ?>  
                 <li class="treeview <?php echo in_array($segment_cntr, array('leads', 'portals', 'reasons')) ? 'active menu-open' : ''; ?>">
@@ -177,6 +182,28 @@ $user_permissions = $this->session->userdata('_subadmin_module_permissions');
                 </li>
             <?php } ?>
 
+            <?php if (is_allow_module('contact') || is_allow_module('contact group') || is_allow_module('bulk sms')) { ?>  
+                <li class="treeview <?php echo in_array($segment_cntr, array('contacts', 'contact_groups', 'bulk_sms')) ? 'active menu-open' : ''; ?>">
+                    <a href="#">
+                        <i class="fa fa-fax"></i>
+                        <span>Bulk SMS Manager</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu" style="display:<?php echo in_array($segment_cntr, array('contacts', 'contact_groups', 'bulk_sms')) ? 'block' : 'none'; ?>;">
+                        <?php if (is_allow_action('bulk_sms-index')) { ?>
+                            <li class="<?php echo $BulkSmsIndex; ?>"><a href="<?php echo site_url('bulk_sms'); ?>"><i class="fa fa-envelope-o"></i> Bulk SMS History</a></li> 
+                        <?php } ?>
+                        <?php if (is_allow_action('contact_group-index')) { ?>
+                            <li class="<?php echo $contactGroupsIndex; ?>"><a href="<?php echo site_url('contact_groups'); ?>"><i class="fa fa-users"></i> Manage Group</a></li> 
+                        <?php } ?>
+                        <?php if (is_allow_action('contact-index')) { ?>
+                            <li class="<?php echo $contactIndex; ?>"><a href="<?php echo site_url('contacts'); ?>"><i class="fa fa-phone"></i> Manage Contact</a></li>
+                        <?php } ?>   
+                    </ul>
+                </li>
+            <?php } ?>
             <?php /* if (is_allow_module('sms')) { ?>    
               <li class="<?php echo $segment_cntr == 'sms' ? 'active' : ''; ?>">
               <a href="<?php echo site_url('sms'); ?>">

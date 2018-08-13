@@ -16,14 +16,30 @@ class Contacts extends CI_Controller {
         $this->site_santry->allow(array());
         $this->load->model(array('contact_model' => 'contact'));
         $this->layout->set_layout("layout/layout_admin");
-        $this->viewData['pageModule'] = 'Contact Manager';
+        $this->viewData['pageModule'] = 'Bulk SMS Manager';
     }
 
     public function index() {
         $this->acl->has_permission('contact-index');
-        $condition = array();
+        $condition = [];
+        $order = [];
+        if ($this->input->get('group') != "" && $this->input->get('group') > 0) {
+            $this->load->model(['contact_group_model' => 'contact_group']);
+            $contact_group_detail = $this->contact_group->getById($this->input->get('group'));
+            if (empty($contact_group_detail)) {
+                redirect('contacts');
+            }
+            $group_contacts = $this->contact_group->group_contacts_ids($this->input->get('group'));
+            if (!empty($group_contacts)) {
+                $order = array('FIELD(id,' . implode(',', $group_contacts) . ') DESC,id', NULL);
+            }
+            $this->viewData['group_id'] = $this->input->get('group');
+            $this->viewData['group_detail'] = $contact_group_detail;
+            $this->viewData['group_contacts'] = $group_contacts;
+        }
+
         $start = (int) $this->input->get('start');
-        $result = $this->contact->get_list($condition);
+        $result = $this->contact->get_list($condition, $order);
         if ($this->input->get('download') == 'report') {
             $csv_array[] = array('name' => 'Name', 'contact' => 'Contact Number', 'status' => 'Status', 'created' => 'Created');
             foreach ($result->result() as $row) {
@@ -37,9 +53,43 @@ class Contacts extends CI_Controller {
         $this->viewData['result'] = $result;
         $this->viewData['title'] = "Contact Listing";
         $this->viewData['datatable_asset'] = true;
-        $this->viewData['pageHeading'] = 'Contact Listing';
-        $this->viewData['breadcrumb'] = array('Contact Manager' => 'contacts', $this->viewData['title'] => '');
+        if (!empty($contact_group_detail)) {
+            $this->viewData['pageHeading'] = 'Add contacts in <strong>' . $contact_group_detail->name . '</strong>';
+        } else {
+            $this->viewData['pageHeading'] = 'Contact Listing';
+        }
+        $this->viewData['breadcrumb'] = array('Bulk SMS Manager' => 'contacts', $this->viewData['title'] => '');
         $this->layout->view("contact/index", $this->viewData);
+    }
+
+    public function update_group_contacts($group_id) {
+        if (!empty($group_id)) {
+            $contact_ids = array_filter(explode(',', $this->input->post('contact_ids')));
+            if (!empty($contact_ids)) {
+                $this->db->where('contact_groups_id', $group_id)->where_not_in('contacts_id', $contact_ids)->delete('contacts_group');
+                $exist_cont_groups = $this->db->select('contacts_id')->where('contact_groups_id', $group_id)->where_in('contacts_id', $contact_ids)->get('contacts_group')->result_array();
+                $exist_cont = array();
+                if (!empty($exist_cont_groups)) {
+                    foreach ($exist_cont_groups as $value) {
+                        $exist_cont[] = $value['contacts_id'];
+                    }
+                    $contact_ids = array_diff($contact_ids, $exist_cont);
+                }
+                foreach ($contact_ids as $value) {
+                    $cs_data[] = array(
+                        'contact_groups_id' => $group_id,
+                        'contacts_id' => $value
+                    );
+                }
+                if (!empty($cs_data)) {
+                    $this->db->insert_batch('contacts_group', $cs_data);
+                }
+            } else {
+                $this->db->where('contact_groups_id', $group_id)->delete('contacts_group');
+            }
+            $this->session->set_flashdata("success", __('GroupContactUpdateSuccess'));
+            redirect('contacts?group=' . $group_id);
+        }
     }
 
     public function manage() {

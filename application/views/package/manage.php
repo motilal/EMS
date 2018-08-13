@@ -36,7 +36,7 @@
                             </div>
                             <?php echo form_error('duration'); ?>
                         </div> 
-                        
+
                         <div class="col-lg-7">
                             <div class="form-group <?php echo form_error('no_of_leads') != "" ? 'has-error' : ''; ?>">
                                 <label class="control-label" for="no_of_leads">Number of Leads <em>*</em></label>
@@ -44,7 +44,7 @@
                                 <?php echo form_error('no_of_leads'); ?>
                             </div>
                         </div> 
-                        
+
                         <div class="col-lg-7"> 
                             <h5><strong class="<?php echo form_error('amount') != "" ? 'text-red' : ''; ?>">Package Amount  <em>*</em></strong></h5>
                             <div class="form-group input-group <?php echo form_error('amount') != "" ? 'has-error' : ''; ?>"> 

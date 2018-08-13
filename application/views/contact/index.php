@@ -5,7 +5,7 @@
                 <i class="fa fa-phone-square"></i> 
                 <h3 class="box-title"><?php echo isset($pageHeading) ? $pageHeading : '&nbsp;'; ?></h3>
                 <div class="box-tools pull-right">
-                    <div class="btn-group" data-toggle="btn-toggle">
+                    <div class="btn-group" data-toggle="btn-toggle"> 
                         <?php if (is_allow_action('contact-add')) { ?>
                             <a href="#" data-toggle="modal" data-target="#modal-manage" class="btn btn-primary btn-sm add_new_item"><i class="fa fa-plus"></i> Add New Contact </a>
                         <?php } ?> 
@@ -15,7 +15,11 @@
             </div>     
             <!-- /.box-header -->
             <div class="box-body"> 
-                <?php echo form_open('leads/actions', array("id" => "table-form", "method" => "post")); ?>
+                <?php
+                if (!empty($group_id)) {
+                    echo form_open('contacts/update_group_contacts/' . $group_id, array("id" => "table-form", "method" => "post"));
+                }
+                ?> 
                 <div class="table-responsive">
                     <table id="dataTables-grid" class="table table-bordered table-striped" width="100%">
                         <thead>
@@ -32,7 +36,7 @@
                             <?php if ($result->num_rows() > 0) { ?>
                                 <?php foreach ($result->result() as $key => $row): ?> 
                                     <tr id="row_<?php echo $row->id; ?>">
-                                        <td><?php echo form_checkbox("ids[]", $row->id, '', "id=\"ids_{$row->id}\""); ?></td> 
+                                        <td><?php echo form_checkbox("ids[]", $row->id, !empty($group_contacts) && in_array($row->id, $group_contacts) ? true : false, "id=\"ids_{$row->id}\""); ?></td> 
                                         <td><?php echo $row->name; ?></td> 
                                         <td><?php echo $row->contact; ?></td> 
                                         <td><?php echo date(DATETIME_FORMATE, strtotime($row->created)); ?></td>
@@ -48,8 +52,18 @@
                         </tbody> 
                     </table>
                 </div>
-                <?php echo form_close(); ?>
+                <?php if (!empty($group_id)) { ?>
+                    <input type="hidden" name='contact_ids'>
+                    <div class="col-sm-4 multi-action padding0">  
+                        <select name="actions" id="list-action" class="form-control list-action"> 
+                            <option value="update_group_contacts">Update Contact List</option> 
+                        </select> 
+                        <input type="submit" value="GO" class="btn btn-primary"/> 
+                    </div>
+                    <?php echo form_close(); ?>
+                <?php } ?>
             </div>
+
             <!-- /.box-body --> 
         </div>
         <!-- /.box -->
@@ -102,7 +116,30 @@
      3 default paging
      4 show sr. number or not
      */
-    var datatbl = datatable_init([0, 5, 2], [[1, 'asc']], DEFAULT_PAGING, 0);
+    var datatbl = datatable_init([0, 5, 2], [], DEFAULT_PAGING, 0);
+    var group_has = <?php echo (isset($group_id) && $group_id) > 0 ? '1' : '0'; ?>;
+    if (group_has == 1) {
+        var arr = [];
+        var selectedvalue = <?php echo isset($group_contacts) ? json_encode($group_contacts) : "''"; ?>;
+        $.each(selectedvalue, function (index, value) {
+            arr.push(value);
+        });
+
+        $(document).on('change', '[name="ids[]"]', function () {
+            if (this.checked) {
+                if ($.inArray(this.value, arr) == -1) {
+                    arr.push(this.value);
+                }
+            } else {
+                arr.splice(arr.indexOf(this.value), 1);
+            }
+            $("[name='contact_ids']").val(arr + '');
+        });
+        $(document).on('change', '.check-all', function () {
+            $("[name='contact_ids']").trigger('change');
+        });
+    }
+
 
     $('#manage-form').submit(function (e) {
         var _this = $(this);

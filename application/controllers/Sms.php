@@ -47,20 +47,6 @@ class Sms extends CI_Controller {
         $this->layout->view("sms/index", $this->viewData);
     }
 
-    public function test($lead_id) {
-        $this->load->model(array('lead_model' => 'lead', 'company_model' => 'company'));
-        $leadDetail = $this->lead->getById($lead_id, true);
-        if (isset($leadDetail->status) && $leadDetail->status == 0 && $leadDetail->services_id > 0 && $leadDetail->cities_id) {
-//            $todayLeadDuplicate = $this->company->duplicate_lead_check($leadDetail->phone_number, $leadDetail->services_id);
-//            if ($todayLeadDuplicate > 1) {
-//                $this->db->where('id', $leadDetail->id)->set('status', 3)->update('leads');
-//                return FALSE;
-//            }
-            $companies = $this->company->get_companies_by_city_service($leadDetail->services_id, $leadDetail->cities_id, '');
-            pr($companies->result()); die;
-        }
-    }
-
     private function get_list($limit = array(), $order = array()) {
         $apiKey = urlencode('pFn1aqBql5k-yXzvvQ5UwEs6ImeGwYQsQK7fN7wqTe');
         $data = array('apikey' => $apiKey, 'start' => $limit['start'], 'limit' => $limit['limit'], 'sort_order' => isset($order[1]) ? $order[1] : 'DESC');

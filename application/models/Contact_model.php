@@ -16,7 +16,7 @@ class Contact_model extends CI_Model {
         $this->db->select("*");
         if (!empty($condition)) {
             $this->db->where($condition);
-        }
+        } 
         if (!empty($order)) {
             $this->db->order_by($order[0], $order[1]);
         }

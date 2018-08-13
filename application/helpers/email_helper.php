@@ -37,7 +37,7 @@ if (!function_exists("sendmail")) {
             }
             $CI->email->to($to);
             $CI->email->subject($subject);
-            $CI->email->message($message); 
+            $CI->email->message($message);
             $CI->email->send();
             if ($debug == true) {
                 echo $CI->email->print_debugger();
@@ -46,8 +46,7 @@ if (!function_exists("sendmail")) {
         }
     }
 
-    function sendsms($phone = array(), $message = '') { 
-        return;
+    function sendsms($phone = array(), $message = '') {
         //echo $message; die;
         $apiKey = urlencode(TEXT_LOCAL_APIKEY);
         // Message details 
@@ -64,13 +63,34 @@ if (!function_exists("sendmail")) {
         $response = curl_exec($ch);
         curl_close($ch);
         // Process your response here
-        $response = json_decode($response); 
+        $response = json_decode($response);
         if (isset($response->status) && $response->status == 'failure' && isset($response->errors)) {
             log_message('error', json_encode($response->errors));
             return false;
         } else {
             return true;
         }
+    }
+
+    function sendbulksms($phone = array(), $message = '') {
+        //echo $message; die;
+        $apiKey = urlencode(TEXT_LOCAL_APIKEY);
+        // Message details 
+        $numbers = array_unique($phone);
+        $sender = urlencode(TEXT_LOCAL_SENDER);
+        $message = rawurlencode($message);
+        $numbers = implode(',', $numbers);
+        $data = array('apikey' => $apiKey, 'numbers' => $numbers, "message" => $message, 'sender' => $sender, 'test' => false);
+        // Send the POST request with cURL
+        $ch = curl_init('https://api.textlocal.in/send/');
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        // Process your response here
+        $response = json_decode($response);
+        return $response;
     }
 
 }
