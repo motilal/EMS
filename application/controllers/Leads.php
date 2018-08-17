@@ -41,7 +41,7 @@ class Leads extends CI_Controller {
             $params = dataTableGetRequest($this->input->get(), $orderColomn);
             if (!empty($params->search)) {
                 $keyword = $this->db->escape_str($params->search);
-                $condition["(prtl.name like '{$keyword}' OR led.record_id like '{$keyword}' OR led.email like '%{$keyword}%' OR led.phone_number like '%{$keyword}%' OR led.name like '%{$keyword}%' OR led.location like '%{$keyword}%' OR led.message like '%{$keyword}%')"] = null;
+                $condition["(prtl.name like '{$keyword}' OR led.record_id like '{$keyword}' OR led.email like '%{$keyword}%' OR led.phone_number like '%{$keyword}%' OR led.name like '%{$keyword}%' OR led.source_location like '%{$keyword}%' OR led.message like '%{$keyword}%')"] = null;
             }
             $result = $this->lead->get_list($condition, $params->limit, $params->order, TRUE);
             if ($result->data->num_rows() > 0) {
@@ -127,13 +127,24 @@ class Leads extends CI_Controller {
                 "services_id" => $this->input->post('services_id') != "" ? $this->input->post('services_id') : NULL,
                 "name" => $this->input->post('name'),
                 "email" => $this->input->post('email'),
-                "location" => $this->input->post('location'),
-                "cities_id" => $this->input->post('city') != "" ? $this->input->post('city') : NULL,
-                "service_to" => $this->input->post('service_to') != "" ? $this->input->post('service_to') : NULL,
+                "source_location" => $this->input->post('source_location'),
+                "destination_location" => $this->input->post('destination_location') != "" ? $this->input->post('destination_location') : NULL,
                 "phone_number" => $this->input->post("phone_number"),
                 "date" => $this->input->post("date") != "" ? date('Y-m-d', strtotime($this->input->post("date"))) : NULL,
                 'message' => $this->input->post("message")
             );
+            $this->load->library('send_lead');
+            $cities_id = $this->send_lead->getCityByAddress($this->input->post('source_location'));
+            $sub_cities_id = $this->send_lead->getZipByAddress($this->input->post('source_location'));
+            if ($this->input->post('destination_location') != "") {
+                $destination_cities_id = $this->send_lead->getCityByAddress($this->input->post('destination_location'));
+                $destination_sub_cities_id = $this->send_lead->getZipByAddress($this->input->post('destination_location'));
+            }
+            $data['cities_id'] = $cities_id;
+            $data['sub_cities_id'] = !empty($sub_cities_id) ? $sub_cities_id : NULL;
+            $data['destination_cities_id'] = !empty($destination_cities_id) ? $destination_cities_id : NULL;
+            $data['destination_sub_cities_id'] = !empty($destination_sub_cities_id) ? $destination_sub_cities_id : NULL;
+
             if ($this->input->post('id') > 0) {
                 $data['updated'] = date("Y-m-d H:i:s");
                 $this->db->update("leads", $data, array("id" => $this->input->post('id')));
@@ -153,7 +164,8 @@ class Leads extends CI_Controller {
         $this->viewData['portals_options'] = $this->lead->portals_options();
         $this->viewData['services_options'] = $this->service->services_options('', TRUE);
         $this->load->model(array('city_model' => 'city'));
-        $this->viewData['city_options'] = $this->city->cities_options(true);
+        $this->viewData['city_options'] = $this->city->cities_options(true
+        );
         $this->layout->view("lead/manage", $this->viewData);
     }
 
@@ -164,7 +176,8 @@ class Leads extends CI_Controller {
         }
         $this->viewData['title'] = "Lead Detail";
         $this->viewData['pageModule'] = 'Lead Detail';
-        $this->viewData['breadcrumb'] = array('Leads Manager' => 'leads', 'View Detail' => '');
+        $this->viewData['breadcrumb'] = array('Leads Manager' => 'leads', 'View Detail' =>
+            '');
         $this->layout->view("lead/view", $this->viewData);
     }
 
@@ -183,7 +196,8 @@ class Leads extends CI_Controller {
                 $response['error'] = $has_permission;
             }
         }
-        $this->output->set_content_type('application/json')->set_output(json_encode($response));
+        $this->output->
+                set_content_type('application/json')->set_output(json_encode($response));
     }
 
     public function changestatus() {
@@ -195,7 +209,7 @@ class Leads extends CI_Controller {
                 $status = $this->input->post('status');
                 if ($status == "1") {
                     $this->db->where("id", $id)->update("leads", array("is_active" => 0));
-                    $response['success'] = __('LeadInactiveSuccess');
+                    $response ['success'] = __('LeadInactiveSuccess');
                 } else if ($status == "0") {
                     $this->db->where("id", $id)->update("leads", array("is_active" => 1));
                     $response['success'] = __('LeadActiveSuccess');
@@ -204,7 +218,8 @@ class Leads extends CI_Controller {
                 $response['error'] = $has_permission;
             }
         }
-        $this->output->set_content_type('application/json')->set_output(json_encode($response));
+        $this->output->
+                set_content_type('application/json')->set_output(json_encode($response));
     }
 
     public function leads_sent_history($portal_id = NULL) {
@@ -224,8 +239,7 @@ class Leads extends CI_Controller {
             if (!empty($params->search)) {
                 $keyword = $this->db->escape_str($params->search);
                 $condition["(companies.name like '{$keyword}' OR leads.record_id like '{$keyword}' OR leads.email like '%{$keyword}%' OR leads.phone_number like '%{$keyword}%' OR leads.name like '%{$keyword}%' OR leads.location like '%{$keyword}%' OR leads.message like '%{$keyword}%')"] = null;
-            }
-            $result = $this->lead->get_leads_sent_history($condition, $params->limit, $params->order, TRUE);
+            } $result = $this->lead->get_leads_sent_history($condition, $params->limit, $params->order, TRUE);
             if ($result->data->num_rows() > 0) {
                 $response['data'] = $this->showLeadSentTableData($result->data->result());
             } else {
@@ -252,6 +266,7 @@ class Leads extends CI_Controller {
         $this->load->model('reason_model', 'reason');
         $this->viewData['reason_options'] = $this->reason->reasons_options(true);
         $this->viewData['daterangepicker_asset'] = true;
+
         $this->layout->view("lead/leads_sent_history", $this->viewData);
     }
 
@@ -272,8 +287,7 @@ class Leads extends CI_Controller {
             if (!empty($params->search)) {
                 $keyword = $this->db->escape_str($params->search);
                 $condition["(companies.name like '{$keyword}' OR leads.record_id like '{$keyword}' OR leads.email like '%{$keyword}%' OR leads.phone_number like '%{$keyword}%' OR leads.name like '%{$keyword}%' OR leads.location like '%{$keyword}%' OR lrh.reason like '%{$keyword}%' OR leads.message like '%{$keyword}%')"] = null;
-            }
-            $result = $this->lead->get_leads_return_history($condition, $params->limit, $params->order, TRUE);
+            } $result = $this->lead->get_leads_return_history($condition, $params->limit, $params->order, TRUE);
             if ($result->data->num_rows() > 0) {
                 $response['data'] = $this->showLeadReturnTableData($result->data->result());
             } else {
@@ -297,6 +311,7 @@ class Leads extends CI_Controller {
         $this->viewData['pageHeading'] = 'Leads Sent History';
         $this->viewData['breadcrumb'] = array('Leads Manager' => 'portals', 'Lead Return History' => '');
         $this->viewData['datatable_asset'] = true;
+
         $this->layout->view("lead/leads_return_history", $this->viewData);
     }
 
@@ -317,8 +332,7 @@ class Leads extends CI_Controller {
                             'reason' => $this->input->post('reason'),
                             'reasons_id' => $this->input->post('reason_id'),
                             'approve_status' => 0,
-                            'created' => date("Y-m-d H:i:s")
-                        );
+                            'created' => date("Y-m-d H:i:s"));
                         $this->db->insert("leads_return_history", $data);
                         if ($this->db->update("leads_sent_history", array('status' => 2), array("id" => $lead_sent_history_row->id))) {
                             $response['success'] = true;
@@ -335,7 +349,8 @@ class Leads extends CI_Controller {
             $response['error'] = $has_permission;
         }
         $this->output->set_content_type('application/json')
-                ->set_output(json_encode($response))->_display();
+                ->
+                set_output(json_encode($response))->_display();
         exit();
     }
 
@@ -378,7 +393,8 @@ class Leads extends CI_Controller {
             $response['error'] = $has_permission;
         }
         $this->output->set_content_type('application/json')
-                ->set_output(json_encode($response))->_display();
+                ->
+                set_output(json_encode($response))->_display();
         exit();
     }
 
@@ -427,7 +443,7 @@ class Leads extends CI_Controller {
             $resend_lead_has_permission = $this->acl->has_permission('resend-lead', FALSE);
             foreach ($data as $key => $row) {
                 $rowData = array();
-                $rowData[0] = getPageSerial($this->input->get('length'), $this->input->get('start'), $key);
+                $rowData [0] = getPageSerial($this->input->get('length'), $this->input->get('start'), $key);
                 $rowData[1] = $row->company_name;
                 $rowData[2] = $row->lead_name;
                 $rowData[3] = $row->phone_number;
@@ -442,9 +458,9 @@ class Leads extends CI_Controller {
                     }
                     $resend_lead_btn = '';
                     $diff = abs(strtotime(date('Y-m-d')) - strtotime(date('Y-m-d', strtotime($row->created))));
-                    $years = floor($diff / (365 * 60 * 60 * 24));
-                    $months = floor(($diff - $years * 365 * 60 * 60 * 24) / (30 * 60 * 60 * 24));
-                    $daysDiff = floor(($diff - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24) / (60 * 60 * 24));
+                    $years = floor($diff / ( 365 * 60 * 60 * 24));
+                    $months = floor(($diff - $years * 365 * 60 * 60 * 24) / ( 30 * 60 * 60 * 24 ));
+                    $daysDiff = floor(($diff - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24 ) / (60 * 60 * 24));
                     if ($resend_lead_has_permission === true && $daysDiff <= 7) {
                         $resend_lead_btn = '<a class="label label-success resend-lead" href="' . site_url("leads/resend_lead/{$row->leads_sent_history_id}") . '">Resend</a>&nbsp';
                     }
@@ -469,7 +485,7 @@ class Leads extends CI_Controller {
                 $rowData[1] = $row->company_name;
                 $rowData[2] = $row->lead_name;
                 $rowData[3] = $row->phone_number;
-                $rowData[4] = $row->reason;
+                $rowData [4] = $row->reason;
                 $rowData[5] = $row->approve_date != "" ? date(DATETIME_FORMATE, strtotime($row->approve_date)) : '-';
                 $approve_by = $this->common->getUserName($row->approve_by);
                 $rowData[6] = $approve_by != "" ? $approve_by : '-';
@@ -498,19 +514,21 @@ class Leads extends CI_Controller {
             $dateTo = date('Y-m-d');
         }
         $condition["DATE(led.created) BETWEEN '$dateFrom' AND '$dateTo'"] = NULL;
-        $csv_array[] = ['portal_name' => 'Portal Name', 'source' => 'Source', 'record_id' => 'Reference Id', 'location' => 'Location From', 'service_to' => 'Service To', 'service_name' => 'Service', 'name' => 'Name', 'email' => 'Email', 'city_name' => 'City', 'phone_number' => 'Phone Number', 'date' => 'Service Date', 'message' => 'Message', 'sent_status' => 'Sent Status', 'sent_percent' => 'Sent Percentage', 'created' => 'Received', 'updated' => 'Modified'];
+        $csv_array[] = [ 'portal_name' => 'Portal Name', 'source' => 'Source', 'record_id' => 'Reference Id', 'location' => 'Location From', 'destination_location' => 'Service To', 'service_name' => 'Service', 'name' => 'Name', 'email' => 'Email', 'city_name' => 'City', 'phone_number' => 'Phone Number', 'date' => 'Service Date', 'message' => 'Message', 'sent_status' => 'Sent Status', 'sent_percent' => 'Sent Percentage', 'created' => 'Received', 'updated' => 'Modified'];
         $result = $this->lead->get_list($condition);
         if ($result->num_rows() > 0) {
             foreach ($result->result() as $row) {
                 $this->load->helper('csv');
-                $csv_array[] = ['portal_name' => $row->portal_name, 'source' => $row->source, 'record_id' => $row->record_id, 'location' => $row->location, 'service_to' => $row->service_to, 'service_name' => $row->service_name, 'name' => $row->name, 'email' => $row->email, 'city_name' => $row->city_name, 'phone_number' => $row->phone_number, 'date' => $row->date != "" ? $row->date : '', 'message' => $row->message, 'sent_status' => $row->status == 0 ? 'Pending' : 'Sent', 'sent_percent' => $this->lead->get_lead_percent($row->id), 'created' => date(DATETIME_FORMATE, strtotime($row->created)), 'updated' => $row->updated != "" ? date(DATETIME_FORMATE, strtotime($row->updated)) : ''];
+                $csv_array[] = ['portal_name' => $row->portal_name, 'source' => $row->source, 'record_id' => $row->record_id, 'location' => $row->location, 'destination_location' => $row->destination_location, 'service_name' => $row->service_name, 'name' => $row->name, 'email' => $row->email, 'city_name' => $row->city_name, 'phone_number' => $row->phone_number, 'date' => $row->date != "" ? $row->date : '', 'message' => $row->message, 'sent_status' => $row->status == 0 ? 'Pending' : 'Sent', 'sent_percent' => $this->lead->get_lead_percent($row->id), 'created' => date(DATETIME_FORMATE, strtotime($row->created)), 'updated' => $row->updated != "" ? date(DATETIME_FORMATE, strtotime($row->updated)) : ''];
             }
         } else {
             $this->session->set_flashdata("error", __('No records found'));
             redirect('follow_up');
         }
         $Today = date('dmY');
-        array_to_csv($csv_array, "lead_{$type}_report_{$dateFrom}_to_{$dateTo}.csv");
+        array_to_csv($csv_array, "
+
+lead_{$type}_report_{$dateFrom}_to_{$dateTo}.csv");
         exit();
     }
 
@@ -535,7 +553,9 @@ class Leads extends CI_Controller {
             redirect('follow_up');
         }
         $Today = date('dmY');
-        array_to_csv($csv_array, "lead_sent_report_{$dateFrom}_to_{$dateTo}.csv");
+        array_to_csv($csv_array, "
+
+lead_sent_report_{$dateFrom}_to_{$dateTo}.csv");
         exit();
     }
 

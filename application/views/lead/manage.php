@@ -45,10 +45,10 @@
 
                     <div class="col-lg-12 padding0">
                         <div class="col-lg-6">
-                            <div class="form-group <?php echo form_error('location') != "" ? 'has-error' : ''; ?>">
-                                <label class="control-label" for="location">Location From</label>
-                                <?php echo form_input("location", set_value("location", isset($data->location) ? $data->location : "", false), "id='location' class='form-control'"); ?>
-                                <?php echo form_error('location'); ?>
+                            <div class="form-group <?php echo form_error('source_location') != "" ? 'has-error' : ''; ?>">
+                                <label class="control-label" for="source_location">Location From</label>
+                                <?php echo form_input("source_location", set_value("source_location", isset($data->source_location) ? $data->source_location : "", false), "id='source_location' class='form-control'"); ?>
+                                <?php echo form_error('source_location'); ?>
                             </div>
                         </div>  
                         <?php
@@ -59,10 +59,10 @@
                         }
                         ?>
                         <div class="col-lg-6 <?php echo $hide; ?>" id="location_to_main">
-                            <div class="form-group <?php echo form_error('service_to') != "" ? 'has-error' : ''; ?>">
+                            <div class="form-group <?php echo form_error('destination_location') != "" ? 'has-error' : ''; ?>">
                                 <label class="control-label" for="location_to">Location To</label>
-                                <?php echo form_input("service_to", set_value("service_to", isset($data->service_to) ? $data->service_to : "", false), "id='location_to' class='form-control'"); ?>
-                                <?php echo form_error('service_to'); ?>
+                                <?php echo form_input("destination_location", set_value("destination_location", isset($data->destination_location) ? $data->destination_location : "", false), "id='destination_location' class='form-control'"); ?>
+                                <?php echo form_error('destination_location'); ?>
                             </div>
                         </div>
 
@@ -70,6 +70,14 @@
 
                     <div class="clearfix"></div>
                     <div class="col-lg-12 padding0">
+                        <div class="col-lg-6">
+                            <div class="form-group <?php echo form_error('services_id') != "" ? 'has-error' : ''; ?>">
+                                <label class="control-label" for="services_id">Service</label> 
+                                <?php echo form_dropdown('services_id', $services_options, set_value("services_id", isset($data->services_id) ? $data->services_id : "", false), 'class="form-control select2dropdown" id="services_id" style="width:100%;"'); ?> 
+                                <?php echo form_error('services_id'); ?>
+                            </div>
+                        </div> 
+
                         <div class="col-lg-6">
                             <?php isset($data->date) ? $data->date = date(DATE_FORMATE, strtotime($data->date)) : ""; ?>    
                             <h5 style="margin:5px 0 5px 0;"><strong class="<?php echo form_error('date') != "" ? 'text-red' : ''; ?>">Date</strong></h5>
@@ -83,23 +91,15 @@
                         </div> 
 
 
-                        <div class="col-lg-6">
-                            <div class="form-group <?php echo form_error('city') != "" ? 'has-error' : ''; ?>">
-                                <label class="control-label" for="city">City</label> 
-                                <?php echo form_dropdown('city', $city_options, set_value("city", isset($data->cities_id) ? $data->cities_id : "", false), 'class="form-control select2dropdown" id="city" style="width:100%;"'); ?> 
-                                <?php echo form_error('city'); ?>
-                            </div>
-                        </div> 
+                        <!--                        <div class="col-lg-6">
+                                                    <div class="form-group <?php echo form_error('city') != "" ? 'has-error' : ''; ?>">
+                                                        <label class="control-label" for="city">City</label> 
+                        <?php echo form_dropdown('city', $city_options, set_value("city", isset($data->cities_id) ? $data->cities_id : "", false), 'class="form-control select2dropdown" id="city" style="width:100%;"'); ?> 
+                        <?php echo form_error('city'); ?>
+                                                    </div>
+                                                </div> -->
                     </div>  
 
-                    <div class="clearfix"></div>
-                    <div class="col-lg-6">
-                        <div class="form-group <?php echo form_error('services_id') != "" ? 'has-error' : ''; ?>">
-                            <label class="control-label" for="services_id">Service</label> 
-                            <?php echo form_dropdown('services_id', $services_options, set_value("services_id", isset($data->services_id) ? $data->services_id : "", false), 'class="form-control select2dropdown" id="services_id" style="width:100%;"'); ?> 
-                            <?php echo form_error('services_id'); ?>
-                        </div>
-                    </div> 
 
                     <div class="clearfix"></div>
                     <div class="col-lg-6"> 
@@ -153,9 +153,9 @@
     };
 
     function initAutocomplete() {
-        autocomplete = new google.maps.places.Autocomplete((document.getElementById('location')), {types: ['geocode']});
+        autocomplete = new google.maps.places.Autocomplete((document.getElementById('source_location')), {types: ['geocode']});
         autocomplete.addListener('place_changed', fillInAddress);
-        autocomplete2 = new google.maps.places.Autocomplete((document.getElementById('location_to')), {types: ['geocode']});
+        autocomplete2 = new google.maps.places.Autocomplete((document.getElementById('destination_location')), {types: ['geocode']});
         autocomplete2.addListener('place_changed', fillInAddress);
     }
 

@@ -174,7 +174,7 @@ class Company_model extends CI_Model {
                 ->get("companies_package as cp");
         return $result;
     }
- 
+
     public function get_company_active_package($companies_id) {
         if (is_numeric($companies_id) && $companies_id > 0) {
             $sql = $this->db->select('id')->where(array('companies_id' => $companies_id, 'total_leads > used_leads' => NULL, 'is_active' => '1'))->get('companies_package');
@@ -198,10 +198,12 @@ class Company_model extends CI_Model {
         }
     }
 
-    public function get_companies_by_city_service($service_id, $city_id, $sub_cities_id = NULL) {
-        $condition = array('c.is_delete' => '0', 'c.is_active' => '1', 'companies_city.cities_id' => $city_id, 'companies_service.services_id' => $service_id, 'cp.total_leads > cp.used_leads' => NULL, 'cp.is_active' => 1);
-        if ($sub_cities_id != "") {
-            $condition["(csc.sub_cities_id=$sub_cities_id OR csc.sub_cities_id IS NULL)"] = NULL;
+    public function get_companies_by_city_service($leadDetail) {
+        $cities_id = array($leadDetail->cities_id, $leadDetail->destination_cities_id);
+        $cities_id = array_unique($cities_id);
+        $condition = array('c.is_delete' => '0', 'c.is_active' => '1', 'companies_service.services_id' => $leadDetail->services_id, 'cp.total_leads > cp.used_leads' => NULL, 'cp.is_active' => 1);
+        if ($leadDetail->sub_cities_id != "") {
+            $condition["(csc.sub_cities_id=$leadDetail->sub_cities_id OR csc.sub_cities_id IS NULL)"] = NULL;
         } else {
             $condition["(csc.sub_cities_id IS NULL)"] = NULL;
         }
@@ -209,11 +211,13 @@ class Company_model extends CI_Model {
         if (!empty($condition) || $condition != "") {
             $this->db->where($condition);
         }
+        $this->db->where_in('companies_city.cities_id', $cities_id);
         $this->db->join('companies_city', 'companies_city.companies_id=c.id', 'INNER');
         $this->db->join('companies_service', 'companies_service.companies_id=c.id', 'INNER');
         $this->db->join('companies_package as cp', 'cp.companies_id=c.id', 'INNER');
-        $this->db->join('companies_sub_city csc', 'csc.companies_id=c.id AND csc.cities_id=' . $city_id, 'LEFT');
+        $this->db->join('companies_sub_city csc', 'csc.companies_id=c.id AND csc.cities_id=' . $leadDetail->cities_id, 'LEFT');
         $this->db->group_by('c.id');
+        $this->db->having('count(c.id)', count($cities_id));
         $data = $this->db->get("companies as c");
         return $data;
     }

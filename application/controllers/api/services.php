@@ -14,13 +14,19 @@ class Services extends Rest_server {
         $services_id = $this->getServiceId($this->post('service_name'));
         $cities_id = $this->getCityByAddress($this->post('location'));
         $sub_cities_id = $this->getZipByAddress($this->post('location'));
+        if (!empty($this->post('service_to'))) {
+            $destination_cities_id = $this->getCityByAddress($this->post('service_to'));
+            $destination_sub_cities_id = $this->getZipByAddress($this->post('service_to'));
+        }
         $data = array('name' => $this->post('name'),
             'email' => $this->post('email'),
-            'location' => $this->post('location'),
+            'source_location' => $this->post('location'),
             'cities_id' => $cities_id,
             'sub_cities_id' => !empty($sub_cities_id) ? $sub_cities_id : NULL,
+            'destination_location' => !empty($this->post('service_to')) ? $this->post('service_to') : NULL,
+            'destination_cities_id' => !empty($destination_cities_id) ? $destination_cities_id : NULL,
+            'destination_sub_cities_id' => !empty($destination_sub_cities_id) ? $destination_sub_cities_id : NULL,
             'services_id' => $services_id,
-            'service_to' => $sub_cities_id,
             'source' => !empty($this->post('source')) ? $this->post('source') : NULL,
             'phone_number' => $this->post('phone'),
             'date' => !empty($this->post('date')) ? date('Y-m-d', strtotime($this->post('date'))) : NULL,

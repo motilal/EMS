@@ -197,9 +197,9 @@ class Companies extends CI_Controller {
                 }
             }
             if ($id > 0) {
-                $saveData['slug'] = create_unique_slug($this->input->post('title'), 'companies', 'slug', 'id', $id);
+                $saveData['slug'] = create_unique_slug($this->input->post('name'), 'companies', 'slug', 'id', $id);
             } else {
-                $saveData['slug'] = create_unique_slug($this->input->post('title'), 'companies', 'slug');
+                $saveData['slug'] = create_unique_slug($this->input->post('name'), 'companies', 'slug');
             }
             if ($this->input->post('id') > 0) {
                 $saveData['updated'] = date("Y-m-d H:i:s");
@@ -459,11 +459,11 @@ class Companies extends CI_Controller {
         if ($this->input->is_ajax_request()) {
             $response = [];
             $response['result'] = [];
-            if ($this->input->post('lead_id') != "" && is_numeric($this->input->post('lead_id'))) {
+            $lead_id = $this->input->post('lead_id');
+            if ($lead_id != "" && is_numeric($lead_id)) {
                 $this->load->model('lead_model', 'lead');
-                $lead_id = $this->input->post('lead_id');
                 $leadDetail = $this->lead->getById($lead_id, true);
-                $result = $this->company->get_companies_by_city_service($leadDetail->services_id, $leadDetail->cities_id, $leadDetail->sub_cities_id);
+                $result = $this->company->get_companies_by_city_service($leadDetail);
                 $allCompanies = [];
                 if ($result->num_rows() > 0) {
                     $company_result = $result->result_array();
