@@ -232,9 +232,7 @@
                                         ?>  
                                     </div> 
                                 </div> 
-                            </div>
-
-
+                            </div> 
                             <div class="col-lg-12 padding0">
                                 <div class="col-lg-12">
                                     <div class="pull-right">  
@@ -275,50 +273,8 @@
                                 </div>
                             </div>  
                         </div> 
-                        <div class="col-lg-12 padding0 clonecities"> 
-                            <div class="col-lg-6">
-                                <div class="form-group <?php echo form_error('cities_id[0]') != "" ? 'has-error' : ''; ?>">
-                                    <label class="control-label" for="cities_id">Select City</label> 
-                                    <?php echo form_dropdown('cities_id[0]', $cities_options, set_value("cities_id[0]"), 'class="form-control select2dropdown cities_id" id="cities_id" style="width:100%;"'); ?> 
-                                    <?php echo form_error('cities_id[0]'); ?>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group sub_city_c <?php echo form_error('sub_cities[]') != "" ? 'has-error' : ''; ?>">
-                                    <label class="control-label" for="sub_cities">Sub Cities(s)</label> 
-                                    <?php echo form_dropdown('sub_cities[0][]', '', set_value("sub_cities[]"), 'class="form-control sub_cities" multiple="multiple" id="sub_cities" style="width:100%;"'); ?> 
-                                    <?php echo form_error('sub_cities[0][]'); ?> 
-                                </div>
-                                <button class="btn btn-success add-more-cities" type="button"><i class="fa fa-plus"></i> </button>
-                            </div>  
-                        </div>  
-                        <div class="more_cities">
-                            <?php if (!empty($company_cities)) { ?>
-                                <?php foreach ($company_cities as $key => $city_id): ?>
-                                    <div class="col-lg-12 padding0 clonecities"> 
-                                        <div class="col-lg-6">
-                                            <div class="form-group <?php echo form_error('cities_id[' . ($key + 1) . ']') != "" ? 'has-error' : ''; ?>">
-                                                <label class="control-label" for="cities_id_<?php echo $key; ?>">Select City</label> 
-                                                <?php echo form_dropdown('cities_id[' . ($key + 1) . ']', $cities_options, set_value('cities_id[' . ($key + 1) . ']', $city_id, false), 'class="form-control select2dropdown cities_id" id="cities_id_' . $key . '" style="width:100%;"'); ?> 
-                                                <?php echo form_error('cities_id[' . ($key + 1) . ']'); ?>
-                                            </div>
-                                        </div>
-                                        <?php
-                                        $sub_cities_options = $this->sub_city->sub_cities_options($city_id);
-                                        $subcities = $this->company->get_company_sub_cities_ids($data->id, $city_id);
-                                        ?> 
-                                        <div class="col-lg-6">
-                                            <div class="form-group sub_city_c <?php echo form_error('sub_cities[' . ($key + 1) . '][]') != "" ? 'has-error' : ''; ?>">
-                                                <label class="control-label" for="sub_cities_<?php echo $key; ?>">Sub Cities(s)</label> 
-                                                <?php echo form_dropdown('sub_cities[' . ($key + 1) . '][]', $sub_cities_options, set_value('sub_cities[' . ($key + 1) . '][]', isset($subcities) ? $subcities : '', false), 'class="form-control sub_cities" multiple="multiple" id="sub_cities_' . $key . '" style="width:100%;"'); ?> 
-                                                <?php echo form_error('sub_cities[' . ($key + 1) . '][]'); ?> 
-                                            </div>
-                                            <button class="btn btn-danger remove-cities" type="button"><i class="fa fa-minus"></i> </button>
-                                        </div>  
-                                    </div> 
-                                <?php endforeach; ?>
-                            <?php } ?>
-                        </div>
+
+                        <?php echo $this->layout->element('company/_element_city_base_service'); ?>
 
                         <div class="col-lg-12 padding0">
                             <div class="col-lg-12">
@@ -358,9 +314,16 @@
             clone.find('[for="sub_cities"]').attr('for', 'sub_cities_' + _key);
             clone.find('[name="cities_id[0]"]').attr('name', 'cities_id[' + (_key + 1) + ']');
             clone.find('[name="sub_cities[0][]"]').attr('name', 'sub_cities[' + (_key + 1) + '][]');
+            clone.find('#dest_cities_id').attr('id', 'dest_cities_id_' + _key);
+            clone.find('#dest_sub_cities').attr('id', 'dest_sub_cities_' + _key);
+            clone.find('[for="dest_cities_id"]').attr('for', 'dest_cities_id_' + _key);
+            clone.find('[for="dest_sub_cities"]').attr('for', 'dest_sub_cities_' + _key);
+            clone.find('[name="dest_cities_id[0]"]').attr('name', 'dest_cities_id[' + (_key + 1) + ']');
+            clone.find('[name="dest_sub_cities[0][]"]').attr('name', 'dest_sub_cities[' + (_key + 1) + '][]');
             clone.find('.select2-container').remove();
             clone.appendTo('.more_cities');
             $("#sub_cities_" + _key).select2({tags: false});
+            $("#dest_sub_cities_" + _key).select2({tags: false});
             $('.select2dropdown').select2();
             _key++;
         });
@@ -370,7 +333,7 @@
 
 
 
-        $("#services,.sub_cities").select2({
+        $("#services,.sub_cities,.dest_sub_cities").select2({
             tags: false
         });
         $('#servicetypes_id').on('select2:select', function (e) {
@@ -394,6 +357,13 @@
 
         $(document).on('select2:select', '.cities_id', function (e) {
             var _this = $(this);
+            var sourceCityId = _this.closest('.clonecities').find('.cities_id').eq(0).val();
+            var destinationCityId = _this.closest('.clonecities').find('.cities_id').eq(1).val();
+            if (sourceCityId != "" && sourceCityId == destinationCityId) {
+                showMessage('error', {message: 'Source and Destination city will not same'});
+                _this.closest('.citydiv').find('.cities_id').val('').trigger('change');
+                return;
+            }
             $.ajax({
                 url: '<?php echo site_url('companies/ajax_getsubcities'); ?>',
                 type: "POST",
@@ -401,7 +371,7 @@
                 data: {cities_id: _this.val()},
                 success: function (response) {
                     if (response.result) {
-                        _this.closest('.clonecities').find('.sub_cities').select2('destroy').empty().select2({data: response.result});
+                        _this.closest('.citydiv').find('.sub_cities').select2('destroy').empty().select2({data: response.result});
                     }
                 },
                 error: function (jqXHR, exception) {

@@ -18,11 +18,11 @@
                             </div>
                         <?php } ?>
                         <div class="col-lg-6">
-                            <div class="form-group <?php echo form_error('client_name') != "" ? 'has-error' : ''; ?>">
-                                <label class="control-label" for="client_name">Client Name</label>
-                                <?php echo form_input("client_name", set_value("client_name", isset($data->client_name) ? $data->client_name : "", false), "id='client_name' class='form-control'"); ?>
-                                <?php echo form_error('client_name'); ?>
-                            </div>
+                            <div class="form-group <?php echo form_error('company') != "" ? 'has-error' : ''; ?>"> 
+                                <label class="control-label" for="company">Company <em>*</em></label>  
+                                <?php echo form_dropdown('company', $company_options, isset($data->companies_id) ? $data->companies_id : '', 'class="form-control select2dropdown" id="company" style="width:100%;"'); ?>  
+                                <?php echo form_error('company'); ?>
+                            </div> 
                         </div> 
                     </div>
 
@@ -47,7 +47,7 @@
                         <div class="col-lg-6">
                             <?php isset($data->follow_up_date) ? $data->follow_up_date = date('d-m-Y', strtotime($data->follow_up_date)) : ""; ?>   
                             <div class="form-group <?php echo form_error('follow_up_date') != "" ? 'has-error' : ''; ?>">
-                                <label class="control-label" for="follow_up_date">Follow Up Date</label>
+                                <label class="control-label" for="follow_up_date">Follow Up Date <em>*</em></label>
                                 <?php echo form_input("follow_up_date", set_value("follow_up_date", isset($data->follow_up_date) ? $data->follow_up_date : "", false), "id='follow_up_date' class='form-control'"); ?>
                                 <?php echo form_error('follow_up_date'); ?>
                             </div>
@@ -55,7 +55,7 @@
                         <div class="col-lg-6">
                             <?php $follow_status = $this->config->item('follow_status'); ?>
                             <div class="form-group <?php echo form_error('follow_status') != "" ? 'has-error' : ''; ?>">
-                                <label class="control-label" for="follow_status">Status</label>  
+                                <label class="control-label" for="follow_status">Status <em>*</em></label>  
                                 <?php echo form_dropdown('follow_status', $follow_status, set_value("follow_status", isset($data->status_id) ? $data->status_id : "", false), 'class="form-control" id="follow_status" style="width:100%;"'); ?> 
                                 <?php echo form_error('follow_status'); ?>
                             </div>

@@ -21,17 +21,17 @@
                                 </tr>
                             <?php endif; ?> 
 
-                            <?php if (!empty($data->location)): ?>
+                            <?php if (!empty($data->source_location)): ?>
                                 <tr>
                                     <th>Location From</th>
-                                    <td colspan="4"><?php echo $data->location; ?></td>
+                                    <td colspan="4"><?php echo $data->source_location; ?></td>
                                 </tr>
                             <?php endif; ?>
 
-                            <?php if (!empty($data->service_to)): ?>
+                            <?php if (!empty($data->destination_location)): ?>
                                 <tr>
                                     <th>Service To</th>
-                                    <td colspan="4"><?php echo $data->service_to; ?></td>
+                                    <td colspan="4"><?php echo $data->destination_location; ?></td>
                                 </tr> 
                             <?php endif; ?>
                             <tr>

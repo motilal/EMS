@@ -36,13 +36,13 @@ class Follow_up extends CI_Controller {
                 $dateTo = date('Y-m-d');
             }
             $condition["DATE(follow_up.follow_up_date) BETWEEN '$dateFrom' AND '$dateTo'"] = NULL;
-            $csv_array[] = array('name' => 'Member Name', 'client_name' => 'Client Name', 'client_phone' => 'Client Phone', 'client_email' => 'Client Email', 'follow_date' => 'Follow Date', 'follow_status' => 'Follow Status', 'status' => 'Status', 'created' => 'Created', 'updated' => 'Last Modify');
+            $csv_array[] = array('name' => 'Member Name', 'company_name' => 'Client Name', 'client_phone' => 'Client Phone', 'client_email' => 'Client Email', 'follow_date' => 'Follow Date', 'follow_status' => 'Follow Status', 'status' => 'Status', 'created' => 'Created', 'updated' => 'Last Modify');
             $result = $this->follow_up->get_list($condition);
             if ($result->num_rows() > 0) {
                 foreach ($result->result() as $row) {
                     $this->load->helper('csv');
                     $follow_status = $this->config->item('follow_status');
-                    $csv_array[] = array('name' => $row->username, 'client_name' => $row->client_name, 'client_phone' => $row->phone_number, 'client_email' => $row->email, 'follow_date' => $row->follow_up_date, 'follow_status' => isset($follow_status[$row->status_id]) ? $follow_status[$row->status_id] : '', 'status' => $row->is_active == 1 ? 'Active' : 'InActive', 'created' => date(DATETIME_FORMATE, strtotime($row->created)), 'updated' => $row->updated != "" ? date(DATETIME_FORMATE, strtotime($row->updated)) : '');
+                    $csv_array[] = array('name' => $row->username, 'company_name' => $row->company_name, 'client_phone' => $row->phone_number, 'client_email' => $row->email, 'follow_date' => $row->follow_up_date, 'follow_status' => isset($follow_status[$row->status_id]) ? $follow_status[$row->status_id] : '', 'status' => $row->is_active == 1 ? 'Active' : 'InActive', 'created' => date(DATETIME_FORMATE, strtotime($row->created)), 'updated' => $row->updated != "" ? date(DATETIME_FORMATE, strtotime($row->updated)) : '');
                 }
             } else {
                 $this->session->set_flashdata("error", __('No records found'));
@@ -86,7 +86,7 @@ class Follow_up extends CI_Controller {
             $saveData = array(
                 "follow_up_date" => $this->input->post('follow_up_date') != "" ? date('Y-m-d', strtotime($this->input->post('follow_up_date'))) : NULL,
                 "status_id" => $this->input->post('follow_status'),
-                "client_name" => $this->input->post('client_name'),
+                "companies_id" => $this->input->post('company'),
                 "phone_number" => $this->input->post('phone_number'),
                 "email" => $this->input->post('email')
             );
@@ -115,6 +115,8 @@ class Follow_up extends CI_Controller {
             $this->viewData['users_options'] = $this->user->subadmin_options(TRUE);
         }
         $this->viewData['breadcrumb'] = array('Follow Up Manager' => 'follow_up', $this->viewData['title'] => '');
+        $this->load->model(array("company_model" => 'company'));
+        $this->viewData['company_options'] = $this->company->company_options(true);
         $this->layout->view("follow_up/manage", $this->viewData);
     }
 

@@ -32,6 +32,7 @@
                 </div>
 
             </div>     
+            <?php $is_admin = $this->ion_auth->is_admin(); ?>
             <!-- /.box-header -->
             <div class="box-body"> 
                 <div class="table-responsive"> 
@@ -39,10 +40,12 @@
                         <thead>
                             <tr>
                                 <td>Sr.</td>
-                                <th>Member Name</th>  
+                                <?php if ($is_admin === TRUE) { ?>
+                                    <th>Member Name</th>  
+                                <?php } ?>
+                                <th>Company Name</th>
                                 <th>Follow Date</th>  
-                                <th>Status</th>
-                                <th>Client Name</th>
+                                <th>Status</th>                                
                                 <th>Phone Number</th>
                                 <th>Email</th>
                                 <th>Status</th>
@@ -55,12 +58,14 @@
                                 <?php foreach ($result->result() as $key => $row): ?> 
                                     <tr id="row_<?php echo $row->id; ?>">
                                         <td><?php echo $key + 1; ?></td>
-                                        <td><?php echo $row->username; ?></td>  
+                                        <?php if ($is_admin === TRUE) { ?>
+                                            <td><?php echo $row->username; ?></td>  
+                                        <?php } ?>
+                                        <td><?php echo $row->company_name; ?></td> 
                                         <td><?php echo date(DATE_FORMATE, strtotime($row->follow_up_date)); ?></td> 
-                                        <td><?php echo isset($follow_status[$row->status_id]) ? $follow_status[$row->status_id] : ''; ?></td>
-                                        <td><?php echo $row->client_name; ?></td> 
+                                        <td><?php echo isset($follow_status[$row->status_id]) ? $follow_status[$row->status_id] : ''; ?></td>       
                                         <td><?php echo $row->phone_number; ?></td> 
-                                        <td><?php echo $row->email; ?></td>  
+                                        <td><?php echo $row->email; ?></td> 
                                         <td>
                                             <?php echo $this->layout->element('element/_module_status', array('status' => $row->is_active, 'id' => $row->id, 'url' => "follow_up/changestatus", 'permissionKey' => "follow_up-status"), true); ?>
                                         </td>
@@ -82,6 +87,7 @@
 </div>  
 
 <script>
+    var is_admin = '<?php echo $is_admin === TRUE ? '1' : '0'; ?>';
     /*
      params 
      1 sorting remove from colomns
@@ -89,5 +95,9 @@
      3 default paging
      4 show sr. number or not
      */
-    var datatbl = datatable_init([0, 8], [[1, 'asc']], DEFAULT_PAGING, 1);    
+    if (is_admin == '1') {
+        var datatbl = datatable_init([0, 8], [[1, 'asc']], DEFAULT_PAGING, 1);
+    } else {
+        var datatbl = datatable_init([0, 7], [[1, 'asc']], DEFAULT_PAGING, 1);
+    }
 </script>

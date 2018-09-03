@@ -199,26 +199,54 @@ class Company_model extends CI_Model {
     }
 
     public function get_companies_by_city_service($leadDetail) {
-        $cities_id = array($leadDetail->cities_id, $leadDetail->destination_cities_id);
-        $cities_id = array_unique($cities_id);
         $condition = array('c.is_delete' => '0', 'c.is_active' => '1', 'companies_service.services_id' => $leadDetail->services_id, 'cp.total_leads > cp.used_leads' => NULL, 'cp.is_active' => 1);
-        if ($leadDetail->sub_cities_id != "") {
-            $condition["(csc.sub_cities_id=$leadDetail->sub_cities_id OR csc.sub_cities_id IS NULL)"] = NULL;
-        } else {
-            $condition["(csc.sub_cities_id IS NULL)"] = NULL;
+        if ($leadDetail->cities_id != "" && $leadDetail->destination_cities_id) {
+            $condition['companies_city.cities_id'] = $leadDetail->cities_id;
+            $condition["(companies_city.destination_cities_id IS NULL OR companies_city.destination_cities_id = {$leadDetail->destination_cities_id})"] = NULL;
+        } else if ($leadDetail->cities_id != "" && $leadDetail->destination_cities_id == '') {
+            $condition['companies_city.cities_id'] = $leadDetail->cities_id;
+            $condition['companies_city.destination_cities_id IS NULL'] = NULL;
         }
-        $this->db->select("c.*");
+        $this->db->select("c.id,companies_city.id as company_city_id");
         if (!empty($condition) || $condition != "") {
             $this->db->where($condition);
         }
-        $this->db->where_in('companies_city.cities_id', $cities_id);
         $this->db->join('companies_city', 'companies_city.companies_id=c.id', 'INNER');
         $this->db->join('companies_service', 'companies_service.companies_id=c.id', 'INNER');
         $this->db->join('companies_package as cp', 'cp.companies_id=c.id', 'INNER');
-        $this->db->join('companies_sub_city csc', 'csc.companies_id=c.id AND csc.cities_id=' . $leadDetail->cities_id, 'LEFT');
         $this->db->group_by('c.id');
-        $this->db->having('count(c.id)', count($cities_id));
         $data = $this->db->get("companies as c");
+        $company_ids = [];
+        if ($data->num_rows() > 0) {
+            foreach ($data->result() as $row) {
+                $company_result[] = $row;
+                $company_ids[] = $row->id;
+            }
+        }
+        if (count($company_result) > 0 && $leadDetail->sub_cities_id != "" && $leadDetail->cities_id != "") {
+            foreach ($company_result as $key => $cresult) {
+                $data = $this->db->select('companies.id,csc.companies_city_id as company_city_id,csc.sub_cities_id,csc.companies_city_id,csc.cities_id')
+                        ->where(['companies.id' => $cresult->id])
+                        ->join('companies_sub_city as csc', "csc.companies_id=companies.id AND csc.sub_cities_id = $leadDetail->sub_cities_id AND csc.companies_city_id = $cresult->company_city_id AND csc.cities_id = $leadDetail->cities_id", 'LEFT')
+                        ->get('companies');
+                if ($data->num_rows() == 0) {
+                    unset($company_ids[$key]);
+                }
+            }
+        }
+        if (count($company_result) > 0 && $leadDetail->destination_sub_cities_id != "" && $leadDetail->destination_cities_id != "") {
+            foreach ($company_result as $key => $cresult) {
+                $data = $this->db->select('companies.id,csc.companies_city_id as company_city_id')
+                        ->where(['companies.id' => $cresult->id, "(csc.sub_cities_id = $leadDetail->destination_sub_cities_id OR csc.sub_cities_id IS NULL)" => NULL, "(csc.companies_city_id = $cresult->company_city_id OR csc.companies_city_id IS NULL)" => NULL, "(csc.cities_id = $leadDetail->destination_cities_id OR csc.cities_id IS NULL)" => NULL])
+                        ->join('companies_sub_city as csc', "csc.companies_id=companies.id", 'LEFT')
+                        ->get('companies');
+                if ($data->num_rows() == 0) {
+                    unset($company_ids[$key]);
+                }
+            }
+        }
+        pr($company_ids);
+        die;
         return $data;
     }
 
@@ -249,6 +277,38 @@ class Company_model extends CI_Model {
             }
         }
         return $companies;
+    }
+
+    public function get_company_cities_subcities($companies_id) {
+        if (is_numeric($companies_id) && $companies_id > 0) {
+            $result = $this->db->select("id,cities_id,destination_cities_id")
+                    ->where(array('companies_id' => $companies_id))
+                    ->get("companies_city");
+            $company_city = [];
+            if ($result->num_rows()) {
+                $company_city = $result->result_array();
+                foreach ($result->result_array() as $key => $row) {
+                    $source_sub_cities_sql = $this->db->select('sub_cities_id')->where(['companies_city_id' => $row['id'], 'cities_id' => $row['cities_id']])->get('companies_sub_city');
+                    $source_sub_cities = [];
+                    if ($source_sub_cities_sql->num_rows() > 0) {
+                        foreach ($source_sub_cities_sql->result_array() as $row1) {
+                            $source_sub_cities[] = $row1['sub_cities_id'];
+                        }
+                    }
+                    $company_city[$key]['source_sub_cities'] = $source_sub_cities;
+
+                    $dest_sub_cities_sql = $this->db->select('sub_cities_id')->where(['companies_city_id' => $row['id'], 'cities_id' => $row['destination_cities_id']])->get('companies_sub_city');
+                    $dest_sub_cities = [];
+                    if ($dest_sub_cities_sql->num_rows() > 0) {
+                        foreach ($dest_sub_cities_sql->result_array() as $row2) {
+                            $dest_sub_cities[] = $row2['sub_cities_id'];
+                        }
+                    }
+                    $company_city[$key]['destination_sub_cities'] = $dest_sub_cities;
+                }
+            }
+            return $company_city;
+        }
     }
 
 }

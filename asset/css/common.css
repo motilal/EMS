@@ -101,13 +101,7 @@ a.text-white,a.text-white:hover{
     float: left;
     margin: 3px;
     font-size: 12px;
-}
-.remove-cities,.add-more-cities{
-    width:7%;margin-top: 25px;margin-right: 1%;border-radius: 0 4px 4px 0;
-}
-.sub_city_c{
-    float:left;width: 92%
-}
+}  
 #daterange-btn{
     margin-right: 5px;
     padding: 4px 10px;

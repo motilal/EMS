@@ -119,6 +119,11 @@
                                 <th>Longitude</th>
                                 <td colspan="4"><?php echo $data->logitude; ?></td>
                             </tr>
+                            
+                            <tr>
+                                <th>Lead Limit Per Day</th>
+                                <td colspan="4"><?php echo $data->lead_limit; ?></td>
+                            </tr>
 
                             <tr>
                                 <th>Created</th>

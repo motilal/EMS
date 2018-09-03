@@ -90,7 +90,6 @@ class Send_lead {
                     $this->send_email_to_company($companyDetail, $leadDetail);
                     $leadSendToCompanies[] = $companyDetail->name;
                 }
-                $leadSendToCompanies[] = $companyDetail->name;
             }
         }
         if (!empty($leadSendToCompanies)) {
@@ -115,7 +114,7 @@ class Send_lead {
 
     private function send_sms_to_company($company_detail, $lead_detail) {
         /* Send Lead to company via sms */
-        if ($this->setting->item('send_lead_to_customer') == 'On') {
+        if ($this->setting->item('send_lead_to_company') == 'On') {
             $customerDetail = $lead_detail->name . '(' . $lead_detail->phone_number . ')';
             $customerDetail = substr($customerDetail, 0, 70);
             $lead_detail->service_name = substr($lead_detail->service_name, 0, 25);
@@ -134,7 +133,7 @@ class Send_lead {
     }
 
     private function send_email_to_company($company_detail, $lead_detail) {
-        if ($this->setting->item('send_lead_to_customer') == 'On') {
+        if ($this->setting->item('send_lead_to_company') == 'On') {
             /* Send Lead to company via email */
             $email = $company_detail->email;
             $replaceFrom = array('{service}', '{customer_detail}');
