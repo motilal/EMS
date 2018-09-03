@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 17, 2018 at 09:10 AM
+-- Generation Time: Sep 03, 2018 at 08:14 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 5.6.31
 
@@ -70,119 +70,47 @@ CREATE TABLE `ci_sessions` (
 --
 
 INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
-('d63nugo876s9e94gl3ha2ef4smmo56no', '127.0.0.1', 1534477208, '__ci_last_regenerate|i:1534477199;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1534436262\";last_check|i:1534477207;'),
-('3q0tkogk00tqt3654rbvqq4v7hvn4ki6', '127.0.0.1', 1534440889, '__ci_last_regenerate|i:1534440521;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1534264457\";last_check|i:1534436262;'),
-('r3ech9je5qac4njr1bua1bfokj94q120', '127.0.0.1', 1534440398, '__ci_last_regenerate|i:1534440172;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1534264457\";last_check|i:1534436262;'),
-('ocka77soagcbmjenk1tkfcjp75rtqouf', '127.0.0.1', 1534440091, '__ci_last_regenerate|i:1534439849;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1534264457\";last_check|i:1534436262;'),
-('1h2klnvi8a47j4d5321dcq34iv3b0mku', '127.0.0.1', 1534439758, '__ci_last_regenerate|i:1534439494;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1534264457\";last_check|i:1534436262;'),
-('ar42guvrettr3usam2l8aknrcfqpm17c', '127.0.0.1', 1534439483, '__ci_last_regenerate|i:1534439185;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1534264457\";last_check|i:1534436262;'),
-('lmltn5hjah0kjnrdm5oe039gib402a36', '127.0.0.1', 1534438395, '__ci_last_regenerate|i:1534438227;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1534264457\";last_check|i:1534436262;'),
-('co5erbfp3lvqt3bbq2c854d2ndvge8q6', '127.0.0.1', 1534438034, '__ci_last_regenerate|i:1534437875;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1534264457\";last_check|i:1534436262;'),
-('24ganjmt1mkh71mnv4pmkt99aa35djnr', '127.0.0.1', 1534436887, '__ci_last_regenerate|i:1534436882;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1534264457\";last_check|i:1534436262;'),
-('pi3ltuj2jqisvm7rmnir9hgpke8qpa2t', '127.0.0.1', 1534436401, '__ci_last_regenerate|i:1534436206;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1534264457\";last_check|i:1534436262;'),
-('n82b6qqosu17fm3uccn34oo2d8lva0cv', '127.0.0.1', 1534436875, '__ci_last_regenerate|i:1534436532;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1534264457\";last_check|i:1534436262;'),
-('dcls3eurmst6u0vus4ap5ic1mg4sirk9', '127.0.0.1', 1534132155, '__ci_last_regenerate|i:1534132154;'),
-('jphcnhorndftmhvb7kgsavffjlu395ce', '127.0.0.1', 1534132155, '__ci_last_regenerate|i:1534132155;'),
-('46ehi8fqutahtbf62u4onmonms21n32p', '127.0.0.1', 1534007131, '__ci_last_regenerate|i:1534007062;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533963258\";last_check|i:1534003609;'),
-('b6217uhc3dg3btmdoago3ovcm7efb78l', '127.0.0.1', 1534264624, '__ci_last_regenerate|i:1534264451;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1534003609\";last_check|i:1534264457;'),
-('77tdu2jh3jmlpcctq58qa9u34fa4rn5f', '127.0.0.1', 1534007032, '__ci_last_regenerate|i:1534006761;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533963258\";last_check|i:1534003609;'),
-('10e83i9de5arukuqhvmgoteiu2t115j9', '127.0.0.1', 1534006603, '__ci_last_regenerate|i:1534006428;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533963258\";last_check|i:1534003609;'),
-('e58lia753297jv2ge13v4gbeqsg30skv', '127.0.0.1', 1534006345, '__ci_last_regenerate|i:1534006095;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533963258\";last_check|i:1534003609;'),
-('04of831c3sc9uo6hov2s4j6s2suiokj5', '127.0.0.1', 1534005085, '__ci_last_regenerate|i:1534004929;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533963258\";last_check|i:1534003609;'),
-('9100no25rplfbv5vefaj6cjtrparmtdh', '127.0.0.1', 1534004842, '__ci_last_regenerate|i:1534004573;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533963258\";last_check|i:1534003609;'),
-('5trvcf71f8cvv00c49d4ln9m5anuq0n7', '127.0.0.1', 1534004502, '__ci_last_regenerate|i:1534004219;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533963258\";last_check|i:1534003609;'),
-('r243p653r6tg8ledspc2olpa5qqe08b6', '127.0.0.1', 1534004190, '__ci_last_regenerate|i:1534003915;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533963258\";last_check|i:1534003609;'),
-('ol3euifhbf150tf8cr1dff2thhgvutkv', '127.0.0.1', 1534003682, '__ci_last_regenerate|i:1534003603;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533963258\";last_check|i:1534003609;'),
-('c2jn7r4a802kmt4qgq8ehmp0tnltikkn', '127.0.0.1', 1533986411, '__ci_last_regenerate|i:1533986410;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533833202\";last_check|i:1533963258;'),
-('ggplv3vapte8tv1tiaquo7m9l16slj2e', '127.0.0.1', 1533982583, '__ci_last_regenerate|i:1533982282;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533833202\";last_check|i:1533963258;'),
-('uql1uamr88itacotoedcajvlah3saik8', '127.0.0.1', 1533982876, '__ci_last_regenerate|i:1533982587;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533833202\";last_check|i:1533963258;'),
-('t3dkgu02ke72fdrqg8pq5gr0peacj412', '127.0.0.1', 1533982897, '__ci_last_regenerate|i:1533982891;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533833202\";last_check|i:1533963258;'),
-('a0j2j269gkhj3irlmdlhpi76a17bl85v', '127.0.0.1', 1533984540, '__ci_last_regenerate|i:1533984242;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533833202\";last_check|i:1533963258;'),
-('i3i75ec423do4oe6mc4stipj0566m5bb', '127.0.0.1', 1533984795, '__ci_last_regenerate|i:1533984566;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533833202\";last_check|i:1533963258;'),
-('lf2p719ut2ia5bctaos16cpsn9mb4iqe', '127.0.0.1', 1533985158, '__ci_last_regenerate|i:1533984880;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533833202\";last_check|i:1533963258;'),
-('d4n52g6de2sg0t6emp9nhsbra9ctqm3a', '127.0.0.1', 1533985456, '__ci_last_regenerate|i:1533985186;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533833202\";last_check|i:1533963258;'),
-('85uukeldu7k9dlrptkca5npnkfdoltku', '127.0.0.1', 1533985778, '__ci_last_regenerate|i:1533985488;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533833202\";last_check|i:1533963258;'),
-('soh4kpe30l0d4bqn354qi0v2p585p27s', '127.0.0.1', 1533986086, '__ci_last_regenerate|i:1533985833;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533833202\";last_check|i:1533963258;'),
-('2jksbrqg5dd1jqor4q56cc31re3qupft', '127.0.0.1', 1533982268, '__ci_last_regenerate|i:1533981972;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533833202\";last_check|i:1533963258;'),
-('sog50fl2ra1tiao2626j4mrjj190ulmk', '127.0.0.1', 1533981540, '__ci_last_regenerate|i:1533981531;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533833202\";last_check|i:1533963258;'),
-('p4iv1mobjfkmg26ksd477goj2agposre', '127.0.0.1', 1533980893, '__ci_last_regenerate|i:1533980636;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533833202\";last_check|i:1533963258;'),
-('951ec3d7l97pi373le3nu8mrilbhjtul', '127.0.0.1', 1533981291, '__ci_last_regenerate|i:1533981103;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533833202\";last_check|i:1533963258;'),
-('jgqvqke13gajjvv4u8r6s44jmltmmgkc', '127.0.0.1', 1533980268, '__ci_last_regenerate|i:1533980028;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533833202\";last_check|i:1533963258;'),
-('eebtku5al1inblvo7fa7k2t3mle2ag82', '127.0.0.1', 1533979995, '__ci_last_regenerate|i:1533979699;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533833202\";last_check|i:1533963258;'),
-('44hlmlte3nlns90qarqmkkcuu1kues32', '127.0.0.1', 1533979648, '__ci_last_regenerate|i:1533979383;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533833202\";last_check|i:1533963258;'),
-('q7cabe2k21g9e2m0ngpj15166d67aq3s', '127.0.0.1', 1533978941, '__ci_last_regenerate|i:1533978941;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533833202\";last_check|i:1533963258;'),
-('56utd1gsug75cqnepdp03ckcr0tijsci', '127.0.0.1', 1533978811, '__ci_last_regenerate|i:1533978610;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533833202\";last_check|i:1533963258;'),
-('g6kvoc4bg3nu29sl2mb5c94773u9jm8k', '127.0.0.1', 1533978409, '__ci_last_regenerate|i:1533978290;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533833202\";last_check|i:1533963258;success|s:35:\"Message successfully send to groups\";__ci_vars|a:1:{s:7:\"success\";s:3:\"old\";}'),
-('laugurqml7sur37ghercqg8qcoc62tv7', '127.0.0.1', 1533977999, '__ci_last_regenerate|i:1533977930;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533833202\";last_check|i:1533963258;'),
-('967he9necn136lecnnge17dcnakm0cm0', '127.0.0.1', 1533977696, '__ci_last_regenerate|i:1533977480;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533833202\";last_check|i:1533963258;'),
-('jhsabkfl07bon0u9bgj0p8snivs2up77', '127.0.0.1', 1533977428, '__ci_last_regenerate|i:1533977171;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533833202\";last_check|i:1533963258;'),
-('kvcoafocjatpbcf5eqr0hc4hv9b7i969', '127.0.0.1', 1533976688, '__ci_last_regenerate|i:1533976553;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533833202\";last_check|i:1533963258;'),
-('2lc0v7kbfcd946jio15233ec26015j5a', '127.0.0.1', 1533976279, '__ci_last_regenerate|i:1533975989;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533833202\";last_check|i:1533963258;'),
-('gusal5063q8gre460sr3hp4057ubnhsf', '127.0.0.1', 1533975622, '__ci_last_regenerate|i:1533975622;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533833202\";last_check|i:1533963258;'),
-('1s1013f56cj4f90sv83fvtlbv7cn22i1', '127.0.0.1', 1533975295, '__ci_last_regenerate|i:1533975295;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533833202\";last_check|i:1533963258;'),
-('14mrq2lv4d6evt8h9vfi9pesumicq7at', '127.0.0.1', 1533969767, '__ci_last_regenerate|i:1533969503;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533833202\";last_check|i:1533963258;'),
-('ujan9bdjdjemr3o35a9qd4v1mqro2bjp', '127.0.0.1', 1533964847, '__ci_last_regenerate|i:1533964847;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533833202\";last_check|i:1533963258;'),
-('tp6qps94m3baa6cnc8bbdj1hob74o9pg', '127.0.0.1', 1533964789, '__ci_last_regenerate|i:1533964508;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533833202\";last_check|i:1533963258;'),
-('a1th922lojpkg1l4d953qt9u28ag8kk9', '127.0.0.1', 1533964490, '__ci_last_regenerate|i:1533964195;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533833202\";last_check|i:1533963258;'),
-('rc4iea70qm9fmoesi9r19spi2t84e58q', '127.0.0.1', 1533964183, '__ci_last_regenerate|i:1533963888;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533833202\";last_check|i:1533963258;'),
-('6vqopn4c3ti9lnrt456dacor5ejaghbt', '127.0.0.1', 1533963843, '__ci_last_regenerate|i:1533963548;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533833202\";last_check|i:1533963258;'),
-('600d6uvr497b2k7mvjk9sonf84noc7pc', '127.0.0.1', 1533963545, '__ci_last_regenerate|i:1533963246;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533833202\";last_check|i:1533963258;'),
-('nn9ip7lo1g3phvjuv00usisgs9bfj9o3', '127.0.0.1', 1533835539, '__ci_last_regenerate|i:1533835333;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533778216\";last_check|i:1533833202;'),
-('jp04rbsug7fditjdtg7lrta9fp728vft', '127.0.0.1', 1533835888, '__ci_last_regenerate|i:1533835747;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533778216\";last_check|i:1533833202;'),
-('qjvhvras1rsv9egk02g3ektqk9fgo66m', '127.0.0.1', 1533835118, '__ci_last_regenerate|i:1533834828;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533778216\";last_check|i:1533833202;'),
-('orovt1j5ij1kf910jaaocmss45e446rh', '127.0.0.1', 1533834797, '__ci_last_regenerate|i:1533834523;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533778216\";last_check|i:1533833202;'),
-('blj7qlhenj1tijnrgtd1daef3bb605vr', '127.0.0.1', 1533833203, '__ci_last_regenerate|i:1533833175;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533778216\";last_check|i:1533833202;'),
-('2japd181ot3ugvgnlbvhek5cap1ilmu1', '127.0.0.1', 1533089323, '__ci_last_regenerate|i:1533089030;'),
-('krg8colekr6ao5v241kafvtmdmt51auj', '127.0.0.1', 1533088994, '__ci_last_regenerate|i:1533088698;'),
-('c8ul1f0i9mg4luicdoh0gpu8hqpljjmg', '127.0.0.1', 1533088495, '__ci_last_regenerate|i:1533088252;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533055946\";last_check|i:1533087327;'),
-('re087l6suh8h3ij6g1l283abn5ao2a5n', '127.0.0.1', 1533086998, '__ci_last_regenerate|i:1533086997;'),
-('s5s3skn56tdu924snhcq9nkj791i4653', '127.0.0.1', 1533087424, '__ci_last_regenerate|i:1533087326;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533055946\";last_check|i:1533087327;'),
-('5dhhkbbhs6kj09cnfu21t2h0ajhasscp', '127.0.0.1', 1533780085, '__ci_last_regenerate|i:1533780046;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533745986\";last_check|i:1533778216;'),
-('2hhhss39q9om2m5rucc77h9jqv0bnkje', '127.0.0.1', 1533779973, '__ci_last_regenerate|i:1533779732;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533745986\";last_check|i:1533778216;'),
-('31qgpegqpndhn0cjcob2i1lsuc2g63r1', '127.0.0.1', 1533779189, '__ci_last_regenerate|i:1533779188;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533745986\";last_check|i:1533778216;'),
-('6ghqqsav23u7n06138dkqkasp966d5lh', '127.0.0.1', 1533779183, '__ci_last_regenerate|i:1533778816;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533745986\";last_check|i:1533778216;'),
-('0f27rr8caq4vufjh071pjk7r7hj2rtql', '127.0.0.1', 1533778275, '__ci_last_regenerate|i:1533778212;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533745986\";last_check|i:1533778216;'),
-('6lnmi75bdn4p3u3qujsik4co4ume9d7a', '127.0.0.1', 1533749216, '__ci_last_regenerate|i:1533749091;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533604731\";last_check|i:1533745986;'),
-('fpqu03ii9n9ok0ggjl0vij6ch0j0ac2o', '127.0.0.1', 1533748674, '__ci_last_regenerate|i:1533748380;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533604731\";last_check|i:1533745986;'),
-('up12ll34adc2fu2jkl8g552uii93g5g4', '127.0.0.1', 1533749077, '__ci_last_regenerate|i:1533748681;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533604731\";last_check|i:1533745986;'),
-('kfcr44kmkubrvshpsg96scpauba6g3ub', '127.0.0.1', 1533748118, '__ci_last_regenerate|i:1533747908;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533604731\";last_check|i:1533745986;'),
-('hmkma98c9jbpf248q78818a3amrrmabk', '127.0.0.1', 1533747904, '__ci_last_regenerate|i:1533747605;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533604731\";last_check|i:1533745986;'),
-('donnb9hgok5fimf7hgon5i5g5bqebi1k', '127.0.0.1', 1533747213, '__ci_last_regenerate|i:1533747039;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533604731\";last_check|i:1533745986;'),
-('cofbq95m4pjfd67vl2edeqla7bt53spe', '127.0.0.1', 1533746356, '__ci_last_regenerate|i:1533745976;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533604731\";last_check|i:1533745986;'),
-('9g1mmvdteo9ou1gq5p8jasomoc0uq1kp', '127.0.0.1', 1533610185, '__ci_last_regenerate|i:1533610011;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533174373\";last_check|i:1533604731;'),
-('2n57rvjuagiae77i95e26eg63e9pev5m', '127.0.0.1', 1533609752, '__ci_last_regenerate|i:1533609468;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533174373\";last_check|i:1533604731;'),
-('591b7se3q14jmblsguislb3f70fj1ra2', '127.0.0.1', 1533609391, '__ci_last_regenerate|i:1533609155;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533174373\";last_check|i:1533604731;'),
-('53rptk72j1je6d2oqsinr39ol2ciel0d', '127.0.0.1', 1533609110, '__ci_last_regenerate|i:1533608818;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533174373\";last_check|i:1533604731;'),
-('igcsle4qo72302r2atddgvgtcirus201', '127.0.0.1', 1533605119, '__ci_last_regenerate|i:1533605062;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533174373\";last_check|i:1533604731;'),
-('kuseo40lek13vlspk2jvu8b7uo19vrr6', '127.0.0.1', 1533605024, '__ci_last_regenerate|i:1533604724;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533174373\";last_check|i:1533604731;'),
-('ssem7gqgm1j09ot1vrn4hfv9kc7vtst5', '127.0.0.1', 1533175477, '__ci_last_regenerate|i:1533175444;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533140686\";last_check|i:1533174373;'),
-('amubsbe1nbhf9kr7895555g3api23ljn', '127.0.0.1', 1533175421, '__ci_last_regenerate|i:1533175090;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533140686\";last_check|i:1533174373;'),
-('1bf193kq4eu6c7ieabmlvf509bj810uc', '127.0.0.1', 1533175020, '__ci_last_regenerate|i:1533174759;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533140686\";last_check|i:1533174373;'),
-('3vnedvibvmlq1ilflosa4i1g6sqeel4t', '127.0.0.1', 1533174642, '__ci_last_regenerate|i:1533174365;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533140686\";last_check|i:1533174373;'),
-('sat36vsb5p8mkv5n4588iclcpcu9uudt', '127.0.0.1', 1533145823, '__ci_last_regenerate|i:1533145823;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533087327\";last_check|i:1533140686;'),
-('6e23ia4hefnmib3qk53drvrer0o2cbv2', '127.0.0.1', 1533145499, '__ci_last_regenerate|i:1533145417;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533087327\";last_check|i:1533140686;'),
-('lmt9hqkcbjmsfj1s73tnaheh77s3q22e', '127.0.0.1', 1533145285, '__ci_last_regenerate|i:1533145093;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533087327\";last_check|i:1533140686;'),
-('va4g64cghj3c72unl1m3tv1is8qorbao', '127.0.0.1', 1533144835, '__ci_last_regenerate|i:1533144774;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533087327\";last_check|i:1533140686;'),
-('rci96fgq3bav5nffccl20ufae3c7np2q', '127.0.0.1', 1533144660, '__ci_last_regenerate|i:1533144386;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533087327\";last_check|i:1533140686;'),
-('3p2nahbm2jgt9dktlkuh696khimg5qp5', '127.0.0.1', 1533144287, '__ci_last_regenerate|i:1533144009;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533087327\";last_check|i:1533140686;'),
-('bqh8sngb85a0uostggnudmocln54kplf', '127.0.0.1', 1533143253, '__ci_last_regenerate|i:1533143028;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533087327\";last_check|i:1533140686;'),
-('nfnsiltu54inat7ndrrsa1ca8e81g94g', '127.0.0.1', 1533142579, '__ci_last_regenerate|i:1533142355;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533087327\";last_check|i:1533140686;'),
-('vrb5j8rd5ag5a5eu27fv40v3lp6ab1e0', '127.0.0.1', 1533141773, '__ci_last_regenerate|i:1533141712;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533087327\";last_check|i:1533140686;'),
-('i8mv3m8093u94652d60f7ha8vumoovoc', '127.0.0.1', 1533140687, '__ci_last_regenerate|i:1533140682;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533087327\";last_check|i:1533140686;'),
-('ttg64f930nrr2bo2dmnr14n3jt9or283', '127.0.0.1', 1533140047, '__ci_last_regenerate|i:1533140047;'),
-('v5nmh2l8qevn2v4a8uvna9c8scbbjtdp', '127.0.0.1', 1533140048, '__ci_last_regenerate|i:1533140048;'),
-('4n35pk4eg3hbn6tnchnojq3sfo06f6db', '127.0.0.1', 1533093942, '__ci_last_regenerate|i:1533093942;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533055946\";last_check|i:1533087327;'),
-('c86sgbhc946estl5h4fgmqci4r51e5v3', '127.0.0.1', 1533091349, '__ci_last_regenerate|i:1533091128;'),
-('rd1hfl4aebld4pg5q7f2p5go0k85nkeh', '127.0.0.1', 1533094043, '__ci_last_regenerate|i:1533093872;'),
-('f71egr7071npu9nmf40tjljkspnh219i', '127.0.0.1', 1533091082, '__ci_last_regenerate|i:1533090827;'),
-('b27bivjipebupo7sf18q4kue0mdh8bsm', '127.0.0.1', 1533091278, '__ci_last_regenerate|i:1533091108;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533055946\";last_check|i:1533087327;success|s:29:\"Company updated successfully.\";__ci_vars|a:1:{s:7:\"success\";s:3:\"old\";}'),
-('cmqjg70lru3vojfdgl5ujf9fkggs72lh', '127.0.0.1', 1533091103, '__ci_last_regenerate|i:1533090807;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533055946\";last_check|i:1533087327;'),
-('msmtkif9m0dve11k1h0cjdm92m1h0i3e', '127.0.0.1', 1533090801, '__ci_last_regenerate|i:1533090503;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533055946\";last_check|i:1533087327;'),
-('jemrb840f3r2napvcupljncleh6bh16k', '127.0.0.1', 1533090450, '__ci_last_regenerate|i:1533090170;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533055946\";last_check|i:1533087327;'),
-('kofqq8jnt81dl38vh1s0qh39u5759jnk', '127.0.0.1', 1533090190, '__ci_last_regenerate|i:1533089917;'),
-('t54edrfs31mm2lricpf4lifqt9qg8pkq', '127.0.0.1', 1533090147, '__ci_last_regenerate|i:1533089866;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533055946\";last_check|i:1533087327;success|s:29:\"Company updated successfully.\";__ci_vars|a:1:{s:7:\"success\";s:3:\"old\";}'),
-('t696t6sjo912l11tmiqkc3igbmpj1g3h', '127.0.0.1', 1533089381, '__ci_last_regenerate|i:1533089377;'),
-('gplbeouc2e2nbdobb9ojc44qcfu1tab4', '127.0.0.1', 1533089425, '__ci_last_regenerate|i:1533089400;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1533055946\";last_check|i:1533087327;');
+('971bs6mmjdrtfcgblcudjh5in9gapoev', '127.0.0.1', 1535889648, '__ci_last_regenerate|i:1535889602;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535864489\";last_check|i:1535872384;'),
+('i4h5t8op05cfdsc4vonctb2uk983m52q', '127.0.0.1', 1535887462, '__ci_last_regenerate|i:1535887462;'),
+('e360euhtpc2941t4uqq5oudrm1s047hd', '127.0.0.1', 1535889593, '__ci_last_regenerate|i:1535887667;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535864489\";last_check|i:1535872384;'),
+('3d1qhr9frftvse8mp56ania5865fvuua', '127.0.0.1', 1535887462, '__ci_last_regenerate|i:1535887462;'),
+('k07dm4ekgj0157q9s7ahu0htqgvsdu86', '127.0.0.1', 1535887445, '__ci_last_regenerate|i:1535887347;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535864489\";last_check|i:1535872384;'),
+('q3vr30l0q94h4gr4uqhfs63anfcinth0', '127.0.0.1', 1535887346, '__ci_last_regenerate|i:1535887046;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535864489\";last_check|i:1535872384;success|s:29:\"Company updated successfully.\";__ci_vars|a:1:{s:7:\"success\";s:3:\"new\";}'),
+('i672o26k77anpj0vq3jt434h3aumpqht', '127.0.0.1', 1535885918, '__ci_last_regenerate|i:1535885630;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535864489\";last_check|i:1535872384;'),
+('1rpvah0d5ju32bbpuv4lficrr2epvo0j', '127.0.0.1', 1535885622, '__ci_last_regenerate|i:1535885296;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535864489\";last_check|i:1535872384;'),
+('blrqnq1s14lnd4ifunf09mtfe5e6pk60', '127.0.0.1', 1535884180, '__ci_last_regenerate|i:1535884062;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535864489\";last_check|i:1535872384;'),
+('ilv5rju4onkdvth3vmro90cif3lk1as4', '127.0.0.1', 1535884060, '__ci_last_regenerate|i:1535883752;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535864489\";last_check|i:1535872384;'),
+('gsmttqaaf13gjd5iqpa6dqrh5h1o11g5', '127.0.0.1', 1535882735, '__ci_last_regenerate|i:1535882735;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535864489\";last_check|i:1535872384;'),
+('rgsvre7ic0eh3hj3fc16801bdqdim4nv', '127.0.0.1', 1535882731, '__ci_last_regenerate|i:1535882411;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535864489\";last_check|i:1535872384;'),
+('enbg6q710qvd5n3bbkqemjijvvbj3apu', '127.0.0.1', 1535882325, '__ci_last_regenerate|i:1535882085;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535864489\";last_check|i:1535872384;'),
+('04cgj4h46ecn2vg1rlcg5s7bmje40igt', '127.0.0.1', 1535881680, '__ci_last_regenerate|i:1535881418;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535864489\";last_check|i:1535872384;'),
+('5lqnqm7kv6ehlcnbfrbmki2nbdhsak2i', '127.0.0.1', 1535881157, '__ci_last_regenerate|i:1535881043;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535864489\";last_check|i:1535872384;'),
+('9qgusu0tagku7m7ji3qgbroun3sadht5', '127.0.0.1', 1535880989, '__ci_last_regenerate|i:1535880728;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535864489\";last_check|i:1535872384;'),
+('69somga95don15cktrgmukeoppiar8bt', '127.0.0.1', 1535942621, '__ci_last_regenerate|i:1535942561;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535906498\";last_check|i:1535939320;'),
+('bslbha4d8q59e0a4ttg9s8ulscc7k12a', '127.0.0.1', 1535942402, '__ci_last_regenerate|i:1535942243;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535906498\";last_check|i:1535939320;'),
+('g6h6askat8vpcb5k0tlu2bn9janapncp', '127.0.0.1', 1535942183, '__ci_last_regenerate|i:1535941888;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535906498\";last_check|i:1535939320;'),
+('b8o38psg4ahvlhjj9nvccr4iik38cimv', '127.0.0.1', 1535941861, '__ci_last_regenerate|i:1535941586;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535906498\";last_check|i:1535939320;'),
+('tnc6tn0t22olnqi8lrev03je73tdhtqm', '127.0.0.1', 1535940581, '__ci_last_regenerate|i:1535940581;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535906498\";last_check|i:1535939320;'),
+('ne12kmi4dafbpnrb8ogg9ceies2ch0s1', '127.0.0.1', 1535940495, '__ci_last_regenerate|i:1535940269;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535906498\";last_check|i:1535939320;'),
+('37dcckkuqrgvjpd4pv1l1ei8deppstmi', '127.0.0.1', 1535940259, '__ci_last_regenerate|i:1535939963;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535906498\";last_check|i:1535939320;'),
+('cahs7n8rg0u41ns4ponsncbtbgj5n0tu', '127.0.0.1', 1535939953, '__ci_last_regenerate|i:1535939654;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535906498\";last_check|i:1535939320;'),
+('9nq897iq5frt8lcn4ff772r6l3m9ae3l', '127.0.0.1', 1535939491, '__ci_last_regenerate|i:1535939315;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535906498\";last_check|i:1535939320;'),
+('16algcpe4pedcktu78d0d29l8kg49bsh', '127.0.0.1', 1535910589, '__ci_last_regenerate|i:1535910562;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535872384\";last_check|i:1535906498;'),
+('fv1j0c5af19jbc0al9nk7vptbp18n93m', '127.0.0.1', 1535910548, '__ci_last_regenerate|i:1535910254;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535872384\";last_check|i:1535906498;'),
+('qotpvr2oki7n2vga2qnr3fikll0b77dl', '127.0.0.1', 1535910117, '__ci_last_regenerate|i:1535909952;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535872384\";last_check|i:1535906498;'),
+('l2oda03slgj4rck22vmb5fhdkvehspv1', '127.0.0.1', 1535908255, '__ci_last_regenerate|i:1535908255;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535872384\";last_check|i:1535906498;'),
+('3uqjt44lmm4b31kg2r674go0kon4lro0', '127.0.0.1', 1535908028, '__ci_last_regenerate|i:1535907738;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535872384\";last_check|i:1535906498;'),
+('3hvodig0ta4gesdvvhdogpded60n719k', '127.0.0.1', 1535906958, '__ci_last_regenerate|i:1535906822;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535872384\";last_check|i:1535906498;'),
+('pgk1lcnob5ce4vgg3pc9mr3iljjut1to', '127.0.0.1', 1535906643, '__ci_last_regenerate|i:1535906493;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535872384\";last_check|i:1535906498;'),
+('9s6dn3qcmht3cn5rqis73ue7ak8p14kn', '127.0.0.1', 1535896097, '__ci_last_regenerate|i:1535895823;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535864489\";last_check|i:1535872384;'),
+('8r1e09inupfu3m6vj85ppaj0b81kt9uu', '127.0.0.1', 1535895822, '__ci_last_regenerate|i:1535895278;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535864489\";last_check|i:1535872384;'),
+('ds5t97lavsd8rjenhdpvltkcvuobldfn', '127.0.0.1', 1535894770, '__ci_last_regenerate|i:1535894671;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535864489\";last_check|i:1535872384;'),
+('4ma6lpcrkq1tah0d68sdr3m3tu2ti663', '127.0.0.1', 1535894541, '__ci_last_regenerate|i:1535894346;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535864489\";last_check|i:1535872384;'),
+('6iqlobep754ji67d31ql7m9edhu0bkle', '127.0.0.1', 1535892755, '__ci_last_regenerate|i:1535892625;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535864489\";last_check|i:1535872384;'),
+('542j1go1fcs8b1477jnr2dns0jvn34i0', '127.0.0.1', 1535891432, '__ci_last_regenerate|i:1535890776;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535864489\";last_check|i:1535872384;'),
+('bse2c3rafkbnmi3ndm4nbi50pj2311o5', '127.0.0.1', 1535891673, '__ci_last_regenerate|i:1535891616;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535864489\";last_check|i:1535872384;'),
+('9ndbkaqdd06hlvqcihvhn3nt3ccefusu', '127.0.0.1', 1535892197, '__ci_last_regenerate|i:1535892107;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535864489\";last_check|i:1535872384;'),
+('rgimkv3f19ti03sov80h1fmmdhah4tkv', '127.0.0.1', 1535890753, '__ci_last_regenerate|i:1535890451;identity|s:15:\"admin@admin.com\";email|s:15:\"admin@admin.com\";user_id|s:1:\"1\";old_last_login|s:10:\"1535864489\";last_check|i:1535872384;');
 
 -- --------------------------------------------------------
 
@@ -232,9 +160,9 @@ CREATE TABLE `companies` (
 INSERT INTO `companies` (`id`, `name`, `slug`, `gst_no`, `aadhar_no`, `pencard_no`, `company_address`, `company_owner`, `phone1`, `phone2`, `servicetypes_id`, `email`, `location`, `state`, `city`, `latitude`, `logitude`, `country`, `zip_code`, `ranges`, `aadhar_doc`, `pencard_doc`, `driving_license`, `other_documents`, `photo`, `lead_limit`, `lead_sent_flag`, `users_id`, `is_delete`, `is_active`, `created`, `updated`) VALUES
 (1, 'Tech Mahindra', '5b2f653884fcd', NULL, NULL, NULL, '30/169 Agra road Jaipur', 'Marcus Miller', '9632589632', NULL, 1, 'marcus@mailinator.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '', NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, 1, '2018-06-18 21:42:46', '2018-06-24 09:32:40'),
 (2, 'Tata Building', '5b2f652f513db', NULL, NULL, NULL, '30/169 Agra road Jaipur', 'Marcus Miller', '9632589633', NULL, 1, 'rakeshss@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '', NULL, NULL, NULL, NULL, 10, 0, NULL, 0, 1, '2018-06-24 14:33:54', '2018-07-01 08:56:30'),
-(3, 'Company 3', '5b38782fba746', NULL, NULL, NULL, NULL, 'Motilal soni', '9632589634', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '', NULL, NULL, NULL, NULL, 12, 0, NULL, 0, 1, '2018-07-01 11:59:29', '2018-07-01 08:33:09'),
+(3, 'Company 3', 'company-3', NULL, NULL, NULL, NULL, 'Motilal soni', '9632589634', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '', NULL, NULL, NULL, NULL, 12, 0, NULL, 0, 1, '2018-07-01 11:59:29', '2018-09-03 02:28:07'),
 (4, 'Company 4', '5b387f1ce4122', NULL, NULL, NULL, NULL, NULL, '9632589638', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '', NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, 1, '2018-07-01 12:00:07', '2018-07-01 08:33:09'),
-(5, 'Company 1', 'company-1', NULL, NULL, NULL, NULL, NULL, '9632589641', NULL, 1, 'motilalsoni@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '', NULL, 'computer1.jpg', NULL, 'boring-subjects-compressor.jpg', NULL, 1, NULL, 0, 1, '2018-07-01 12:41:15', '2018-08-16 17:12:23'),
+(5, 'Company 1', 'company-1', NULL, NULL, NULL, NULL, NULL, '9632589641', NULL, 1, 'motilalsoni@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '', NULL, 'computer1.jpg', NULL, 'boring-subjects-compressor.jpg', NULL, 1, NULL, 0, 1, '2018-07-01 12:41:15', '2018-09-03 02:38:10'),
 (6, 'Company 2', 'company-2', NULL, NULL, NULL, NULL, NULL, '9632589664', NULL, 1, 'admin1@lehar.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '', NULL, NULL, NULL, NULL, NULL, 1, NULL, 0, 1, '2018-07-01 12:41:47', '2018-08-16 17:25:56'),
 (7, 'company name', '5b53761e1f449', '3453453535', '123654789', NULL, 'DDD, Kissimmee, FL, USA', 'Company Owner', '9632589654', '234345456546', 1, 'Email@gmail.com', NULL, 'rajasthan', 'alwar', NULL, NULL, 'india', '36985', 0, 'fitness-bank1.jpg', NULL, NULL, '22qc7r28-1400667334.jpg,62864536_jpg.gif,bank-clerk-mobile.png,computer.jpg,fitness-bank.jpg,headerBg.jpg', NULL, NULL, 0, NULL, 0, 1, '2018-07-19 23:12:19', '2018-07-21 18:06:22'),
 (9, 'test', '5b568700d112e', '4353453', NULL, NULL, NULL, NULL, '23234242', NULL, 1, 'test11@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '', NULL, NULL, NULL, NULL, 12, 0, NULL, 1, 0, '2018-07-24 07:25:12', '2018-07-24 02:09:52'),
@@ -246,8 +174,14 @@ INSERT INTO `companies` (`id`, `name`, `slug`, `gst_no`, `aadhar_no`, `pencard_n
 (15, 'finaltest1', '5b5689cc6d2d3', NULL, NULL, NULL, NULL, NULL, '3242423425', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '', NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, '2018-07-24 07:37:08', '2018-07-24 02:09:48'),
 (16, 'finaltest2', '5b568a1ab5ac7', NULL, NULL, NULL, NULL, NULL, '3242423545', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '', NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, '2018-07-24 07:38:26', '2018-07-24 02:09:49'),
 (17, 'finaltest5', '5b568a4bcb7e8', NULL, NULL, NULL, NULL, NULL, '3242423549', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '', NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, '2018-07-24 07:39:15', '2018-07-24 02:09:51'),
-(18, 'fsfsdf', '5b568b14020e2', NULL, NULL, NULL, NULL, NULL, '2424324234', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '', NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, 0, '2018-07-24 07:42:36', NULL),
-(19, 'Octal IT Infosolution', '5b611dcda1e2a', '4353453', '123654789', '334534543', 'malviya nagar jaipur', 'arun goyal', '9632589657', NULL, 1, 'arun@gmail.com', NULL, 'rajasthan', 'Jaipur', NULL, NULL, 'india', '302033', 0, 'fitness-bank2.jpg', 'fitness-bank3.jpg', 'history-clipart-school-subject-2.jpg', 'jamb-subject-combinations-for-all-course.png,night.jpg', 'computer2.jpg', 2, 0, NULL, 0, 1, '2018-07-31 22:25:08', '2018-08-01 02:41:17');
+(18, 'fsfsdf', '5b568b14020e2', NULL, NULL, NULL, NULL, NULL, '2424324234', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '', NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, '2018-07-24 07:42:36', '2018-09-02 10:55:03'),
+(19, 'Octal IT Infosolution', '5b611dcda1e2a', '4353453', '123654789', '334534543', 'malviya nagar jaipur', 'arun goyal', '9632589657', NULL, 1, 'arun@gmail.com', NULL, 'rajasthan', 'Jaipur', NULL, NULL, 'india', '302033', 0, 'fitness-bank2.jpg', 'fitness-bank3.jpg', 'history-clipart-school-subject-2.jpg', 'jamb-subject-combinations-for-all-course.png,night.jpg', 'computer2.jpg', 2, 0, NULL, 0, 1, '2018-07-31 22:25:08', '2018-08-01 02:41:17'),
+(20, 'wert', 'wert', NULL, NULL, NULL, NULL, NULL, '9645465657', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '', NULL, NULL, NULL, NULL, NULL, 0, 7, 1, 0, '2018-09-02 15:54:50', '2018-09-02 10:55:06'),
+(21, '5896ssss', '5896ssss', NULL, NULL, NULL, NULL, NULL, 'dddd65657', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '', NULL, NULL, NULL, NULL, NULL, 0, 7, 1, 0, '2018-09-02 15:56:08', '2018-09-02 10:54:58'),
+(22, '589d6ssss', '589d6ssss', NULL, NULL, NULL, NULL, NULL, '4353365658', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '', NULL, NULL, NULL, NULL, NULL, 0, 7, 1, 0, '2018-09-02 15:57:42', '2018-09-02 10:55:00'),
+(23, '589ddd6ssss', '589ddd6ssss', NULL, NULL, NULL, NULL, NULL, '43533365658', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '', NULL, NULL, NULL, NULL, NULL, 0, 7, 1, 0, '2018-09-02 15:58:35', '2018-09-02 10:55:01'),
+(24, 'xmand', 'xmand', NULL, NULL, NULL, NULL, NULL, '4353336d5658', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '', NULL, NULL, NULL, NULL, NULL, 0, 7, 1, 0, '2018-09-02 15:59:33', '2018-09-02 10:56:00'),
+(25, 'test', 'test', NULL, NULL, NULL, NULL, NULL, '43533d65658', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '', NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, 0, '2018-09-02 18:22:29', NULL);
 
 -- --------------------------------------------------------
 
@@ -258,6 +192,7 @@ INSERT INTO `companies` (`id`, `name`, `slug`, `gst_no`, `aadhar_no`, `pencard_n
 CREATE TABLE `companies_city` (
   `id` int(11) NOT NULL,
   `cities_id` int(11) NOT NULL,
+  `destination_cities_id` int(11) DEFAULT NULL,
   `companies_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -265,35 +200,12 @@ CREATE TABLE `companies_city` (
 -- Dumping data for table `companies_city`
 --
 
-INSERT INTO `companies_city` (`id`, `cities_id`, `companies_id`) VALUES
-(1, 6, 1),
-(2, 1, 1),
-(3, 8, 1),
-(4, 6, 2),
-(5, 4, 2),
-(6, 8, 2),
-(7, 7, 3),
-(9, 6, 4),
-(10, 8, 4),
-(11, 8, 3),
-(15, 6, 6),
-(16, 8, 6),
-(17, 7, 4),
-(20, 7, 7),
-(21, 4, 7),
-(24, 7, 5),
-(25, 4, 5),
-(26, 1, 5),
-(28, 4, 17),
-(29, 7, 17),
-(30, 7, 18),
-(31, 1, 18),
-(32, 8, 18),
-(33, 8, 5),
-(34, 7, 19),
-(35, 7, 6),
-(36, 4, 19),
-(37, 1, 19);
+INSERT INTO `companies_city` (`id`, `cities_id`, `destination_cities_id`, `companies_id`) VALUES
+(36, 7, NULL, 3),
+(37, 4, NULL, 3),
+(38, 7, NULL, 5),
+(39, 8, NULL, 5),
+(40, 7, 4, 5);
 
 -- --------------------------------------------------------
 
@@ -402,7 +314,9 @@ INSERT INTO `companies_service` (`id`, `companies_id`, `services_id`, `is_delete
 (12, 19, 12, 0),
 (14, 6, 14, 0),
 (15, 5, 14, 0),
-(16, 19, 14, 0);
+(16, 19, 14, 0),
+(17, 24, 14, 0),
+(18, 3, 14, 0);
 
 -- --------------------------------------------------------
 
@@ -414,31 +328,20 @@ CREATE TABLE `companies_sub_city` (
   `id` int(11) NOT NULL,
   `cities_id` int(11) NOT NULL,
   `sub_cities_id` int(11) NOT NULL,
-  `companies_id` int(11) NOT NULL
+  `companies_id` int(11) NOT NULL,
+  `companies_city_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `companies_sub_city`
 --
 
-INSERT INTO `companies_sub_city` (`id`, `cities_id`, `sub_cities_id`, `companies_id`) VALUES
-(1, 7, 7, 7),
-(2, 7, 4, 7),
-(5, 4, 9, 7),
-(22, 4, 9, 17),
-(23, 4, 10, 17),
-(24, 4, 9, 17),
-(25, 4, 10, 17),
-(26, 7, 1, 17),
-(27, 7, 4, 17),
-(28, 7, 1, 18),
-(29, 7, 3, 18),
-(30, 7, 1, 18),
-(31, 7, 3, 18),
-(32, 1, 11, 18),
-(53, 7, 15, 5),
-(56, 4, 17, 19),
-(57, 7, 14, 5);
+INSERT INTO `companies_sub_city` (`id`, `cities_id`, `sub_cities_id`, `companies_id`, `companies_city_id`) VALUES
+(58, 7, 16, 3, 36),
+(59, 7, 15, 3, 36),
+(60, 7, 16, 5, 40),
+(61, 4, 17, 5, 40),
+(62, 4, 18, 5, 40);
 
 -- --------------------------------------------------------
 
@@ -680,6 +583,7 @@ CREATE TABLE `follow_up` (
   `member_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `follow_up_date` date DEFAULT NULL,
   `status_id` int(11) DEFAULT NULL COMMENT '1 Not interested 2 Meeting 3 Payment Done 4  Again Follow up Date',
+  `companies_id` int(11) DEFAULT NULL,
   `phone_number` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `email` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `client_name` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
@@ -694,14 +598,14 @@ CREATE TABLE `follow_up` (
 -- Dumping data for table `follow_up`
 --
 
-INSERT INTO `follow_up` (`id`, `member_name`, `follow_up_date`, `status_id`, `phone_number`, `email`, `client_name`, `users_id`, `is_delete`, `is_active`, `created`, `updated`) VALUES
-(1, 'dddd', '2018-04-17', 2, '2', 'd', '', NULL, 1, 1, '2018-06-17 16:53:05', NULL),
-(2, 'eee', '2018-04-30', 0, 'e', 'e', '', NULL, 1, 1, '2018-06-17 16:53:05', NULL),
-(3, 'dhiraj  chaudhari dhiraj', '2018-04-04', 2, '123456555555555555', 'dhiraj@gmail.commmmmmmmmmmmmm', '', NULL, 1, 0, '2018-06-17 16:53:05', NULL),
-(4, 'msw', '2018-04-02', 3, '02369852', 'abhi@msw.com', 'dhiraj', 7, 0, 1, '2018-06-17 16:53:05', '2018-08-08 17:01:51'),
-(5, 'dd', '0000-00-00', 0, '', '', '', NULL, 1, 1, '2018-06-17 16:53:05', NULL),
-(6, 'abc', '2018-04-09', 4, '7895632587141', 'abc@gmail.com', 'xyz', NULL, 1, 0, '2018-06-17 16:53:05', NULL),
-(7, 'Motilal soni', '2018-06-28', 1, '9024978491', 'motilalsoni@gmail.com', 'Marcus', 7, 0, 1, '2018-06-17 17:03:32', '2018-08-08 17:05:08');
+INSERT INTO `follow_up` (`id`, `member_name`, `follow_up_date`, `status_id`, `companies_id`, `phone_number`, `email`, `client_name`, `users_id`, `is_delete`, `is_active`, `created`, `updated`) VALUES
+(1, 'dddd', '2018-04-17', 2, NULL, '2', 'd', '', NULL, 1, 1, '2018-06-17 16:53:05', NULL),
+(2, 'eee', '2018-04-30', 0, NULL, 'e', 'e', '', NULL, 1, 1, '2018-06-17 16:53:05', NULL),
+(3, 'dhiraj  chaudhari dhiraj', '2018-04-04', 2, NULL, '123456555555555555', 'dhiraj@gmail.commmmmmmmmmmmmm', '', NULL, 1, 0, '2018-06-17 16:53:05', NULL),
+(4, 'msw', '2018-04-02', 3, NULL, '02369852', 'abhi@msw.com', 'dhiraj', 7, 0, 1, '2018-06-17 16:53:05', '2018-08-08 17:01:51'),
+(5, 'dd', '0000-00-00', 0, NULL, '', '', '', NULL, 1, 1, '2018-06-17 16:53:05', NULL),
+(6, 'abc', '2018-04-09', 4, NULL, '7895632587141', 'abc@gmail.com', 'xyz', NULL, 1, 0, '2018-06-17 16:53:05', NULL),
+(7, 'Motilal soni', '2018-06-28', 1, NULL, '9024978491', 'motilalsoni@gmail.com', 'Marcus', 7, 0, 1, '2018-06-17 17:03:32', '2018-08-08 17:05:08');
 
 -- --------------------------------------------------------
 
@@ -759,7 +663,8 @@ CREATE TABLE `leads` (
 --
 
 INSERT INTO `leads` (`id`, `portals_id`, `record_id`, `name`, `email`, `source_location`, `destination_location`, `cities_id`, `sub_cities_id`, `destination_cities_id`, `destination_sub_cities_id`, `services_id`, `phone_number`, `source`, `message`, `date`, `created`, `updated`, `status`, `is_delete`, `is_active`) VALUES
-(22, 3, NULL, 'Motilal Soni', 'motilalsoni@gmail.com', 'Rajiv Chowk, Connaught Place, New Delhi, Delhi, India', 'Chandni Chowk, New Delhi, Delhi, India', 7, 13, 7, 14, 14, '963254896', NULL, '', '2018-07-16', '2018-08-16 16:26:28', '2018-08-16 17:32:14', 0, 0, 1);
+(22, 3, NULL, 'Motilal Soni', 'motilalsoni@gmail.com', 'Badarpur Border, Badarpur Extension, Tajpur, Badarpur, New Delhi, Haryana', 'Mayur Vihar Phase 1, New Delhi, Delhi, India', 7, 16, 7, 15, 14, '963254896', NULL, '', '2018-07-16', '2018-08-16 16:26:28', '2018-09-03 02:37:52', 0, 0, 1),
+(23, 1, NULL, 'Motilal Sharma', 'motilalsoni@mailinator.com', 'Delhi, India', NULL, 7, NULL, NULL, NULL, 13, '9024897845', NULL, 'fff', '2018-09-19', '2018-09-02 17:49:07', '2018-09-02 17:49:45', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -1188,7 +1093,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `salt`, `email`, `activation_code`, `forgotten_password_code`, `forgotten_password_time`, `remember_code`, `two_step_authentication`, `authentication_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`, `multi_session`, `update_setting_flag`) VALUES
-(1, '127.0.0.1', 'admin', '$2y$08$X.wo1a1ctWWqF/tiLCx.wubIZsXlKjpxjZNsHwi0ooBkuxL1Muple', NULL, 'admin@admin.com', '', '41OxdsvwogkRPa7YoTUUku1b6c8113ad4e2f5ac2', 1508057752, NULL, 0, NULL, 1528767362, 1534477207, 1, 'Super', 'Admin', 'ADMIN', '', 1, 0),
+(1, '127.0.0.1', 'admin', '$2y$08$X.wo1a1ctWWqF/tiLCx.wubIZsXlKjpxjZNsHwi0ooBkuxL1Muple', NULL, 'admin@admin.com', '', '41OxdsvwogkRPa7YoTUUku1b6c8113ad4e2f5ac2', 1508057752, NULL, 0, NULL, 1528767362, 1535939320, 1, 'Super', 'Admin', 'ADMIN', '', 1, 0),
 (7, '157.37.132.82', NULL, '$2y$08$v8Dp4PROqvlpO5G5SVMWc..U9K4RYsyxAsrfTrG/EBy/c.rF6AO9C', NULL, 'motilalsoni@gmail.com', NULL, NULL, NULL, NULL, 0, NULL, 1520696550, 1531417199, 1, 'Motilal', 'Soni', NULL, '90324978491', 0, 0);
 
 -- --------------------------------------------------------
@@ -1358,7 +1263,8 @@ ALTER TABLE `companies_sub_city`
   ADD PRIMARY KEY (`id`),
   ADD KEY `cities_id` (`cities_id`),
   ADD KEY `sub_cities_id` (`sub_cities_id`),
-  ADD KEY `companies_id` (`companies_id`);
+  ADD KEY `companies_id` (`companies_id`),
+  ADD KEY `companies_city_id` (`companies_city_id`);
 
 --
 -- Indexes for table `company_groups`
@@ -1403,7 +1309,8 @@ ALTER TABLE `flash_messages`
 --
 ALTER TABLE `follow_up`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `users_id` (`users_id`);
+  ADD KEY `users_id` (`users_id`),
+  ADD KEY `companies_id` (`companies_id`);
 
 --
 -- Indexes for table `groups`
@@ -1555,12 +1462,12 @@ ALTER TABLE `cities`
 -- AUTO_INCREMENT for table `companies`
 --
 ALTER TABLE `companies`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 --
 -- AUTO_INCREMENT for table `companies_city`
 --
 ALTER TABLE `companies_city`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 --
 -- AUTO_INCREMENT for table `companies_group`
 --
@@ -1580,12 +1487,12 @@ ALTER TABLE `companies_package_payment`
 -- AUTO_INCREMENT for table `companies_service`
 --
 ALTER TABLE `companies_service`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT for table `companies_sub_city`
 --
 ALTER TABLE `companies_sub_city`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 --
 -- AUTO_INCREMENT for table `company_groups`
 --
@@ -1625,7 +1532,7 @@ ALTER TABLE `groups`
 -- AUTO_INCREMENT for table `leads`
 --
 ALTER TABLE `leads`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 --
 -- AUTO_INCREMENT for table `leads_return_history`
 --
@@ -1640,7 +1547,7 @@ ALTER TABLE `leads_sent_history`
 -- AUTO_INCREMENT for table `login_attempts`
 --
 ALTER TABLE `login_attempts`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `packages`
 --
@@ -1762,7 +1669,8 @@ ALTER TABLE `companies_service`
 ALTER TABLE `companies_sub_city`
   ADD CONSTRAINT `companies_sub_city_ibfk_1` FOREIGN KEY (`companies_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `companies_sub_city_ibfk_2` FOREIGN KEY (`cities_id`) REFERENCES `cities` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  ADD CONSTRAINT `companies_sub_city_ibfk_3` FOREIGN KEY (`sub_cities_id`) REFERENCES `sub_cities` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+  ADD CONSTRAINT `companies_sub_city_ibfk_3` FOREIGN KEY (`sub_cities_id`) REFERENCES `sub_cities` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `companies_sub_city_ibfk_4` FOREIGN KEY (`companies_city_id`) REFERENCES `companies_city` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `contacts_group`
@@ -1770,6 +1678,12 @@ ALTER TABLE `companies_sub_city`
 ALTER TABLE `contacts_group`
   ADD CONSTRAINT `contacts_group_ibfk_1` FOREIGN KEY (`contacts_id`) REFERENCES `contacts` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `contacts_group_ibfk_2` FOREIGN KEY (`contact_groups_id`) REFERENCES `contact_groups` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `follow_up`
+--
+ALTER TABLE `follow_up`
+  ADD CONSTRAINT `follow_up_ibfk_1` FOREIGN KEY (`companies_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `leads`
