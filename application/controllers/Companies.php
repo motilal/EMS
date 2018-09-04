@@ -209,28 +209,21 @@ class Companies extends CI_Controller {
                 $cities = $this->input->post('cities_id');
                 $destination_cities = $this->input->post('dest_cities_id');
                 $sub_cities_array = $this->input->post('sub_cities');
-                $dest_sub_cities_array = $this->input->post('dest_sub_cities'); 
+                $dest_sub_cities_array = $this->input->post('dest_sub_cities');
                 $this->db->where('companies_id', $comp_id)->delete('companies_city');
                 $this->db->where('companies_id', $comp_id)->delete('companies_sub_city');
-                if (!empty($cities)) { 
+                if (!empty($cities)) {
                     $cities = array_filter($cities);
                     foreach ($cities as $key => $city_id) {
                         $destination_city = $destination_cities[$key] != "" ? $destination_cities[$key] : NULL;
                         $citiesData = array('cities_id' => $city_id, 'companies_id' => $comp_id, 'destination_cities_id' => $destination_city);
-                        $this->db->insert('companies_city', $citiesData);
-                        $companies_city_id = $this->db->insert_id(); 
                         if (!empty($sub_cities_array[$key])) {
-                            foreach ($sub_cities_array[$key] as $sub_city_id) {
-                                $subcitiesData = array('cities_id' => $city_id, 'sub_cities_id' => $sub_city_id, 'companies_id' => $comp_id, 'companies_city_id' => $companies_city_id);
-                                $this->db->insert('companies_sub_city', $subcitiesData);
-                            }
+                            $citiesData['sub_cities_id'] = implode(',', $sub_cities_array[$key]);
                         }
                         if (!empty($dest_sub_cities_array[$key])) {
-                            foreach ($dest_sub_cities_array[$key] as $dest_sub_city_id) { 
-                                $destsubcitiesData = array('cities_id' => $destination_city, 'sub_cities_id' => $dest_sub_city_id, 'companies_id' => $comp_id, 'companies_city_id' => $companies_city_id);
-                                $this->db->insert('companies_sub_city', $destsubcitiesData);
-                            }
+                            $citiesData['destination_sub_cities_id'] = implode(',', $dest_sub_cities_array[$key]);
                         }
+                        $this->db->insert('companies_city', $citiesData);
                     }
                 }
                 /* end */
@@ -436,7 +429,8 @@ class Companies extends CI_Controller {
         $this->load->model('lead_model', 'lead');
         $leadDetail = $this->lead->getById($lead_id, true);
         $result = $this->company->get_companies_by_city_service($leadDetail);
-        pr($result->result()); die;
+        pr($result->result());
+        die;
     }
 
     public function ajax_getmatchcompanies() {

@@ -48,8 +48,7 @@
 
 <div class="more_cities">
     <?php if (!empty($company_cities)) { ?>
-        <?php foreach ($company_cities as $key => $row): ?> 
-
+        <?php foreach ($company_cities as $key => $row): ?>  
             <div class="col-lg-12 clonecities">
                 <div class="box box-default">
                     <div class="box-header"> 
@@ -97,40 +96,8 @@
                         </div>
                     </div>
                 </div> 
-            </div>
+            </div> 
 
-
-
-
-
-
-
-            <?php /*
-
-
-              <div class="col-lg-12 padding0 clonecities">
-              <div class="col-lg-6">
-              <div class="form-group <?php echo form_error('cities_id[' . ($key + 1) . ']') != "" ? 'has-error' : ''; ?>">
-              <label class="control-label" for="cities_id_<?php echo $key; ?>">Select City</label>
-              <?php echo form_dropdown('cities_id[' . ($key + 1) . ']', $cities_options, set_value('cities_id[' . ($key + 1) . ']', $city_id, false), 'class="form-control select2dropdown cities_id" id="cities_id_' . $key . '" style="width:100%;"'); ?>
-              <?php echo form_error('cities_id[' . ($key + 1) . ']'); ?>
-              </div>
-              </div>
-              <?php
-              $sub_cities_options = $this->sub_city->sub_cities_options($city_id);
-              $subcities = $this->company->get_company_sub_cities_ids($data->id, $city_id);
-              ?>
-              <div class="col-lg-6">
-              <div class="form-group sub_city_c <?php echo form_error('sub_cities[' . ($key + 1) . '][]') != "" ? 'has-error' : ''; ?>">
-              <label class="control-label" for="sub_cities_<?php echo $key; ?>">Sub Cities(s)</label>
-              <?php echo form_dropdown('sub_cities[' . ($key + 1) . '][]', $sub_cities_options, set_value('sub_cities[' . ($key + 1) . '][]', isset($subcities) ? $subcities : '', false), 'class="form-control sub_cities" multiple="multiple" id="sub_cities_' . $key . '" style="width:100%;"'); ?>
-              <?php echo form_error('sub_cities[' . ($key + 1) . '][]'); ?>
-              </div>
-              <button class="btn btn-danger remove-cities" type="button"><i class="fa fa-minus"></i> </button>
-              </div>
-              </div>
-
-             */ ?>
         <?php endforeach; ?>
     <?php } ?> 
 </div>
